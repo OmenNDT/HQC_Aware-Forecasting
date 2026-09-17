@@ -1,0 +1,274 @@
+<title>Sơ đồ nối dây HQC Bench Mini</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#0e0e14; --panel:#14141c; --panel-2:#181822; --sh-dark:#06060a; --sh-light:#20202c;
+    --text:#d8d8e2; --muted:#7d7d8e; --dim:#4a4a58; --accent:#5fb3a1;
+    --w-12v:#c9486a; --w-5v:#d0453c; --w-3v3:#e08a3c; --w-gnd:#8a8a98;
+    --w-sda:#4f9ad6; --w-scl:#8ac6f2; --w-sck:#c9a227; --w-mosi:#7dbd5a; --w-miso:#a67cd6; --w-cs:#e07ab8;
+    --w-tacho:#f0d24a; --w-enc:#5fb3a1; --w-btn:#7fd0c0; --w-adc:#d6a86b; --w-servo:#b8c46a; --w-dht:#8fa3b8;
+    --l-green:#4fbf6a; --l-yellow:#e8c547; --l-red:#e05252; --l-buzz:#c48ae0;
+    --font-display:"Rajdhani","IBM Plex Sans",system-ui,sans-serif;
+    --font-body:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  }
+  html{color-scheme:dark}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:15px;line-height:1.55;margin:0;padding:32px 28px 64px}
+  .wrap{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+  header{display:flex;flex-direction:column;gap:6px}
+  .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  h1{font-family:var(--font-display);font-weight:700;font-size:38px;line-height:1.05;margin:0;text-wrap:balance;letter-spacing:.01em}
+  .lede{color:var(--muted);max-width:66ch;margin:0}
+  .card{position:relative;background:var(--panel);border-radius:18px;padding:22px 24px;box-shadow:8px 8px 20px var(--sh-dark),-8px -8px 20px var(--sh-light)}
+  .card::before{content:"";position:absolute;inset:0 auto auto 0;height:1px;width:100%;border-radius:18px 18px 0 0;background:linear-gradient(90deg,rgba(255,255,255,.14),transparent 60%);pointer-events:none}
+  .card h2{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 4px;letter-spacing:.02em}
+  .card .sub{color:var(--muted);font-size:13.5px;margin:0 0 14px}
+  .diagram{padding:14px 14px 10px}
+  .diagram-scroll{overflow-x:auto;border-radius:14px;background:var(--bg);box-shadow:inset 6px 6px 14px var(--sh-dark),inset -6px -6px 14px var(--sh-light);padding:10px}
+  svg{display:block;min-width:980px;width:100%;height:auto;font-family:var(--font-mono)}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-family:var(--font-mono);font-size:12px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .legend i{display:inline-block;width:22px;height:3px;border-radius:2px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
+  th{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;font-weight:500;padding:0 8px 8px 0}
+  td{padding:7px 8px 7px 0;color:var(--text);vertical-align:top}
+  tr+tr td{box-shadow:0 -1px 0 rgba(255,255,255,.04)}
+  td.pin,td.mod{font-family:var(--font-mono);font-size:13px}
+  td.mod{color:var(--accent)}
+  .chip{display:inline-block;font-family:var(--font-mono);font-size:11.5px;padding:2px 8px;border-radius:999px;background:var(--panel-2);box-shadow:inset 2px 2px 5px var(--sh-dark),inset -2px -2px 5px var(--sh-light);color:var(--muted);margin-left:6px}
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px 28px}
+  .notes h3{font-family:var(--font-display);font-size:17px;font-weight:600;margin:0 0 4px;color:var(--text)}
+  .notes p{margin:0;color:var(--muted);font-size:14px}
+  .notes strong{color:var(--text);font-weight:500}
+  pre{margin:0;font-family:var(--font-mono);font-size:12.5px;line-height:1.6;color:var(--text);background:var(--bg);border-radius:12px;padding:16px 18px;overflow-x:auto;box-shadow:inset 5px 5px 12px var(--sh-dark),inset -5px -5px 12px var(--sh-light)}
+  pre .c{color:var(--dim)} pre .k{color:var(--accent)}
+  .foot{color:var(--dim);font-size:12.5px;font-family:var(--font-mono)}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">HQC Aware Forecasting · Demo phase 05 · theo board thật</div>
+    <h1>Sơ đồ nối dây bàn thử gọn</h1>
+    <p class="lede">Board vẽ theo đúng ESP32-S3-DevKitC-1 N16R8 trong ảnh: 22 chân mỗi cạnh theo thứ tự in trên mạch, module ở trên, hai cổng USB-C ở dưới. Chân được chọn để mọi dây đi thẳng sang module cùng phía: I2C, SPI, encoder, nút ở cạnh trái; quạt, biến trở, LED, còi, servo ở cạnh phải. Chân xám là chân không dùng (strapping, PSRAM, USB, UART).</p>
+  </header>
+
+  <section class="card diagram">
+    <h2>Sơ đồ nối dây</h2>
+    <p class="sub">Nét đứt là dây tuỳ chọn. Chấm tròn là điểm rẽ nhánh trên cùng một net. Dây 3V3 sang cạnh phải vòng qua đầu board vì board chỉ có 3V3 ở cạnh trái.</p>
+    <div class="diagram-scroll"><svg id="wiring" viewBox="0 0 1100 900" role="img" aria-label="Sơ đồ nối dây ESP32-S3 DevKitC-1 theo bố trí chân thật với fan CPU, ADXL345, KY-040, OLED, INA219, LED, còi, nút, biến trở, servo, DHT11"></svg></div>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <section class="grid" id="tables"></section>
+
+  <section class="card">
+    <h2>Sáu điều cần nhớ khi nối</h2>
+    <p class="sub">Đọc trước khi cắm điện.</p>
+    <div class="notes">
+      <div><h3>Hai cổng USB-C</h3><p>Cổng <strong>trái</strong> (silk "USB") là USB native, firmware dùng cổng này cho dữ liệu và 5 V. Cổng phải (silk "UART", cạnh chip CP2102) chỉ dùng khi cần log ESP-IDF. Cáp cắt dây đỏ cho INA219 cắm vào cổng trái.</p></div>
+      <div><h3>Fan CPU và mass chung</h3><p>Quạt chạy bằng adapter 12 V hoặc <strong>pin 9 V qua kẹp có jack DC</strong>. Cực âm nguồn quạt nối về GND cạnh phải của board. Dây vàng tacho vào GPIO1 với pull-up nội, 2 xung mỗi vòng. Dây xanh PWM (quạt 4 dây) nếu muốn điều tốc thì vào GPIO4 cạnh trái, tuỳ chọn.</p></div>
+      <div><h3>INA219 đo chính board</h3><p>Hàn lại chip và header trước. Cắt dây đỏ của một <strong>cáp USB-C cũ</strong>: đầu laptop vào VIN+, đầu về board ra VIN-. Servo lấy 5 V từ phía laptop, trước INA219. LED ăn 3V3 nằm trong số đo, ~10 mA mỗi màu, trừ đi được.</p></div>
+      <div><h3>LED rời và còi</h3><p>Mỗi LED một điện trở <strong>220 Ω</strong> từ GPIO tới chân dài, chân ngắn về GND. Còi active cắm thẳng GPIO42 và GND; ở 3,3 V kêu nhỏ, muốn to thì qua transistor NPN trong hộp với 1 kΩ vào base.</p></div>
+      <div><h3>Biến trở, nút, servo</h3><p>Biến trở: hai chân ngoài vào 3V3 và GND, chân giữa vào GPIO2 (ADC1). Nút: một chân GPIO, chân kia GND, pull-up nội. Servo SG90: cam tín hiệu GPIO47 (LEDC 50 Hz), đỏ 5 V, nâu GND; kim 0–180° = điểm 0–100.</p></div>
+      <div><h3>Chân không được dùng</h3><p><strong>35, 36, 37</strong> nối PSRAM octal của N16R8; <strong>0, 3, 45, 46</strong> là strapping; <strong>19, 20</strong> là USB D−/D+; <strong>43/44</strong> là TX/RX của cổng UART; <strong>38 hoặc 48</strong> là LED RGB tuỳ revision. ADXL345 cấp 3,3 V, trên GY-291: SCL là SCK, SDA là MOSI, SDO là MISO.</p></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Định nghĩa chân cho firmware</h2>
+    <p class="sub">Dán vào <span class="chip">firmware/esp32s3/main/bench_pins.h</span>. Đã sắp lại theo cạnh board: cạnh trái là bus và núm, cạnh phải là quạt và đầu ra.</p>
+<pre><span class="c">/* bench_pins.h — ESP32-S3-DevKitC-1 N16R8, sắp theo cạnh board. Không dùng 35-37 (PSRAM), 19/20 (USB), 0/3/45/46 (strapping), 43/44 (UART). */</span>
+<span class="k">#pragma once</span>
+<span class="c">/* cạnh trái */</span>
+<span class="k">#define</span> PIN_ENC_CLK       5   <span class="c">/* KY-040: xoay = nhân biên độ kênh 2001 */</span>
+<span class="k">#define</span> PIN_ENC_DT        6
+<span class="k">#define</span> PIN_ENC_SW        7   <span class="c">/* ấn = đặt lại hệ số về 1 */</span>
+<span class="k">#define</span> PIN_BTN_APRIL    15   <span class="c">/* nút kịch bản tháng 4, chân kia GND, pull-up nội */</span>
+<span class="k">#define</span> PIN_BTN_HEALTHY  18   <span class="c">/* nền khỏe 01/03 */</span>
+<span class="k">#define</span> PIN_BTN_MAY      14   <span class="c">/* tháng 5 */</span>
+<span class="k">#define</span> PIN_I2C_SDA       8   <span class="c">/* OLED 0x3C, INA219 0x40 */</span>
+<span class="k">#define</span> PIN_I2C_SCL       9
+<span class="k">#define</span> PIN_SPI_CS       10   <span class="c">/* ADXL345, SPI mode 3, 2 MHz */</span>
+<span class="k">#define</span> PIN_SPI_MOSI     11
+<span class="k">#define</span> PIN_SPI_SCK      12
+<span class="k">#define</span> PIN_SPI_MISO     13
+<span class="k">#define</span> PIN_FAN_PWM       4   <span class="c">/* dây xanh quạt 4 dây, LEDC 25 kHz; tuỳ chọn */</span>
+<span class="c">/* cạnh phải */</span>
+<span class="k">#define</span> PIN_TACHO         1   <span class="c">/* dây vàng quạt, pull-up nội, ngắt cạnh xuống, 2 xung/vòng */</span>
+<span class="k">#define</span> PIN_POT_SPEED     2   <span class="c">/* biến trở 10k, ADC1_CH1: tốc độ nén thời gian */</span>
+<span class="k">#define</span> PIN_BUZZER       42   <span class="c">/* còi active, HIGH kêu */</span>
+<span class="k">#define</span> PIN_LED_RED      41   <span class="c">/* tầng C, qua 220 Ω, HIGH sáng */</span>
+<span class="k">#define</span> PIN_LED_YELLOW   40   <span class="c">/* tầng B */</span>
+<span class="k">#define</span> PIN_LED_GREEN    39   <span class="c">/* tầng A */</span>
+<span class="k">#define</span> PIN_SERVO        47   <span class="c">/* SG90, LEDC 50 Hz, 0–180° = điểm 0–100 */</span>
+<span class="k">#define</span> PIN_DHT11        21   <span class="c">/* tuỳ chọn */</span></pre>
+  </section>
+
+  <p class="foot">Dây cần: cạnh trái 22 (OLED 4, INA219 6, ADXL345 6, encoder 5, nút 4 trừ GND chung), cạnh phải 17 (quạt 3, biến trở 3, LED 4, còi 2, servo 3, DHT11 3), nguồn quạt 2, VBUS 2. Khoảng 44 jumper.</p>
+</div>
+
+<script>
+(function(){
+  const css = getComputedStyle(document.documentElement);
+  const C = n => css.getPropertyValue(n).trim();
+  const svg = document.getElementById('wiring');
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (t,a,txt)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e;};
+  const g = el('g',{}); svg.appendChild(g);
+  const defs = el('defs',{});
+  const f = el('filter',{id:'soft',x:'-20%',y:'-20%',width:'140%',height:'140%'});
+  f.appendChild(el('feDropShadow',{dx:6,dy:6,stdDeviation:6,'flood-color':C('--sh-dark'),'flood-opacity':1}));
+  f.appendChild(el('feDropShadow',{dx:-5,dy:-5,stdDeviation:6,'flood-color':C('--sh-light'),'flood-opacity':.9}));
+  defs.appendChild(f); svg.appendChild(defs);
+
+  // ---------- the board, drawn as the physical DevKitC-1 ----------
+  const B = {x:440,y:50,w:220,h:700, pitch:20, headerTop:180};
+  const LEFT  = ['3V3','3V3','RST','4','5','6','7','15','16','17','18','8','3','46','9','10','11','12','13','14','5V','GND'];
+  const RIGHT = ['GND','TX','RX','1','2','42','41','40','39','38','37','36','35','0','45','48','47','21','20','19','GND','GND'];
+  const AVOID = new Set(['RST','TX','RX','3','46','38','37','36','35','0','45','48','20','19']);
+  const P = {};
+  // board body
+  g.appendChild(el('rect',{x:B.x,y:B.y,width:B.w,height:B.h,rx:10,fill:'#101018',filter:'url(#soft)'}));
+  g.appendChild(el('line',{x1:B.x+12,y1:B.y+.5,x2:B.x+B.w-12,y2:B.y+.5,stroke:'rgba(255,255,255,.14)','stroke-width':1}));
+  // module + antenna
+  g.appendChild(el('rect',{x:B.x+B.w/2-40,y:B.y-14,width:80,height:22,rx:3,fill:'#0b0b10'}));
+  g.appendChild(el('rect',{x:B.x+40,y:B.y+12,width:B.w-80,height:100,rx:4,fill:'#2a2d36',stroke:'#3c404c'}));
+  g.appendChild(el('text',{x:B.x+B.w/2,y:B.y+48,'text-anchor':'middle',fill:'#c9ccd6','font-size':11,'font-weight':600},'ESP32-S3-WROOM-1'));
+  g.appendChild(el('text',{x:B.x+B.w/2,y:B.y+66,'text-anchor':'middle',fill:'#8d919c','font-size':10},'N16R8 · 16 MB flash · 8 MB PSRAM'));
+  g.appendChild(el('text',{x:B.x+B.w/2,y:B.y+94,'text-anchor':'middle',fill:'#6a6e78','font-size':9},'DevKitC-1'));
+  // buttons, LDO, RGB
+  [['RST',B.y+230],['BOOT',B.y+262]].forEach(([n,y])=>{ g.appendChild(el('rect',{x:B.x+B.w-70,y:y,width:16,height:16,rx:3,fill:'#20232c',stroke:'#3c404c'})); g.appendChild(el('text',{x:B.x+B.w-50,y:y+12,fill:C('--dim'),'font-size':9},n)); });
+  g.appendChild(el('rect',{x:B.x+60,y:B.y+250,width:22,height:26,rx:2,fill:'#20232c',stroke:'#3c404c'})); g.appendChild(el('text',{x:B.x+71,y:B.y+290,'text-anchor':'middle',fill:C('--dim'),'font-size':8},'LDO 3V3'));
+  g.appendChild(el('rect',{x:B.x+62,y:B.y+380,width:18,height:18,rx:3,fill:'#2a2d36',stroke:'#3c404c'})); g.appendChild(el('text',{x:B.x+71,y:B.y+412,'text-anchor':'middle',fill:C('--dim'),'font-size':8},'RGB 38/48'));
+  g.appendChild(el('rect',{x:B.x+B.w-84,y:B.y+560,width:22,height:22,rx:2,fill:'#20232c',stroke:'#3c404c'})); g.appendChild(el('text',{x:B.x+B.w-73,y:B.y+596,'text-anchor':'middle',fill:C('--dim'),'font-size':8},'CP2102'));
+  // USB-C ports
+  g.appendChild(el('rect',{x:B.x+38,y:B.y+B.h-26,width:52,height:26,rx:6,fill:'#0b0b10',stroke:'#3c404c'})); g.appendChild(el('text',{x:B.x+64,y:B.y+B.h-9,'text-anchor':'middle',fill:C('--accent'),'font-size':9,'font-weight':600},'USB'));
+  g.appendChild(el('rect',{x:B.x+B.w-90,y:B.y+B.h-26,width:52,height:26,rx:6,fill:'#0b0b10',stroke:'#3c404c'})); g.appendChild(el('text',{x:B.x+B.w-64,y:B.y+B.h-9,'text-anchor':'middle',fill:C('--dim'),'font-size':9},'UART'));
+  g.appendChild(el('text',{x:B.x+64,y:B.y+B.h-34,'text-anchor':'middle',fill:C('--dim'),'font-size':8},'native · data + 5 V'));
+  // pins
+  function pinRow(names, side){ names.forEach((n,i)=>{ const y=B.y+B.headerTop+i*B.pitch; const x= side==='l'? B.x : B.x+B.w; const bad=AVOID.has(n);
+    g.appendChild(el('circle',{cx:x,cy:y,r:4,fill:bad?'#0e0e14':C('--bg'),stroke:bad?'#2c2c36':C('--muted'),'stroke-width':1.3}));
+    g.appendChild(el('text',{x: side==='l'? x+10 : x-10, y:y+3.5,'text-anchor': side==='l'?'start':'end', fill: bad? '#3a3a46' : C('--text'),'font-size':10.5},n));
+    P['esp.'+side+i]={x,y,side}; }); }
+  pinRow(LEFT,'l'); pinRow(RIGHT,'r');
+  // named aliases for wiring (index into physical rows)
+  const li=n=>LEFT.indexOf(n), ri=n=>RIGHT.indexOf(n);
+  const alias={ '3V3':'esp.l0', 'GND_L':'esp.l21', '5V':'esp.l20',
+    '4':'esp.l'+li('4'),'5':'esp.l'+li('5'),'6':'esp.l'+li('6'),'7':'esp.l'+li('7'),'15':'esp.l'+li('15'),'18':'esp.l'+li('18'),'8':'esp.l'+li('8'),'9':'esp.l'+li('9'),'10':'esp.l'+li('10'),'11':'esp.l'+li('11'),'12':'esp.l'+li('12'),'13':'esp.l'+li('13'),'14':'esp.l'+li('14'),
+    'GND_R':'esp.r0','GND_RB':'esp.r21','1':'esp.r'+ri('1'),'2':'esp.r'+ri('2'),'42':'esp.r'+ri('42'),'41':'esp.r'+ri('41'),'40':'esp.r'+ri('40'),'39':'esp.r'+ri('39'),'47':'esp.r'+ri('47'),'21':'esp.r'+ri('21') };
+  for(const k in alias) P['esp.'+k]=P[alias[k]];
+
+  // ---------- peripheral modules ----------
+  const mods = {
+    oled:{title:'OLED 0,96" SSD1306', sub:'I2C 0x3C', x:60,y:50,w:220,h:100, pins:{r:['GND','VCC','SCL','SDA']}},
+    ina:{title:'INA219', sub:'I2C 0x40', x:60,y:170,w:220,h:150, pins:{r:['VCC','GND','SDA','SCL','VIN-','VIN+']}},
+    adxl:{title:'ADXL345 · GY-291', sub:'SPI · bắt lên khung quạt', x:60,y:340,w:220,h:150, pins:{r:['VCC','GND','CS','SDO','SDA','SCL']}},
+    enc:{title:'KY-040 có ren', sub:'núm gây lỗi', x:60,y:510,w:220,h:140, pins:{r:['+','GND','CLK','DT','SW']}},
+    btn:{title:'3 nút nhấn', sub:'nền khỏe · tháng 4 · tháng 5', x:60,y:670,w:220,h:120, pins:{r:['GND','K1','K2','K3']}},
+    fan:{title:'Fan CPU 12 V', sub:'3 hoặc 4 dây', x:820,y:50,w:220,h:110, pins:{l:['+12V','GND','TACHO']}},
+    pot:{title:'Biến trở 10 kΩ', sub:'tốc độ nén thời gian', x:820,y:180,w:220,h:100, pins:{l:['3V3','OUT','GND']}},
+    led:{title:'3 LED rời + 220 Ω', sub:'đỏ · vàng · xanh', x:820,y:300,w:220,h:100, pins:{l:['GND','R','Y','G']}},
+    buz:{title:'Còi active', sub:'tầng C', x:820,y:420,w:220,h:60, pins:{l:['+','GND']}},
+    srv:{title:'Servo SG90', sub:'kim điểm 0–100', x:820,y:500,w:220,h:90, pins:{l:['SIG','VCC','GND']}},
+    dht:{title:'DHT11', sub:'tuỳ chọn', x:820,y:610,w:220,h:90, pins:{l:['VCC','DATA','GND']}},
+    psu:{title:'Nguồn quạt', sub:'adapter 12 V hoặc pin 9 V', x:820,y:720,w:220,h:80, pins:{l:['+','GND']}},
+    usb:{title:'Cáp USB-C đã cắt dây đỏ', sub:'VBUS lấy phía laptop', x:440,y:790,w:220,h:84, pins:{l:['VBUS'], r:['VBUS']}},
+  };
+  for(const id in mods){ const m=mods[id]; m.pos={};
+    for(const side in m.pins){ const arr=m.pins[side]; const pitch=m.h/(arr.length+1);
+      arr.forEach((name,i)=>{ const y=m.y+pitch*(i+1); const x= side==='l'? m.x : m.x+m.w;
+        m.pos[side+':'+i]={x,y,side}; P[id+'.'+name+(id==='usb'?'_'+side.toUpperCase():'')]={x,y,side,name}; }); } }
+  for(const id in mods){ const m=mods[id];
+    g.appendChild(el('rect',{x:m.x,y:m.y,width:m.w,height:m.h,rx:14,fill:C('--panel'),filter:'url(#soft)'}));
+    g.appendChild(el('line',{x1:m.x+14,y1:m.y+.5,x2:m.x+m.w-14,y2:m.y+.5,stroke:'rgba(255,255,255,.14)','stroke-width':1}));
+    const rightPins = !!m.pins.r && !m.pins.l; const both = m.pins.l && m.pins.r;
+    const tx = both? m.x+m.w/2 : (rightPins ? m.x+12 : m.x+m.w-12); const anchor = both?'middle':(rightPins?'start':'end');
+    g.appendChild(el('text',{x:tx,y:m.y+22,'text-anchor':anchor,fill:C('--text'),'font-size':14,'font-weight':600,'font-family':'Rajdhani, sans-serif','letter-spacing':'.03em'},m.title));
+    g.appendChild(el('text',{x:tx,y:m.y+38,'text-anchor':anchor,fill:C('--muted'),'font-size':10.5},m.sub));
+    for(const side in m.pins){ m.pins[side].forEach((n,i)=>{ const p=m.pos[side+':'+i];
+      g.appendChild(el('circle',{cx:p.x,cy:p.y,r:3.2,fill:C('--bg'),stroke:C('--dim'),'stroke-width':1.2}));
+      const inside = side==='l'? p.x+9 : p.x-9; const an = side==='l'?'start':'end';
+      g.appendChild(el('text',{x:inside,y:p.y+3.5,'text-anchor':an,fill:C('--muted'),'font-size':10.5},n)); }); }
+  }
+
+  // ---------- wires ----------
+  const W = [
+    // left side: module pin (x=280) → lane → board left pin (x=440). lanes 300..428 step 8
+    {a:'oled.VCC', b:'esp.3V3',  c:'--w-3v3', lx:300},
+    {a:'ina.VCC',  b:'esp.3V3',  c:'--w-3v3', lx:300},
+    {a:'adxl.VCC', b:'esp.3V3',  c:'--w-3v3', lx:300},
+    {a:'enc.+',    b:'esp.3V3',  c:'--w-3v3', lx:300},
+    {a:'oled.GND', b:'esp.GND_L',c:'--w-gnd', lx:308},
+    {a:'ina.GND',  b:'esp.GND_L',c:'--w-gnd', lx:308},
+    {a:'adxl.GND', b:'esp.GND_L',c:'--w-gnd', lx:308},
+    {a:'enc.GND',  b:'esp.GND_L',c:'--w-gnd', lx:308},
+    {a:'btn.GND',  b:'esp.GND_L',c:'--w-gnd', lx:308},
+    {a:'oled.SDA', b:'esp.8',    c:'--w-sda', lx:316},
+    {a:'ina.SDA',  b:'esp.8',    c:'--w-sda', lx:316},
+    {a:'oled.SCL', b:'esp.9',    c:'--w-scl', lx:324},
+    {a:'ina.SCL',  b:'esp.9',    c:'--w-scl', lx:324},
+    {a:'adxl.CS',  b:'esp.10',   c:'--w-cs',  lx:332},
+    {a:'adxl.SDA', b:'esp.11',   c:'--w-mosi',lx:340},
+    {a:'adxl.SCL', b:'esp.12',   c:'--w-sck', lx:348},
+    {a:'adxl.SDO', b:'esp.13',   c:'--w-miso',lx:356},
+    {a:'enc.CLK',  b:'esp.5',    c:'--w-enc', lx:364},
+    {a:'enc.DT',   b:'esp.6',    c:'--w-enc', lx:372},
+    {a:'enc.SW',   b:'esp.7',    c:'--w-enc', lx:380},
+    {a:'btn.K1',   b:'esp.18',   c:'--w-btn', lx:388},
+    {a:'btn.K2',   b:'esp.15',   c:'--w-btn', lx:396},
+    {a:'btn.K3',   b:'esp.14',   c:'--w-btn', lx:404},
+    {a:'ina.VIN-', b:'esp.5V',   c:'--w-5v',  lx:412},
+    {a:'usb.VBUS_L',b:'ina.VIN+',c:'--w-5v',  lx:424},
+    // right side: board right pin (x=660) → lane → module pin (x=820). lanes 672..808
+    {a:'esp.GND_R', b:'pot.GND', c:'--w-gnd', lx:684},
+    {a:'esp.GND_R', b:'led.GND', c:'--w-gnd', lx:684},
+    {a:'esp.GND_R', b:'buz.GND', c:'--w-gnd', lx:684},
+    {a:'esp.GND_R', b:'srv.GND', c:'--w-gnd', lx:684},
+    {a:'esp.GND_R', b:'dht.GND', c:'--w-gnd', lx:684, dash:1},
+    {a:'esp.GND_RB',b:'psu.GND', c:'--w-gnd', lx:684},
+    {a:'esp.1',    b:'fan.TACHO',c:'--w-tacho',lx:696},
+    {a:'esp.2',    b:'pot.OUT',  c:'--w-adc',  lx:708},
+    {a:'esp.42',   b:'buz.+',    c:'--l-buzz', lx:720},
+    {a:'esp.41',   b:'led.R',    c:'--l-red',  lx:732},
+    {a:'esp.40',   b:'led.Y',    c:'--l-yellow',lx:744},
+    {a:'esp.39',   b:'led.G',    c:'--l-green', lx:756},
+    {a:'esp.47',   b:'srv.SIG',  c:'--w-servo', lx:768},
+    {a:'esp.21',   b:'dht.DATA', c:'--w-dht',   lx:780, dash:1},
+    {a:'usb.VBUS_R',b:'srv.VCC', c:'--w-5v',    lx:672},
+    {a:'fan.+12V', b:'psu.+',    c:'--w-12v',   lx:804},
+    {a:'fan.GND',  b:'psu.GND',  c:'--w-gnd',   lx:796},
+    // 3V3 to the right side goes over the top of the board (board has 3V3 only on the left)
+    {a:'esp.3V3',  b:'pot.3V3',  c:'--w-3v3', pts:[[430,'a'],[430,22],[812,22],[812,0]]},
+    {a:'esp.3V3',  b:'dht.VCC',  c:'--w-3v3', pts:[[430,'a'],[430,22],[812,22],[812,0]], dash:1},
+  ];
+  const junctions={};
+  W.forEach(w=>{ const a=P[w.a], b=P[w.b]; if(!a||!b){console.warn('missing',w);return;}
+    let pts;
+    if(w.pts){ pts=[[a.x,a.y]]; w.pts.forEach(v=>{ pts.push([v[0], v[1]==='a'? a.y : (v[1]===0? b.y : v[1])]); }); pts.push([b.x,b.y]); }
+    else pts=[[a.x,a.y],[w.lx,a.y],[w.lx,b.y],[b.x,b.y]];
+    const d = pts.map((p,i)=>(i?'L':'M')+p[0]+','+p[1]).join(' ');
+    const attrs={d,fill:'none',stroke:C(w.c),'stroke-width':2,'stroke-linejoin':'round','stroke-linecap':'round',opacity:.92};
+    if(w.dash) attrs['stroke-dasharray']='6 5';
+    g.appendChild(el('path',attrs));
+    [w.a,w.b].forEach(k=>{ junctions[k]=(junctions[k]||0)+1; }); w._pts=pts; });
+  const seen={};
+  W.forEach(w=>{ if(!w._pts)return; [[w.a,w._pts[1]],[w.b,w._pts[w._pts.length-2]]].forEach(([k,p])=>{
+    if(junctions[k]>1){ const key=k+':'+p[0]+':'+p[1]; if(seen[key])return; seen[key]=1; g.appendChild(el('circle',{cx:p[0],cy:p[1],r:3,fill:C(w.c)})); } }); });
+
+  const L=[['--w-12v','+12 V / 9 V'],['--w-5v','5 V USB'],['--w-3v3','3V3'],['--w-gnd','GND'],['--w-tacho','Tacho'],['--w-enc','Encoder'],['--w-btn','Nút'],['--w-adc','Biến trở'],['--w-sda','SDA'],['--w-scl','SCL'],['--w-cs','CS'],['--w-mosi','MOSI'],['--w-sck','SCK'],['--w-miso','MISO'],['--l-red','Đỏ · C'],['--l-yellow','Vàng · B'],['--l-green','Xanh · A'],['--l-buzz','Còi'],['--w-servo','Servo'],['--w-dht','DHT11 tuỳ chọn']];
+  const lg=document.getElementById('legend');
+  L.forEach(([c,n])=>{ const s=document.createElement('span'); const i=document.createElement('i'); i.style.background=C(c); s.appendChild(i); s.appendChild(document.createTextNode(n)); lg.appendChild(s); });
+  { const s=document.createElement('span'); const i=document.createElement('i'); i.style.background='#3a3a46'; s.appendChild(i); s.appendChild(document.createTextNode('chân xám: không dùng')); lg.appendChild(s); }
+
+  const T=[
+    ['Cạnh trái · bus và núm','I2C, SPI, encoder, nút',[['OLED GND / VCC / SCL / SDA','GND / 3V3 / 9 / 8',''],['INA219 VCC / GND / SDA / SCL','3V3 / GND / 8 / 9',''],['INA219 VIN+ / VIN-','VBUS cáp USB-C phía laptop / 5V-in','đo đúng board'],['ADXL345 VCC / GND','3V3 / GND','không cấp 5 V'],['ADXL345 CS / SDO / SDA / SCL','10 / 13 / 11 / 12','mode 3, 2 MHz'],['KY-040 + / GND / CLK / DT / SW','3V3 / GND / 5 / 6 / 7','pull-up nội'],['Nút K1 nền khỏe / K2 tháng 4 / K3 tháng 5','18 / 15 / 14','chân kia GND, pull-up nội']]],
+    ['Cạnh phải · quạt và đầu ra','tacho, biến trở, LED, còi, servo',[['Quạt vàng TACHO','1','pull-up nội, 2 xung/vòng'],['Quạt đỏ / đen','Nguồn quạt + / −','− nối GND cạnh phải'],['Quạt xanh PWM (tuỳ chọn)','4 cạnh trái','LEDC 25 kHz'],['Biến trở ngoài / giữa / ngoài','3V3 (vòng qua đầu board) / 2 / GND','ADC1_CH1'],['LED đỏ / vàng / xanh + 220 Ω','41 / 40 / 39','cathode về GND'],['Còi + / −','42 / GND','active, HIGH kêu'],['Servo cam / đỏ / nâu','47 / VBUS phía laptop / GND','5 V trước INA219'],['DHT11 VCC / DATA / GND','3V3 / 21 / GND','tuỳ chọn']]],
+  ];
+  const host=document.getElementById('tables');
+  T.forEach(([title,sub,rows])=>{ const c=document.createElement('section'); c.className='card';
+    c.innerHTML='<h2>'+title+'</h2><p class="sub">'+sub+'</p><table><thead><tr><th>Chân module</th><th>Chân board</th><th>Ghi chú</th></tr></thead><tbody>'+
+      rows.map(r=>'<tr><td class="mod">'+r[0]+'</td><td class="pin">'+r[1]+'</td><td style="color:var(--muted)">'+r[2]+'</td></tr>').join('')+'</tbody></table>';
+    host.appendChild(c); });
+})();
+</script>

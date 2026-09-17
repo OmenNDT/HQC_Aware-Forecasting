@@ -1,0 +1,279 @@
+<title>Sơ đồ nối dây HQC Bench</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#0e0e14; --panel:#14141c; --panel-2:#181822; --sh-dark:#06060a; --sh-light:#20202c;
+    --text:#d8d8e2; --muted:#7d7d8e; --dim:#4a4a58; --accent:#5fb3a1; --accent-dim:#3c7a6e;
+    --w-12v:#c9486a; --w-5v:#d0453c; --w-3v3:#e08a3c; --w-gnd:#8a8a98;
+    --w-sda:#4f9ad6; --w-scl:#8ac6f2; --w-sck:#c9a227; --w-mosi:#7dbd5a; --w-miso:#a67cd6; --w-cs:#e07ab8;
+    --w-tacho:#f0d24a; --w-enc:#5fb3a1; --w-btn:#7fd0c0; --w-in:#cfcfda;
+    --l-green:#4fbf6a; --l-yellow:#e8c547; --l-red:#e05252; --l-buzz:#c48ae0;
+    --font-display:"Rajdhani","IBM Plex Sans",system-ui,sans-serif;
+    --font-body:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  }
+  html{color-scheme:dark}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:15px;line-height:1.55;margin:0;padding:32px 28px 64px}
+  .wrap{max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+  header{display:flex;flex-direction:column;gap:6px}
+  .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  h1{font-family:var(--font-display);font-weight:700;font-size:38px;line-height:1.05;margin:0;text-wrap:balance;letter-spacing:.01em}
+  .lede{color:var(--muted);max-width:66ch;margin:0}
+  .card{position:relative;background:var(--panel);border-radius:18px;padding:22px 24px;box-shadow:8px 8px 20px var(--sh-dark),-8px -8px 20px var(--sh-light)}
+  .card::before{content:"";position:absolute;inset:0 auto auto 0;height:1px;width:100%;border-radius:18px 18px 0 0;background:linear-gradient(90deg,rgba(255,255,255,.14),transparent 60%);pointer-events:none}
+  .card h2{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 4px;letter-spacing:.02em}
+  .card .sub{color:var(--muted);font-size:13.5px;margin:0 0 14px}
+  .diagram{padding:14px 14px 10px}
+  .diagram-scroll{overflow-x:auto;border-radius:14px;background:var(--bg);box-shadow:inset 6px 6px 14px var(--sh-dark),inset -6px -6px 14px var(--sh-light);padding:10px}
+  svg{display:block;min-width:1180px;width:100%;height:auto;font-family:var(--font-mono)}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-family:var(--font-mono);font-size:12px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .legend i{display:inline-block;width:22px;height:3px;border-radius:2px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
+  th{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;font-weight:500;padding:0 8px 8px 0}
+  td{padding:7px 8px 7px 0;color:var(--text);vertical-align:top}
+  tr+tr td{box-shadow:0 -1px 0 rgba(255,255,255,.04)}
+  td.pin,td.mod{font-family:var(--font-mono);font-size:13px}
+  td.mod{color:var(--accent)}
+  .chip{display:inline-block;font-family:var(--font-mono);font-size:11.5px;padding:2px 8px;border-radius:999px;background:var(--panel-2);box-shadow:inset 2px 2px 5px var(--sh-dark),inset -2px -2px 5px var(--sh-light);color:var(--muted);margin-left:6px}
+  .notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px 28px}
+  .notes h3{font-family:var(--font-display);font-size:17px;font-weight:600;margin:0 0 4px;color:var(--text)}
+  .notes p{margin:0;color:var(--muted);font-size:14px}
+  .notes strong{color:var(--text);font-weight:500}
+  pre{margin:0;font-family:var(--font-mono);font-size:12.5px;line-height:1.6;color:var(--text);background:var(--bg);border-radius:12px;padding:16px 18px;overflow-x:auto;box-shadow:inset 5px 5px 12px var(--sh-dark),inset -5px -5px 12px var(--sh-light)}
+  pre .c{color:var(--dim)} pre .k{color:var(--accent)}
+  .foot{color:var(--dim);font-size:12.5px;font-family:var(--font-mono)}
+  @media (prefers-reduced-motion:no-preference){ .card{transition:box-shadow .3s} }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">HQC Aware Forecasting · Demo phase 05</div>
+    <h1>Sơ đồ nối dây bàn thử quạt và ESP32-S3</h1>
+    <p class="lede">Quạt case 12 V làm máy quay có tacho, ADXL345 đo rung trên khung quạt, hai núm xoay và ba nút để hội đồng tự thao tác, đèn tháp qua relay báo ba tầng A/B/C, INA219 đo công suất của chính board. Chân chọn cho DevKitC-1 N16R8, tránh GPIO35–37 (PSRAM octal), 19/20 (USB) và các chân strapping 0/3/45/46.</p>
+  </header>
+
+  <section class="card diagram">
+    <h2>Sơ đồ nối dây</h2>
+    <p class="sub">Mỗi dây một màu theo nét. Chấm tròn là điểm rẽ nhánh trên cùng một net. Cuộn ngang nếu màn hình hẹp.</p>
+    <div class="diagram-scroll"><svg id="wiring" viewBox="0 0 1520 990" role="img" aria-label="Sơ đồ nối dây ESP32-S3 với quạt, ADXL345, encoder, nút, OLED, INA219, relay, đèn tháp"></svg></div>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <section class="grid" id="tables"></section>
+
+  <section class="card">
+    <h2>Nguồn và những chỗ hay sai</h2>
+    <p class="sub">Đọc trước khi cắm điện.</p>
+    <div class="notes">
+      <div><h3>Hai nguồn, một mass chung</h3><p>USB từ laptop cấp 5 V cho ESP32 và cuộn relay. Adapter 12 V cấp cho quạt và đèn tháp. <strong>GND của adapter phải nối về GND của ESP32</strong>, nếu không xung tacho và relay không có mức tham chiếu.</p></div>
+      <div><h3>INA219 đo đúng board, không đo relay</h3><p>Cắt dây đỏ của một cáp USB. Đầu từ laptop vào <strong>VIN+</strong>, đầu về board ra <strong>VIN-</strong>. Cuộn relay lấy 5 V từ phía laptop, trước INA219, nên số đo chỉ gồm ESP32 và cảm biến 3,3 V. Dây đen và hai dây data giữ nguyên.</p></div>
+      <div><h3>Tacho là open-collector</h3><p>Dây vàng của quạt chỉ kéo xuống GND, không tự lên 3,3 V. Cần <strong>điện trở 10 kΩ kéo lên 3V3</strong>, sau đó vào GPIO4 với ngắt cạnh xuống. Quạt 3 hoặc 4 dây đều có tacho, thường 2 xung mỗi vòng.</p></div>
+      <div><h3>Relay kích mức thấp</h3><p>Đa số module 4 relay opto kích ở mức LOW, tức GPIO = 0 thì đèn sáng. Mức 3,3 V từ ESP32 đủ để tắt. Nếu module có jumper JD-VCC, để nguyên nối với VCC.</p></div>
+      <div><h3>Đèn tháp, kiểm tra dây chung</h3><p>Đèn tháp 12 V thường có một dây chung và mỗi màu một dây. Sơ đồ giả định <strong>dây chung là âm</strong>, +12 V đi qua tiếp điểm relay vào từng màu. Nếu người bán ghi dây chung là dương, đảo COM sang GND và dây màu về 12 V.</p></div>
+      <div><h3>ADXL345 chạy SPI 4 dây</h3><p>Trên GY-291, SCL là SCK, SDA là MOSI, SDO là MISO, CS xuống thấp khi giao tiếp. Cấp <strong>3,3 V</strong>, không cấp 5 V. Bắt cứng module vào khung quạt bằng vít hoặc epoxy, trục X hoặc Y hướng ngang qua tâm quạt.</p></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Định nghĩa chân cho firmware</h2>
+    <p class="sub">Dán vào <span class="chip">firmware/esp32s3/main/bench_pins.h</span>, mọi module khác chỉ include file này.</p>
+<pre><span class="c">/* bench_pins.h — chân ESP32-S3 DevKitC-1 N16R8 cho bàn thử quạt. Không dùng 35-37, 19/20, 0/3/45/46. */</span>
+<span class="k">#pragma once</span>
+<span class="k">#define</span> PIN_TACHO        4    <span class="c">/* dây vàng quạt, pull-up 10k ngoài, ngắt cạnh xuống */</span>
+<span class="k">#define</span> PIN_ENC_FAULT_CLK 5   <span class="c">/* núm gây lỗi: nhân biên độ kênh 2001 */</span>
+<span class="k">#define</span> PIN_ENC_FAULT_DT  6
+<span class="k">#define</span> PIN_ENC_FAULT_SW  7
+<span class="k">#define</span> PIN_ENC_TIME_CLK 15   <span class="c">/* núm nén thời gian: 1 khối = 10 phút nhà máy */</span>
+<span class="k">#define</span> PIN_ENC_TIME_DT  16
+<span class="k">#define</span> PIN_ENC_TIME_SW  17
+<span class="k">#define</span> PIN_BTN_HEALTHY  18   <span class="c">/* kịch bản nền khỏe 01/03 */</span>
+<span class="k">#define</span> PIN_BTN_APRIL    21   <span class="c">/* kịch bản tháng 4, chớm */</span>
+<span class="k">#define</span> PIN_BTN_MAY      14   <span class="c">/* kịch bản tháng 5, rõ */</span>
+<span class="k">#define</span> PIN_I2C_SDA       8   <span class="c">/* OLED 0x3C, INA219 0x40 */</span>
+<span class="k">#define</span> PIN_I2C_SCL       9
+<span class="k">#define</span> PIN_SPI_CS       10   <span class="c">/* ADXL345, SPI mode 3, 2 MHz */</span>
+<span class="k">#define</span> PIN_SPI_MOSI     11
+<span class="k">#define</span> PIN_SPI_SCK      12
+<span class="k">#define</span> PIN_SPI_MISO     13
+<span class="k">#define</span> PIN_RLY_GREEN    39   <span class="c">/* tầng A bình thường, kích mức LOW */</span>
+<span class="k">#define</span> PIN_RLY_YELLOW   40   <span class="c">/* tầng B cần xem */</span>
+<span class="k">#define</span> PIN_RLY_RED      41   <span class="c">/* tầng C bất thường */</span>
+<span class="k">#define</span> PIN_RLY_BUZZER   42</pre>
+  </section>
+
+  <p class="foot">Tổng dây cần: 14 dây bên trái, 15 dây bên phải, 6 dây cụm relay và đèn, 2 dây nguồn 12 V dọc đáy. Khoảng 40 jumper đực-cái cộng 4 dây có cầu đấu cho adapter.</p>
+</div>
+
+<script>
+(function(){
+  const css = getComputedStyle(document.documentElement);
+  const C = n => css.getPropertyValue(n).trim();
+  const svg = document.getElementById('wiring');
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (t,a,txt)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e;};
+
+  // ---------- modules: pins are spread evenly along a side ----------
+  const mods = {
+    esp:{title:'ESP32-S3 DevKitC-1', sub:'N16R8 · USB-Serial-JTAG', x:600,y:110,w:300,h:690, board:true,
+         pins:{l:['3V3','GND','GPIO4','GPIO5','GPIO6','GPIO7','GPIO15','GPIO16','GPIO17','GPIO18','GPIO21','GPIO14','GND'],
+               r:['3V3','GND','GPIO8 SDA','GPIO9 SCL','GPIO10 CS','GPIO11 MOSI','GPIO12 SCK','GPIO13 MISO','GPIO39','GPIO40','GPIO41','GPIO42','5V-in','GND']}},
+    r1: {title:'R1 · 10 kΩ', sub:'kéo lên tacho', x:130,y:112,w:230,h:62, pins:{r:['A','B']}},
+    fan:{title:'Quạt case 12 V', sub:'120 mm · 3/4 dây', x:130,y:200,w:230,h:112, pins:{r:['+12V','TACHO','GND']}},
+    encA:{title:'Encoder A · KY-040', sub:'núm gây lỗi', x:130,y:340,w:230,h:150, pins:{r:['+','GND','CLK','DT','SW']}},
+    encB:{title:'Encoder B · KY-040', sub:'núm tốc độ thời gian', x:130,y:518,w:230,h:150, pins:{r:['+','GND','CLK','DT','SW']}},
+    btn:{title:'Nút nhấn ×3', sub:'nền khỏe · tháng 4 · tháng 5', x:130,y:696,w:230,h:124, pins:{r:['GND','K1','K2','K3']}},
+    oled:{title:'OLED 0,96" SSD1306', sub:'I2C 0x3C', x:1040,y:112,w:190,h:112, pins:{l:['GND','VCC','SCL','SDA']}},
+    ina:{title:'INA219', sub:'I2C 0x40 · shunt 0,1 Ω', x:1040,y:252,w:190,h:160, pins:{l:['VCC','GND','SDA','SCL','VIN-','VIN+']}},
+    adxl:{title:'ADXL345 · GY-291', sub:'SPI · trên khung quạt', x:1040,y:440,w:190,h:150, pins:{l:['VCC','GND','CS','SDO','SDA','SCL']}},
+    rly:{title:'Relay 4 kênh 5 V', sub:'opto · kích LOW', x:1040,y:618,w:190,h:176, pins:{l:['VCC','GND','IN1','IN2','IN3','IN4'], r:['COM','NO1','NO2','NO3','NO4']}},
+    usb:{title:'USB từ laptop', sub:'dây đỏ đã cắt', x:1040,y:822,w:190,h:78, pins:{l:['VBUS','GND']}},
+    tower:{title:'Đèn tháp 12 V', sub:'3 màu + còi', x:1345,y:600,w:150,h:170, pins:{l:['GREEN','YELLOW','RED','BUZZ','COM']}},
+    psu:{title:'Adapter 12 V 2 A', sub:'quạt + đèn tháp', x:1345,y:822,w:150,h:78, pins:{l:['+12V','GND']}},
+  };
+  // compute pin coordinates
+  const P = {};
+  for(const id in mods){ const m=mods[id]; m.pos={};
+    for(const side in m.pins){ const arr=m.pins[side]; const pitch=m.h/(arr.length+1);
+      arr.forEach((name,i)=>{ const y=m.y+pitch*(i+1); const x= side==='l'? m.x : m.x+m.w;
+        const key=id+'.'+name.split(' ')[0]; // 'esp.GPIO8'
+        m.pos[side+':'+name]={x,y,side}; P[key]={x,y,side,name}; }); } }
+  // duplicate names (GND on both sides / twice) → suffix by index
+  // explicit entries for pins that share a name on both sides of the board
+  (function(){ const m=mods.esp; const l=m.pins.l, r=m.pins.r; const pl=m.h/(l.length+1), pr=m.h/(r.length+1);
+    P['esp.GND_L1']={x:m.x,y:m.y+pl*2,side:'l'}; P['esp.GND_L2']={x:m.x,y:m.y+pl*13,side:'l'};
+    P['esp.3V3_L']={x:m.x,y:m.y+pl*1,side:'l'};
+    P['esp.3V3_R']={x:m.x+m.w,y:m.y+pr*1,side:'r'}; P['esp.GND_R1']={x:m.x+m.w,y:m.y+pr*2,side:'r'}; P['esp.GND_R2']={x:m.x+m.w,y:m.y+pr*14,side:'r'};
+    P['esp.5V']={x:m.x+m.w,y:m.y+pr*13,side:'r'};
+  })();
+
+  // ---------- wires: a → lane x → b ; or explicit via points ----------
+  const W = [
+    // left side, lanes 396..572 step 14
+    {a:'r1.A',   b:'esp.3V3_L',  c:'--w-3v3', lx:396},
+    {a:'encA.+', b:'esp.3V3_L',  c:'--w-3v3', lx:396},
+    {a:'encB.+', b:'esp.3V3_L',  c:'--w-3v3', lx:396},
+    {a:'encA.GND',b:'esp.GND_L1',c:'--w-gnd', lx:410},
+    {a:'encB.GND',b:'esp.GND_L1',c:'--w-gnd', lx:410},
+    {a:'btn.GND', b:'esp.GND_L1',c:'--w-gnd', lx:410},
+    {a:'fan.TACHO',b:'esp.GPIO4',c:'--w-tacho',lx:424},
+    {a:'r1.B',   b:'esp.GPIO4',  c:'--w-tacho',lx:424},
+    {a:'encA.CLK',b:'esp.GPIO5', c:'--w-enc', lx:438},
+    {a:'encA.DT', b:'esp.GPIO6', c:'--w-enc', lx:452},
+    {a:'encA.SW', b:'esp.GPIO7', c:'--w-enc', lx:466},
+    {a:'encB.CLK',b:'esp.GPIO15',c:'--w-enc', lx:480},
+    {a:'encB.DT', b:'esp.GPIO16',c:'--w-enc', lx:494},
+    {a:'encB.SW', b:'esp.GPIO17',c:'--w-enc', lx:508},
+    {a:'btn.K1',  b:'esp.GPIO18',c:'--w-btn', lx:522},
+    {a:'btn.K2',  b:'esp.GPIO21',c:'--w-btn', lx:536},
+    {a:'btn.K3',  b:'esp.GPIO14',c:'--w-btn', lx:550},
+    // right side, lanes 918..1014 step 8
+    {a:'esp.3V3_R',b:'oled.VCC', c:'--w-3v3', lx:918},
+    {a:'esp.3V3_R',b:'ina.VCC',  c:'--w-3v3', lx:918},
+    {a:'esp.3V3_R',b:'adxl.VCC', c:'--w-3v3', lx:918},
+    {a:'esp.GND_R1',b:'oled.GND',c:'--w-gnd', lx:926},
+    {a:'esp.GND_R1',b:'ina.GND', c:'--w-gnd', lx:926},
+    {a:'esp.GND_R1',b:'adxl.GND',c:'--w-gnd', lx:926},
+    {a:'esp.GND_R1',b:'rly.GND', c:'--w-gnd', lx:926},
+    {a:'esp.GND_R1',b:'usb.GND', c:'--w-gnd', lx:926},
+    {a:'esp.GPIO8', b:'oled.SDA',c:'--w-sda', lx:934},
+    {a:'esp.GPIO8', b:'ina.SDA', c:'--w-sda', lx:934},
+    {a:'esp.GPIO9', b:'oled.SCL',c:'--w-scl', lx:942},
+    {a:'esp.GPIO9', b:'ina.SCL', c:'--w-scl', lx:942},
+    {a:'esp.GPIO10',b:'adxl.CS', c:'--w-cs',  lx:950},
+    {a:'esp.GPIO11',b:'adxl.SDA',c:'--w-mosi',lx:958},
+    {a:'esp.GPIO12',b:'adxl.SCL',c:'--w-sck', lx:966},
+    {a:'esp.GPIO13',b:'adxl.SDO',c:'--w-miso',lx:974},
+    {a:'esp.GPIO39',b:'rly.IN1', c:'--l-green', lx:982},
+    {a:'esp.GPIO40',b:'rly.IN2', c:'--l-yellow',lx:990},
+    {a:'esp.GPIO41',b:'rly.IN3', c:'--l-red',   lx:998},
+    {a:'esp.GPIO42',b:'rly.IN4', c:'--l-buzz',  lx:1006},
+    {a:'esp.5V',    b:'ina.VIN-',c:'--w-5v',  lx:1014},
+    // 5 V upstream of INA219: USB VBUS → INA VIN+ and relay VCC (left-exit loop lane 1022)
+    {a:'usb.VBUS',  b:'ina.VIN+',c:'--w-5v',  lx:1022},
+    {a:'usb.VBUS',  b:'rly.VCC', c:'--w-5v',  lx:1022},
+    // relay contacts → tower light, lanes 1250..1300
+    {a:'rly.NO1',b:'tower.GREEN', c:'--l-green', lx:1250},
+    {a:'rly.NO2',b:'tower.YELLOW',c:'--l-yellow',lx:1262},
+    {a:'rly.NO3',b:'tower.RED',   c:'--l-red',   lx:1274},
+    {a:'rly.NO4',b:'tower.BUZZ',  c:'--l-buzz',  lx:1286},
+    {a:'rly.COM',b:'psu.+12V',    c:'--w-12v',   lx:1298},
+    {a:'tower.COM',b:'psu.GND',   c:'--w-gnd',   lx:1310},
+    // 12 V bottom run to the fan, and common ground
+    {a:'fan.+12V', b:'psu.+12V', c:'--w-12v', via:[[380,0],[380,950],[1320,950],[1320,0]]},
+    {a:'fan.GND',  b:'psu.GND',  c:'--w-gnd', via:[[368,0],[368,962],[1332,962],[1332,0]]},
+    {a:'psu.GND',  b:'esp.GND_R2',c:'--w-gnd', via:[[1332,0],[1332,975],[908,975],[908,0]]},
+  ];
+
+  // ---------- draw ----------
+  const g = el('g',{});
+  svg.appendChild(g);
+  const defs = el('defs',{});
+  const f = el('filter',{id:'soft',x:'-20%',y:'-20%',width:'140%',height:'140%'});
+  const ds1=el('feDropShadow',{dx:6,dy:6,stdDeviation:6,'flood-color':C('--sh-dark'),'flood-opacity':1});
+  const ds2=el('feDropShadow',{dx:-5,dy:-5,stdDeviation:6,'flood-color':C('--sh-light'),'flood-opacity':.9});
+  f.appendChild(ds1); f.appendChild(ds2); defs.appendChild(f); svg.appendChild(defs);
+
+  // modules
+  for(const id in mods){ const m=mods[id];
+    const box=el('rect',{x:m.x,y:m.y,width:m.w,height:m.h,rx:14,fill:m.board?'#171a24':C('--panel'),filter:'url(#soft)'});
+    g.appendChild(box);
+    g.appendChild(el('line',{x1:m.x+14,y1:m.y+.5,x2:m.x+m.w-14,y2:m.y+.5,stroke:'rgba(255,255,255,.14)','stroke-width':1}));
+    const tx = m.board? m.x+m.w/2 : (m.pins.l && !m.pins.r ? m.x+m.w-12 : m.x+12);
+    const anchor = m.board?'middle':(m.pins.l && !m.pins.r ?'end':'start');
+    g.appendChild(el('text',{x:tx,y:m.y+22,'text-anchor':anchor,fill:C('--text'),'font-size':14,'font-weight':600,'font-family':'Rajdhani, sans-serif','letter-spacing':'.03em'},m.title));
+    g.appendChild(el('text',{x:tx,y:m.y+38,'text-anchor':anchor,fill:C('--muted'),'font-size':10.5},m.sub));
+    for(const side in m.pins){ m.pins[side].forEach(n=>{ const p=m.pos[side+':'+n];
+      g.appendChild(el('circle',{cx:p.x,cy:p.y,r:3.2,fill:C('--bg'),stroke:C('--dim'),'stroke-width':1.2}));
+      const inside = side==='l'? p.x+9 : p.x-9; const an = side==='l'?'start':'end';
+      g.appendChild(el('text',{x:inside,y:p.y+3.5,'text-anchor':an,fill:m.board?C('--text'):C('--muted'),'font-size':m.board?11:10.5},n));
+    }); }
+    if(m.board){ // USB-C hint + RGB hint
+      g.appendChild(el('rect',{x:m.x+m.w/2-16,y:m.y+m.h-18,width:32,height:12,rx:4,fill:'#0b0b10',stroke:C('--dim')}));
+      g.appendChild(el('text',{x:m.x+m.w/2,y:m.y+m.h-24,'text-anchor':'middle',fill:C('--dim'),'font-size':9.5},'USB native (data + 5 V)'));
+      g.appendChild(el('text',{x:m.x+m.w/2,y:m.y+m.h/2+4,'text-anchor':'middle',fill:C('--dim'),'font-size':11,'letter-spacing':'.2em'},'ESP32-S3'));
+    }
+  }
+  // wires
+  const junctions = {};
+  W.forEach(w=>{ const a=P[w.a], b=P[w.b]; if(!a||!b){console.warn('missing',w);return;}
+    let pts;
+    if(w.via){ pts=[[a.x,a.y]]; w.via.forEach((v,i)=>{ const prev=pts[pts.length-1]; pts.push([v[0], v[1]===0? (i===0? a.y : (i===w.via.length-1? b.y : prev[1])) : v[1]]); }); pts.push([b.x,b.y]); }
+    else { pts=[[a.x,a.y],[w.lx,a.y],[w.lx,b.y],[b.x,b.y]]; }
+    const d = pts.map((p,i)=>(i?'L':'M')+p[0]+','+p[1]).join(' ');
+    g.appendChild(el('path',{d,fill:'none',stroke:C(w.c),'stroke-width':2,'stroke-linejoin':'round','stroke-linecap':'round',opacity:.92}));
+    // junction bookkeeping: a pin used by more than one wire gets a dot at the lane
+    [w.a,w.b].forEach(k=>{ junctions[k]=(junctions[k]||0)+1; });
+    w._pts=pts;
+  });
+  // junction dots where a pin fans out: place at first bend of each extra wire
+  const seen={};
+  W.forEach(w=>{ if(!w._pts)return; [ [w.a,w._pts[1]], [w.b,w._pts[w._pts.length-2]] ].forEach(([k,p])=>{
+    if(junctions[k]>1){ const key=k+':'+p[0]+':'+p[1]; if(seen[key])return; seen[key]=1;
+      g.appendChild(el('circle',{cx:p[0],cy:p[1],r:3,fill:C(w.c)})); } }); });
+
+  // legend
+  const L=[['--w-12v','+12 V'],['--w-5v','5 V USB'],['--w-3v3','3V3'],['--w-gnd','GND'],['--w-tacho','Tacho'],['--w-enc','Encoder'],['--w-btn','Nút'],['--w-sda','SDA'],['--w-scl','SCL'],['--w-cs','CS'],['--w-mosi','MOSI'],['--w-sck','SCK'],['--w-miso','MISO'],['--l-green','Xanh · A'],['--l-yellow','Vàng · B'],['--l-red','Đỏ · C'],['--l-buzz','Còi']];
+  const lg=document.getElementById('legend');
+  L.forEach(([c,n])=>{ const s=document.createElement('span'); const i=document.createElement('i'); i.style.background=C(c); s.appendChild(i); s.appendChild(document.createTextNode(n)); lg.appendChild(s); });
+
+  // ---------- pin tables ----------
+  const T=[
+    ['Quạt + điện trở kéo lên','Máy quay có tacho',[['Đỏ +12V','Adapter +12 V','dọc đáy sơ đồ'],['Đen GND','Adapter GND','mass chung với ESP32'],['Vàng TACHO','GPIO4','open-collector, 2 xung/vòng'],['R1 10 kΩ','3V3 ↔ GPIO4','kéo lên cho tacho']]],
+    ['ADXL345 · GY-291','SPI mode 3, 3,3 V',[['VCC','3V3','không cấp 5 V'],['GND','GND',''],['CS','GPIO10',''],['SDO','GPIO13 MISO',''],['SDA','GPIO11 MOSI',''],['SCL','GPIO12 SCK','']]],
+    ['Encoder A · núm gây lỗi','KY-040',[['+','3V3',''],['GND','GND',''],['CLK','GPIO5','pull-up nội'],['DT','GPIO6','pull-up nội'],['SW','GPIO7','ấn = đặt lại hệ số']]],
+    ['Encoder B · tốc độ thời gian','KY-040',[['+','3V3',''],['GND','GND',''],['CLK','GPIO15',''],['DT','GPIO16',''],['SW','GPIO17','ấn = tạm dừng']]],
+    ['Nút nhấn ×3','kịch bản phát lại',[['GND','GND',''],['K1 nền khỏe','GPIO18','pull-up nội'],['K2 tháng 4','GPIO21','pull-up nội'],['K3 tháng 5','GPIO14','pull-up nội']]],
+    ['OLED 0,96"','I2C 0x3C',[['GND','GND',''],['VCC','3V3',''],['SCL','GPIO9',''],['SDA','GPIO8','']]],
+    ['INA219','I2C 0x40 · đo công suất board',[['VCC','3V3',''],['GND','GND',''],['SDA','GPIO8',''],['SCL','GPIO9',''],['VIN+','USB VBUS (phía laptop)','dây đỏ cáp USB đã cắt'],['VIN-','ESP32 5V-in','phía board']]],
+    ['Relay 4 kênh','kích LOW · cuộn 5 V',[['VCC','USB VBUS (phía laptop)','trước INA219'],['GND','GND',''],['IN1 xanh','GPIO39','tầng A'],['IN2 vàng','GPIO40','tầng B'],['IN3 đỏ','GPIO41','tầng C'],['IN4 còi','GPIO42',''],['COM ×4','Adapter +12 V','nối cầu 4 COM'],['NO1…NO4','Đèn tháp G/Y/R/Buzz','']]],
+    ['Đèn tháp + adapter','12 V DC',[['Dây chung','Adapter GND','xác nhận với người bán'],['Xanh/Vàng/Đỏ/Còi','Relay NO1…NO4',''],['Adapter +12V','Quạt + Relay COM',''],['Adapter GND','Quạt GND + ESP32 GND','mass chung']]],
+  ];
+  const host=document.getElementById('tables');
+  T.forEach(([title,sub,rows])=>{ const c=document.createElement('section'); c.className='card';
+    c.innerHTML='<h2>'+title+'</h2><p class="sub">'+sub+'</p><table><thead><tr><th>Chân module</th><th>Nối tới</th><th>Ghi chú</th></tr></thead><tbody>'+
+      rows.map(r=>'<tr><td class="mod">'+r[0]+'</td><td class="pin">'+r[1]+'</td><td style="color:var(--muted)">'+r[2]+'</td></tr>').join('')+'</tbody></table>';
+    host.appendChild(c); });
+})();
+</script>

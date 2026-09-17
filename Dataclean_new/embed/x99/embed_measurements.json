@@ -1,0 +1,25 @@
+{
+ "port": "/dev/ttyACM0",
+ "baud": 115200,
+ "lines_sent": 49198,
+ "json_received": 6804,
+ "seconds": 113.8,
+ "hello": null,
+ "final_stat": {
+  "t": "STAT",
+  "inferences": 42064,
+  "infer_us_mean": 655.63,
+  "infer_us_max": 4879,
+  "heap_free": 353344,
+  "heap_min_free": 353344,
+  "engine_bytes": 8208,
+  "weights_bytes": 13312
+ },
+ "infer_us_mean_series": [
+  655.58,
+  655.57,
+  655.57,
+  655.57,
+  655.63
+ ]
+}

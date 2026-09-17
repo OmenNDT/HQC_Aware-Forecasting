@@ -1,0 +1,1538 @@
+
+── page 1 ──
+Partitioned Hybrid Quantum Fourier Neural
+Operators for Scientific Quantum Machine Learning
+Paolo Marcandelli∗, Yuanchun He†, Stefano Mariani∗,
+Martina Siena∗, Stefano Markidis†
+∗Department of Civil and Environmental Engineering, Politecnico di Milano, Milan, Italy
+†School of Electrical Engineering and Computer Science, KTH Royal Institute of technology, Stockholm, Sweden
+Email: paolo.marcandelli@polimi.it
+Abstract—We introduce the Partitioned Hybrid Quantum
+Fourier Neural Operator (PH-QFNO), a generalization of the
+Quantum Fourier Neural Operator (QFNO) for scientific machine learning. PH-QFNO partitions the Fourier operator computation across classical and quantum resources, enabling tunable
+quantum-classical hybridization and distributed execution across
+quantum and classical devices. The method extends QFNOs to
+higher dimensions and incorporates a message-passing framework to distribute data across different partitions. Input data are
+encoded into quantum states using unary encoding, and quantum
+circuit parameters are optimized using a variational scheme. We
+implement PH-QFNO using PennyLane with PyTorch integration and evaluate it on Burgers’ equation, incompressible and
+compressible Navier-Stokes equations. We show that PH-QFNO
+recovers classical FNO accuracy. On incompressible NavierStokes, PH-QFNO achieves higher accuracy than its classical
+counterparts. Finally, we perform a sensitivity analysis under
+input noise, confirming improved stability of PH-QFNO over
+classical baselines.
+Index Terms—Quantum Scientific Machine Learning, Quantum Neural Networks, Quantum Fourier Neural Operator, Hybrid Quantum-Classical Computing
+I. INTRODUCTION
+Quantum computing is emerging as a viable approach for
+solving problems across various domains, including cryptography, optimization, data analysis, and scientific computing [1].
+Within scientific computing, the numerical solution of partial differential equations (PDEs) remains a key application
+area. Classical numerical methods typically approach PDEs
+by discretizing them into systems of linear equations or
+eigenvalue problems. In contrast, quantum algorithms such
+as Harrow-Hassidim-Lloyd (HHL) [2] and Quantum Phase
+Estimation (QPE) [3] provide fully quantum formulations
+for solving such problems, leveraging quantum principles
+including superposition, entanglement, and interference [4].
+However, these algorithms generally assume the availability
+of fault-tolerant quantum hardware, which remains beyond
+the capabilities of current Noisy Intermediate-Scale Quantum
+(NISQ) devices [5].
+To overcome this limitation, hybrid quantum-classical approaches have been proposed [6]. These approaches divide
+the computational pipeline between classical and quantum resources and typically rely on variational principles to optimize
+parameterized quantum circuits by minimizing an error or
+loss function [7]. Within this framework, quantum scientific
+machine learning [8] has been developed to approximate PDE
+solutions using quantum neural networks. These networks take
+collocation points as input and return approximate solutions
+of the underlying equations, with parameters trained using
+classical simulations, such as finite difference or finite element
+methods. This work adopts a hybrid variational framework to
+develop a solver for PDEs, targeting applications in Computational Fluid Dynamics (CFD), including Burgers’ and NavierStokes equations.
+Quantum Fourier Neural Operators (QFNOs) [9] are a quantum analog of classical Fourier Neural Operators (FNOs) [10],
+which learn operator mappings in spectral space by leveraging
+the Fourier transform. Many physical applications, such as
+fluid or electromagnetic problems, are efficiently represented
+in the spectral domain, where a limited number of Fourier
+modes often suffice and classical FNOs have been successfully
+deployed to solve such problems [11]. QFNOs employ the
+Quantum Fourier Transform (QFT), which offers a polynomial
+complexity improvement over classical Fast Fourier Transforms (FFTs). While QFNOs are promising, current formulations are limited. They lack a full-fledged implementation
+and generalization to higher dimensionality, and the ability to
+operate in distributed environments involving both classical
+and multiple quantum devices.
+To address these limitations, we introduce a Partitioned
+Hybrid Quantum Fourier Neural Operator (PH-QFNO). The
+method partitions the QFNO computation across classical
+and quantum resources. Drawing inspiration from multidimensional FFTs, where multiple 1D FFTs are performed in
+parallel and can be further decomposed into smaller FFTs, we
+partition the QFT-based operations across different quantum
+devices. PH-QFNO supports adjustable levels of quantumclassical computation, from fully classical FNO to fully quantum QFNO. The contributions of this work are as follows:
+• A formulation and methodology for combining classical
+and quantum computation within QFNOs, extended to
+2D and 3D problems. The implementation leverages
+PennyLane and its integration with PyTorch for CFD
+applications.
+• A distributed execution framework using MPI [20] to
+assign partitions to CPU cores and QPUs. Quantum
+resources are simulated with PennyLane’s noiseless state
+vector simulator [12], supporting different degrees of
+arXiv:2507.08746v1 [cs.LG] 11 Jul 2025
+── page 2 ──
+hybridization.
+• Evaluation of PH-QFNO on Burgers’ and Navier-Stokes
+equations. Across hybrid configurations, PH-QFNO consistently outperforms classical FNO in terms of accuracy.
+• Analysis of robustness under input noise. Fidelity-based
+assessments across noise levels show that PH-QFNO is
+more stable than its classical counterparts.
+II. THEORETICAL BACKGROUND
+This section provides the theoretical background underpinning the development of our PH-QFNO for both 1D and 2D
+domains.
+A. Learning Operators and Neural Operators
+Learning operators are designed to learn the mapping between function spaces from a finite collection of observed
+input-output pairs, see Refs. [13] and [10] for more details.
+Neural Operators (NOs) represent their multi-layer neural
+implementation, and we will apply these operators to the
+specific case of PDEs. Since we work with numerical data,
+we only have access to discrete representations of the domain.
+Then, the discretization-invariance property of NOs will be
+crucial in this setting.
+Let D ⊂ R
+d be the spatial domain and Dj ⊂ D its
+discretized version, and let A = A(Dj ; R
+da ) and U =
+U(Dj ; R
+du ) be separable Banach spaces of functions taking
+values in R
+da and Rdu respectively. Then, let G†
+: A → U
+be a typically non-linear map that we aim to approximate.
+The NO proposed in Ref. [13] uses a point-wise function P
+to map the input {a : Dj → R
+da } to a higher dimensional
+space {v0 : D′
+j → R
+dv0 }. Then, the operator is formulated
+as an iterative architecture v0 → v1 → · · · → vT where
+vj : D′
+j → R
+dv for j = 0, 1, · · · , T − 1. In the end,
+using a point-wise function Q the last hidden representation
+{vT : D′
+j → R
+dv } is mapped to the output function
+{u : Dj → R
+du }. In our paper we will study the NO applied
+to PDEs. We seek to learn the mapping G
+†
+: a → u, where
+a ∈ L2(Dj ; R) is the initial condition, and u(t) ∈ Hs(Dj ; R)
+is the solution at later time t. We set T = 1 to reduce the NO
+at one single layer due to computational costs reasons.
+B. Unary Encoding
+The initial phase of the quantum circuit entails embedding
+a matrix, in 2D or 3D, into the unary basis. Accordingly,
+we provide a concise exposition of the underlying mechanism
+by which this embedding is effected in the elementary onedimensional scenario.
+We begin with a one-dimensional vector [x0, . . . , xn−1],
+which is normalized such that the last element is given by
+xn−1 =
+q
+1 −
+Pn−2
+i=0 x
+2
+i
+. Next, we encode the normalized
+vector using the quantum circuit shown in Fig. 1, taken from
+[14], [15] and [16].
+We start with the state |0 · · · 0⟩ composed of n qubits.
+An X gate is applied to the first qubit, resulting in the
+state |10 · · · 0⟩ (following the Pennylane convention for qubit
+θ1
+θ2
+θ3
+|0⟩ X
+|0⟩
+|0⟩
+|0⟩
+Fig. 1: Quantum circuit for one-dimensional encoding with four qubits. An X
+gate is applied to the first wire and RBS(θ) gates to the sequential couples
+of qubits. The scheme can be generalized to n qubits.
+ordering). Subsequently, we apply the RBS (Reconfigurable
+Beam Splitter) gate on subsequent couples of qubits:
+RBS(θ) =
+
+
+1 0 0 0
+0 cos(θ) sin(θ) 0
+0 − sin(θ) cos(θ) 0
+0 0 0 1
+
+ . (1)
+This gate performs the rotation |10⟩ → cos(θ)|10⟩ +
+sin(θ)|01⟩, |01⟩ → cos(θ)|01⟩ − sin(θ)|10⟩, on the qubit
+couple, leaving the remaining basis states unchanged. To
+encode a vector in R
+n, n−1 parameters θ are required, which
+can be recursively defined as
+θk = arccos 
+xk
+Qk−1
+j=0 sin(θj )
+!
+, for k = 1, . . . , n − 2 (2)
+where θ0 = arccos(x0). In the end, we obtain the following
+state:
+|ψ⟩ = cos(θ0)|10 · · · 0⟩ + cos(θ1) sin(θ0)|01 · · · 0⟩ +
+· · · + sin(θn−2)· · ·sin(θ0)|00 · · · 1⟩. (3)
+Substituting the definitions from Eq. 2 into the expression
+above, we obtain
+|ψ⟩ = x0 |10 · · · 0⟩ + x1 |01 · · · 0⟩ + · · · + xn−1 |00 · · · 1⟩.
+(4)
+The method can be straightforwardly generalized to higherdimensional spaces, such as R
+m×n or Rm×n×k
+. For example,
+to encode a 2D matrix X ∈ R
+m×n, a fundamental prerequisite
+for the development of novel 3D circuits, we follow the
+procedure illustrated in Fig. 2.
+First, we normalize the matrix and encode the norm of
+each row into the first register using the previously described
+method. This yields the state:
+|ψ⟩ =
+1
+∥X∥
+
+∥X1∥ |e1⟩
+|{z}
+m dim
+n dim
+z}|{
+|e0⟩ + · · · + ∥Xm∥ |em⟩ |e0⟩
+
+
+where |ei⟩ is the Hamming weight one basis state with 1 in
+position i, |e0⟩ = |¯0⟩ and ∥Xi∥ denote the norm of row i.
+Next, we proceed by encoding the values of each normalized row into the second register. The mathematical proof is
+straightforward when one follows the structure depicted in
+── page 3 ──
+ENCODING OF EACH ROW
+· · ·
+m ∥XR∥
+n ∥X1∥ ∥X
+†
+2∥ ∥X2∥ ∥X†n∥ ∥Xn∥
+Fig. 2: Two-dimensional unary encoding for matrix X ∈ Rm×n. The initial
+state vector is given by the two-register state |0⟩
+⊗m ⊗ |0⟩⊗n
+. Each block
+represents the one-dimensional encoding. In the first register the norm of each
+row ∥XR∥ is encoded, while in the second one we sequentially encode and
+decode the values of each row. The result is the encoding of the normalized
+matrix X.
+Fig. 2 and employs the unitarity of the RBS(θ) gate. In the
+end, we obtain the desired state:
+|X⟩ =
+1
+∥X∥
+
+
+Xm,n
+i,j=1
+xij |ei⟩ |ej ⟩
+
+ .
+It is worth noting that the unary (one-hot) encoding strategy
+incurs only linear resource overhead. Specifically, to embed
+a classical vector of dimension d one requires d qubits and
+exactly d − 1 two-mode RBS gates, yielding a circuit depth
+of O(d). No high-order multipartite entanglement is generated beyond the pairwise amplitude transfers, which greatly
+simplifies both state preparation and measurement.
+By contrast, other encoding methods impose significantly
+greater computational and circuit complexity. For example,
+amplitude encoding achieves a compact footprint of ⌈log2 d⌉
+qubits but typically demands O(d log d) (or worse) gate depth,
+relies on numerous multi-controlled rotations, and produces
+complex entanglement patterns that increases error accumulation and experimental overhead.
+Thus, although unary encoding trades qubit count for gate
+simplicity, it uniquely enables the preparation of arbitrary
+one-hot superpositions with only nearest-neighbor operations,
+avoiding any exponential blow-up in gate or entanglement
+complexity that plagues alternatives such as amplitude encoding.
+C. Quantum Fourier Transform
+In this subsection, we detail the implementation of the
+Quantum Fourier Transform (QFT) in the unary basis, following the approach in [9]. The algorithm is a quantum
+adaptation of the classical Cooley–Tukey method [17], [4],
+which efficiently computes the FFT of a vector x ∈ R
+n.
+Classical Cooley-Tukey algorithm: The procedure begins by
+permuting the indices of the vector x ∈ R
+n according to a
+bit-reversal scheme. The core computational step is known as
+the butterfly-shaped cross operation, see Fig. 3.
+In this diagram, each cross
+x0
+ω0
+2 ω04
+ω1
+4
+ω1
+8
+ω1
+8
+xˆ0
+x4 xˆ1
+x2 xˆ2
+ω2
+8
+ω3
+8
+x6 xˆ3
+x1 xˆ4
+x5 xˆ5
+x3 xˆ6
+x7 xˆ7
+Fig. 3: Butterfly diagram of the Cooley-Tukey algorithm, which performs the
+FFT of the permuted input vector x ∈ R8. Each cross performs an elementary
+radix-2 operation with the root of unity ω
+k
+n = e
+i2πk/n.
+ω
+k
+n
+a a + ω
+k
+n
+b
+b a − ω
+k
+n
+b
+is applied iteratively to pairs of input elements and maps
+the input pair [a, b] as follows:
+
+1 ω
+k
+n
+1 −ω
+k
+n
+ a
+b
+
+=
+
+a + ω
+k
+n
+b
+a − ω
+k
+n
+b
+
+,
+where ω
+k
+n = e
+i
+2π
+n
+k
+, n = 2, 4, 8 denotes the number of inputs
+at each stage, and k ∈ {0, 1, . . . ,
+n
+2 − 1}.
+After these operations, the output is the desired Fourier
+transformed vector:
+xˆ = [ˆx0, xˆ1, xˆ2, xˆ3, xˆ4, xˆ5, xˆ6, xˆ7].
+Unary Quantum Fourier Transform: Even in the quantum
+case, the indices of the vector to be transformed must be correctly permuted before applying the QFT. Then, the amplitudes
+xi ∈ x in the state vector should be encoded with the correct
+permutation, here indicated by the ⌊ ⌋ symbol:
+|x⟩ =
+X
+7
+i=0
+x⌊i⌋ |ei⟩ (5)
+Then, we apply the quantum analog of the Cooley-Tukey
+algorithm as described in [9]. By following the Pennylane
+convention of ordering of qubits, the classical cross operation
+can be obtained by the following quantum diagram
+a |10⟩ + b |01⟩
+ω
+k
+n √1
+2
+[(a + ω
+k
+n b)|10⟩
++(a − ω
+k
+n
+b)|01⟩],
+── page 4 ──
+which is equivalent to the unitary operator
+UQF T =
+
+
+1 0 0 0
+0
+ω
+k
+√n
+2
+√
+1
+2
+0
+0 −
+ω
+k
+√n
+2
+√
+1
+2
+0
+0 0 0 −ω
+k
+n
+
+
+, (6)
+and acts on the state a |10⟩ + b |01⟩ as
+UQF T (a |10⟩+b |01⟩) = 1
+√
+2
+h
+(a+ω
+k
+n
+b)|10⟩+(a−ω
+k
+n
+b)|01⟩
+i
+.
+By applying the quantum butterfly circuit as depicted in Fig. 4,
+one recovers the desired transformation as in the classical
+framework.
+ω
+0
+2 ω
+0
+4 ω
+0
+8
+ω
+1
+4 ω
+1
+8
+ω
+0
+2 ω
+2
+8
+ω
+3
+8
+ω
+0
+2 ω
+0
+4
+ω
+1
+4
+ω
+0
+2
+Fig. 4: Quantum circuit designed to carry out the Fourier Transform in the
+unary basis. Single-qubit operations are phase gates, while vertical connections
+represent RBS gates with a rotation angle of π/4. This arrangement mirrors
+the classical FFT butterfly structure by replacing each radix-2 operation with a
+phase gate followed by an RBS gate. The amplitudes in the input state vector
+|x⟩ =
+P7
+i=0 xi |ei⟩ properly permuted and encoded in the unary basis, are
+transformed into the desired output state.
+Applying Fourier Transform to both two and three dimensional matrices follows immediately the operation for simple
+vector x ∈ R
+n. For two-register circuit [15], before encoding,
+the matrix X ∈ R
+m×n must be subjected to a column
+permutation as previously described:
+|X⟩ =
+1
+∥X∥
+
+
+Xm,n
+i,j=1
+xi⌊j⌋ |ei⟩ |ej ⟩
+
+ . (7)
+In this way, one can apply the QF T operator Qˆ
+F T to the
+second register and get:
+1
+∥X∥
+(I ⊗ Qˆ
+F T )
+
+
+Xm,n
+i,j=1
+xi⌊j⌋ |ei⟩ |ej ⟩
+
+ =
+1
+∥X∥
+
+
+Xm,n
+i,j=1
+xˆij |ei⟩ |ej ⟩
+
+ .
+(8)
+By doing so, we reproduce the one dimensional QF T of each
+row of the matrix X preserving the unary basis.
+The three register circuit QFT is described in the next section.
+III. METHODOLOGY
+In this work, we introduce our PH-QFNO utilizing PennyLane interface, inspired by the sequential quantum circuit [9]
+to simulate the Burgers’ equation, and its 2D generalization applied to the Navier-Stokes equation. The proposed architecture
+can be extended to multiple dimensions, enabling the future
+expansion of this approach to a three-dimensional domain.
+A. Unary Encoding of Three-dimensional matrices
+To encode a three-dimensional matrix Y ∈ R
+m×n×k with
+entries y
+l
+ij , where the upper index l denotes the third dimension and the indices i, j correspond to the two-dimensional
+matrix at level l, the procedure naturally extends from the twodimensional case described in Sec. II-B, but one additional
+register is required, as illustrated in the red block of Fig.5.
+The first step is to encode the Frobenius norm of k matrices
+(m × n) into the first register. Then, the lower two registers
+are used to encode each 2D matrix Y
+l ∈ Rm×n, following
+Section II-B. By leveraging the unitarity of the encoding
+procedure, the final state is obtained as:
+|Y ⟩ =
+1
+∥Y ∥
+
+
+m,n,k
+X
+i,j,l=1
+y
+l
+ij |ei⟩ |ej ⟩ |el⟩
+
+ .
+The mathematical proof is straightforward following the diagram in Fig. 5.
+B. Three dimensional Unary Quantum Fourier Tranform
+To Fourier transform the embedded amplitudes, the procedure directly follows from Section II-C, and we need to
+permute both the dimensions i and j of the initial threedimensional matrix Y ∈ R
+m×n×k
+,
+|Y ⟩ =
+1
+∥Y ∥
+
+
+m,n,k
+X
+i,j,l=1
+x
+l
+⌊i,j⌋
+|ei⟩ |ej ⟩ |el⟩
+
+ . (9)
+and apply the Qˆ
+F T operator to the second and third register,
+mimicking the classical two-dimensional FFT, as shown in
+Fig. 5. Hence, after this computation, we get:
+1
+∥Y ∥
+(QˆF T ⊗ QˆF T ⊗ I)
+
+
+m,n,k
+X
+i,j,l=1
+y
+l
+⌊i,j⌋ |ei⟩ |ej ⟩ |el⟩
+
+ =
+1
+∥Y ∥
+
+
+m,n,k
+X
+i,j,l=1
+yˆ
+l
+i,j |ei⟩ |ej ⟩ |el⟩
+
+ .
+(10)
+which correctly performs the one dimensional QFT over both
+the dimensions of the k matrices Y
+l ∈ Rm×n, as in the
+classical two-dimensional FFT.
+C. Variational Quantum Gates
+In this subsection, we describe the variational quantum gates
+designed for both 2D and 3D inputs. The 2D structure is
+used as a foundation upon which we constructed the new 3D
+architecture.
+── page 5 ──
+ENCODING LEARNING LAYERS
+· · · · · ·
+· · · · · ·
+k ∥Y
+l∥
+n
+∥Y
+1∥ ∥Y
+2†∥ ∥Y
+2∥ ∥Y
+k†∥ ∥Yk∥
+QFT
+X X X X
+IQFT X X
+m QFT
+X X
+IQFT
+X X
+X X
+W
+Q
+11 W
+Q
+12 W
+Q
+ij
+Fig. 5: Three-dimensional Sequential-QFL: The diagram comprises three registers containing k, n, and m qubits, which facilitate the encoding of a threedimensional matrix Y ∈ Rn×m×k in the unary basis, here grouped with the red block. The QFT boxes denote the Quantum Fourier Transform applied to
+the two lower registers to transform both the i and jdimensions of Rn×m. The variational quantum circuit (blue block), is applied to appropriately modify
+a selected pair of Fourier modes, and the Inverse QFT is employed to return to the spatial domain. In the end, we measure probability amplitudes.
+After the Fourier transform, the state vector for both the
+2D and 3D circuits can be represented as the following
+superposition in the unary basis:
+
+
+
+Xˆ
+E
+=
+1
+∥X∥
+Xm,n
+i,j=1
+xˆij |ei⟩ |ej ⟩ 2D (11)
+
+
+
+Yˆ
+E
+=
+1
+∥Y ∥
+m,n,k
+X
+i,j,l=1
+yˆ
+l
+ij |ei⟩ |ej ⟩ |el⟩ 3D (12)
+To emulate the classical learning matrices WK and WK1K2
+from FNO [10], we focus on first modes K = 1 and
+(K1, K2) = (1, 1). However, the approach generalizes naturally to any K ∈ [1, n] for 2D and any Kx, Ky ∈ [1, m], [1, n]
+for 3D. Fig. 5 illustrates the 3D quantum learning gates in our
+hybrid model.
+We begin by isolating the elements in Eqs. 11 and 12 corresponding at the first quantum modes, that will be modified by
+the learning matrices, by applying X gates to the first qubit of
+second register for 2D, and to the second and third registers
+for 3D:
+1
+∥X∥
+Xm
+i=1 
+xˆi1 |ei⟩ |e0⟩ +
+Xn
+j=2
+xˆij |ei⟩ X1 |ej ⟩
+!
+(13)
+1
+∥Y ∥
+Xk
+l=1 
+yˆ
+l
+11 |e0⟩ |e0⟩ +
+m,n X
+i,j=2
+yˆ
+l
+ijX1 |ei⟩ X1 |ej ⟩
+!
+|el⟩ (14)
+where the lower index in X1 stands for the first qubit.
+Now, following the Sequential circuit described in Ref. [9],
+we proceed by applying to the first register the learning blocks
+CZP
+†
+(−¯θ1)CZP(
+¯θ1) for 2D and CCZP
+†
+(−¯θ11)CCZP(
+¯θ11)
+for 3D, where CZ and CCZ are sequences of controlledand double controlled-Z gates and P(
+¯θ1) is the Quantum
+Orthogonal Layer described in Ref. [18], [19], with lower
+indices referring to the first mode. The number of learning
+parameters depends on the number of the n wires of the first
+register, in particular ¯θ ∈ R
+D where D =
+n
+2
+log(n).
+2D Control-Z gate:
+After the application of the parametrized learning block,
+Eq. 13 becomes:
+1
+∥X∥
+Xm
+i=1
+
+xˆi1
+
+P
+†
+(−¯θ1)P(
+¯θ1)
+
+|ei⟩ |e0⟩ +
++
+Xn
+j=2
+xˆij 
+CZ P
+†
+(−¯θ1)CZ P(
+¯θ1)
+
+|ei⟩ X1 |ej ⟩
+!
+,
+in which the controlled-Z do not affect the xˆi1 amplitudes.
+By property CZP
+†
+(−¯θ1)CZP(
+¯θ1) = I, applying the X1
+gate again on second register, we can obtain:
+1
+∥X∥
+Xm
+i=1
+
+ˆξi(
+¯θ1)|ei⟩ |e1⟩ +
+Xn
+j=2
+xˆij |ei⟩ |ej ⟩
+
+ (15)
+where ξi(
+¯θ1) = P
+s W
+Q
+si (
+¯θ1)xs1 and W
+Q
+1 = WQ(
+¯θ1) =
+P
+†
+(−¯θ1)P(
+¯θ1) which is the quantum implementation corresponding to the matrix W1 used in the FNO [10]. To generalize
+the transformation to a higher number of modes K, the
+operations on the second register are repeated sequentially.
+The resulting quantum state is given by:
+1
+∥X∥
+Xm
+i=1
+
+
+X
+K
+j=1
+ˆξi(¯θj )|ei⟩ |ej ⟩ +
+Xn
+j=K+1
+xˆij |ei⟩ |ej ⟩
+
+ (16)
+conserving correctly the unary basis.
+3D Double Control-Z gate: In the three-dimensional Sequential quantum circuit, we need to deal with all the possible
+combinations of the Pm,n
+i,j=2 yˆ
+l
+ijX1 |ei⟩ X1 |ej ⟩ term in Eq. 14,
+to preserve the identity
+CCZP
+†
+(−¯θij )CCZP(
+¯θij ) = I (17)
+and to conserve the unary basis. To achieve this, we introduce
+the following quantum block:
+── page 6 ──
+CCZ
+Z Z Z First register
+qubit i Second register
+qubit j Third register
+that will substitute the simple controlled-Z gate inside the
+learning layer in the Sequential Quantum circuit, conserving
+all the properties that we need.
+Now, we can apply the block CCZP
+†
+(−¯θij )CCZP(
+¯θij ) to
+the first register, as in the 2D case, and get
+1
+∥Y ∥
+X
+k
+l=1
+
+yˆ
+l
+11 |e0⟩ |e0⟩
+
+P
+†
+(−¯θ11)P(
+¯θ11)
+
++
+Xm,n
+i,j=2
+yˆ
+l
+ij 
+CCZP
+†
+(−¯θij )CCZP(
+¯θij )
+
+X1 |ei⟩ X1 |ej ⟩
+
+ |el⟩.
+Then, using the identity relation in Eq. 17 and applying the
+X gates to restore the initial states, we have
+1
+∥Y ∥
+X
+k
+l=1
+
+χˆ
+l
+(
+¯θ11)|e0⟩ |e0⟩ +
+Xm,n
+i,j=2
+yˆ
+l
+ij |ei⟩ |ej ⟩
+
+ |el⟩.
+where, as before, χ
+l
+(
+¯θ11) = Pk
+s=1 WQl
+s
+(
+¯θ11)ˆy
+s
+11 and W
+Q
+11 =
+WQ(
+¯θ11) = P
+†
+(−¯θ11)P(
+¯θ11) as before.
+Hence, we can iterate the sequential controlled learning gate,
+as in Fig. 5 to cover different number of modes (Kx, Ky) and
+obtain
+1
+∥Y ∥
+X
+k
+l=1
+
+
+K
+Xx,Ky
+i,j=1
+χˆ
+l
+(
+¯θij )|ei⟩ |ej ⟩ +
+Xm,n
+i=Kx+1
+j=Ky+1
+yˆ
+l
+ij |ei⟩ |ej ⟩
+
+
+|el⟩.
+Finally, we can apply the inverse QFT, IQFT, on the lower
+registers on both the 2D and 3D quantum circuit to return
+to the physical domain and measure probability amplitudes to
+conserve the pyTorch gradient and introduce a non-linearity
+in the model.
+D. Partitioned Hybrid Quantum Fourier Neural Operator
+The main challenge in developing the QFNO on a quantum
+state-vector simulator, such as the one provided by Pennylane,
+lies in the limited number of qubits that can be efficiently
+simulated. These simulators must represent the full Hilbert
+space, making subspace restriction techniques, such as those
+in Ref. [9], unfeasible. Unary amplitude embedding requires
+a number of qubits equal to the total input dimension (see
+Eq. II-B), so we cap the qubit count at 12. To accommodate this constraint, we adapt the computational domain by
+uniformly sampling Dj at 8 points for Burgers’ equation and
+using an 8×8 grid for the Navier–Stokes equation. To address
+the qubit limitation, we implement a new variant of the QFNO
+that we called Partitioned Hybrid Quantum Fourier Neural
+Operator.
+1) One-dimensional PH-QFNO : The entire process is described in Fig. 6a. The algorithm takes as input a vector u0(x)
+with x ∈ R
+n, then, after a linear transformation P it is mapped
+to X ∈ R
+dv×8
+. The quantum circuit is capable of processing
+the whole matrix when dv ≤ 4. If dv > 4, the input X is partitioned into two submatrices: XQ ∈ R
+d
+Q
+v ×8 with d
+Q
+v = 4,
+which is processed by the QFNO, and the remaining part
+Xcl ∈ R
+d
+C
+v ×8
+, which is processed by the FNO. The W in
+Fig. 6a represents a global 2D convolutional layer, as part
+of the classical Fourier Layer. The outputs from these two
+processing paths are then concatenated. In this framework,
+the parameter dv effectively controls the proportion of the
+quantum circuit relative to the classical one.
+2) Two-dimensional PH-QFNO : This process is depicted
+in Fig. 6a. The algorithm takes as input the velocity u0(x, y)
+with (x, y) ∈ R
+m×n which is then mapped linearly to
+Y ∈ R
+8×8×dv . As in the previous case, if dv > 4 the
+matrix is partitioned into two submatrices, namely Y
+Q ∈
+R
+8×8×d
+Q
+v (with d
+Q
+v = 4), and Y
+cl ∈ R8×8×d
+C
+v . However, in
+this scenario the quantum circuit can process only matrices in
+R
+4×4×4
+. Therefore, the matrix Yq is further subdivided into
+four submatrices, denoted Y
+Q
+ij , each of which is processed
+independently with different parameters. This aspect introduces a higher expressiveness in the model with respect to
+the CFNO.
+This slicing technique can be straightforwardly extended
+to larger domains by partitioning the Fourier-layer input into
+independently analyzable submatrices. Nevertheless, partitioning the global Fourier operator into 4 × 4 × d
+Q
+v
+subblocks
+inevitably induces spatial under-sampling on an 8 × 8 × dv
+tensor, effectively truncating the lowest-frequency modes that
+a classical FNO would retain. In PH-QFNO, however, we
+address this spectral gap through two synergistic mechanisms.
+Upon reassembling the four quantum-processed subblocks,
+we apply a global classical convolutional layer W, which
+operates across the full spatial domain to reintroduce longrange correlations and accelerate convergence. Moreover, by
+deploying four independent quantum Fourier operators rather
+than just a single one, the model’s total parameter count
+increases fourfold, endowing the subsequent network layers
+with sufficient expressive capacity to fill in the omitted low
+frequencies via learned weights. Empirically on Burgers’
+and Navier–Stokes benchmarks, this combination of global
+classical integration and controlled over-parameterization compensates for the truncated spectrum, delivering accuracy and
+stability on par with, or in some cases exceeding, that of the
+full-domain FNO.
+E. Data Parallelism
+To address the computational limitations of state-vector
+quantum computer simulators, we adot an MPI-based data
+parallelism strategy [20]. The complete dataset is partitioned
+and distributed evenly across multiple processes. Each process
+performs forward and backward propagation independently
+on its data subset. Before updating the model parameters
+using the optimizer, gradient synchronization is performed
+── page 7 ──
+(a) One-dimensional PH-QFNO. The input, u(x, t0) ∈ R
+n, is first mapped via a linear transformation P (u(x, t0)) = X ∈ Rdv×n which is then partitioned into two
+submatrices, XQ ∈ R
+dQ
+v ×n for the quantum branch and XC ∈ R
+dC
+v ×n for the classical branch. Subsequently, the Fourier Layer is split accordingly, where a Fourier transform
+is initially applied, followed by parameterized learning layers W Q
+K in the quantum branch and WK in the classical branch (with K denoting the number of modes undergoing
+parametric multiplication, here colored in orange). W, in the black box, is a 2D convolutional layer coming from the FNO. Finally, an inverse Fourier transform restores the solution
+to the physical domain, and the outputs from both branches are concatenated and further processed by a neural network to recover the original dimension, ultimately yielding the
+velocity field at a later time u(x, t1).
+(b) Two-dimensional PH-QFNO. After a linear transformation, the initial velocity field u((x, y), t) ∈ Rm×n is embedded into a higher-dimensional space by introducing an
+additional dimension dv. The resulting matrix Y is partitioned into two submatrices, Y
+Q ∈ Rm×n×dQ
+v for the quantum branch and Y
+C ∈ Rm×n×dC
+v for the classical branch.
+Y
+Q is further divided into four submatrices Y
+Q
+ij , each processed independently by the QFL, analogous to the processing performed on Y
+C by its classical counterpart. The
+learning gates, denoted by W Q
+KxKy
+in the quantum branch and WKxKy
+in the classical branch, perform the two-dimensional parametric multiplications on the selected modes
+(highlighted in orange), while W in the black box, is a 3D convolutional layer. Finally, the inverse Fourier transform is applied and the outputs of the submatrices are concatenated
+and fed into a neural network that restores the original dimensionality, ultimately yielding the velocity field at a later time.
+Fig. 6: Overview of the PH-QFNO architectures: (a) One-dimensional and (b) Two-dimensional PH-QFNO.
+by MPI reduction across all processes to ensure consistent
+parameter updates. Finally, the loss values from each process
+are averaged to compute the global loss.
+IV. EXPERIMENTAL SETUP
+All experiments are conducted on a laptop running Ubuntu
+22.04.5 LTS, equipped with an AMD Ryzen 7 5800H CPU and
+an NVIDIA GeForce RTX 3060 Mobile GPU. Quantum circuits are implemented using PennyLane’s default.qubit
+state-vector simulator [12], [22], which supports parameterized quantum circuits and integrates with PyTorch via
+qml.qnn.TorchLayer. Data parallelism is employed by
+distributing the dataset across five processes in all experiments
+using mpi4py [21].
+We test and verify the PH-QFNO against two test problems:
+1. Burgers’ Equation. The one-dimensional Burgers’ equation is a nonlinear partial differential equation that describes
+the motion of a viscous fluid, and is formulated as:
+∂tu(x, t) + ∂x
+
+u
+2
+(x, t)
+2
+
+= ν∂xxu(x, t) x ∈ (0, 1), t ∈ (0, 1]
+u(x, 0) = u0(x) x ∈ (0, 1)
+with periodic boundary conditions where ν ∈ R+ is the
+viscosity coefficient of the fluid and u0 ∈ L2
+per((0, 1); R)
+is the initial condition. The model is expected to learn the
+operator mapping the initial condition to the solution at t
+= 1, i.e. G
+†
+: L
+2
+per((0, 1); R) → Hsper((0, 1); R) defined by
+u0 → u(·, 1) for any s > 0.
+2. Navier-Stokes Equations. We consider the vorticitystreamfunction formulation of the two-dimensional NavierStokes equations for a viscous, incompressible fluid:
+∂tw(x, t) + u(x, t) · ∇w(x, t) = ν∆w(x, t) + f(x)
+x ∈ (0, 1)2, t ∈ (0, T]
+∇ · u(x, t) = 0 x ∈ (0, 1)2, t ∈ [0, T]
+w(x, 0) = w0(x) x ∈ (0, 1)2
+equipped with periodic boundary conditions where u :
+(0, 1)2 × R+ → R
+2
+is the velocity field, w is the out-ofplane component (0, 0, w) of the vorticity field ∇ × u :
+(0, 1)2 × R → R
+3
+, f is the forcing factor and ν the viscosity
+which has been set equal to 1e − 3 and we fix the resolution
+to be 8 × 8 for both training and testing. We aim to learn
+the solution operator G
+†
+: L
+2
+per((0, 1)2
+; R) → Hs
+per((0, 1)2
+; R)
+defined by w0 → w(·, t) with t0 = 30 and t = 31
+── page 8 ──
+(a) 1D Burgers’ Equation; relative error comparison between
+fully quantum and classical models across epochs.
+(b) 1D Burgers’ Equation; relative error comparison between
+hybrid and classical models.
+(c) 2D Navier–Stokes Incompressible Equations: relative error
+comparison between fully quantum and classical models.
+(d) 2D Navier–Stokes Incompressible Equation: relative error
+comparison between hybrid and classical models.
+Fig. 7: Relative error comparisons on 1D and 2D PDEs across different model types. In (a) and (c), the dimension of the latent representation of the input
+function u(x) is set to dv = 4, while in (b) and (d), it is set to dv = 12.
+region in which the dynamic of the fluid becomes more
+chaotic to strengthen the validity of our approach. The initial
+vorticity field w(x, 0) is sampled from the Gaussian measure
+µ = N
+
+0, 7
+3/2
+(−∆ + 49I)
+−2.5
+
+with periodic boundary
+conditions; for further details see Ref. [10].
+In addition to incompressible flow, we also evaluate the
+HP-QFNO on solving the compressible Navier-Stokes equations for the Kelvin-Helmholtz configurations. The dataset is
+generated by solving the compressible Euler equations and
+introducing small random perturbations into the initial conditions for density, velocity, and pressure, thereby producing
+a time-series dataset, capturing the evolution of the flow dynamics. This dataset, which encompasses a range of scenarios
+for the initial conditions and subsequent flow evolution, is
+subsequently employed to evaluate the performance of our
+QFNO in approximating the operator mapping the density at
+time t = 0 up to time t = 4, i.e., G†: L
+2
+per((0, 1); R) →
+C((0, 4]; Hr
+per((0, 1); R)).
+A. Hybrid Quantum Neural Network Setup
+In this subsection, we describe the quantum neural network setup used in our experiments. For every simulation,
+we employ 12 qubits, which is the maximum allowed by
+PennyLane to perform simulations within a reasonable time
+frame. Training of the proposed architecture was performed
+using backpropagation and the Adam optimizer.
+Burger Navier Stokes Kelvin Helmholtz
+qubits Hybridization dv d
+Q
+v dv d
+Q
+v dv d
+Q
+v
+12 100% 4 4 4 4 4 4
+12 100% 12 4 × 3 / / / /
+12 66% 12 4 × 2 / / / /
+12 50% / / / / 8 4
+12 33% 12 4 12 4 / /
+TABLE I: Configurations for the latent dimensionality dv and d
+Q
+v for various
+PDE problems. For Burger equation, 4×3 and 4×2 indicates that the quantum
+circuit partitions the input matrix of size 12×8 respectively into three or two
+submatrices of size 4 × 8, processed sequentially by the QFNO, while the
+others, if present, by the FNO.
+1. One-Dimensional Burgers’ Equation: The network input
+is constructed by concatenating the initial velocity field u(x, 0)
+with the spatial coordinate x, where x ∈ R
+8
+. The first layer
+of the network maps this two-dimensional input into a higherdimensional latent space via torch.nn.Linear(2, dv),
+where the parameter dv will determine the hybrid proportion
+of the model. In our implementation, the quantum circuit with
+12 qubits can embed a matrix of size 4 × 8. Therefore, if
+dv exceeds 4, a hybrid architecture is required that partitions
+the matrix into submatrices, as depicted in Fig. 6a. Table I
+summarizes the different hybrid configurations.
+After encoding and QFT, the learning gates are applied to
+the first K modes as described in Section III-C. Finally, the
+── page 9 ──
+output stage of the network is a single-layer linear neural
+network that maps the latent representation to the output
+velocity field u(x, t = 1).
+Regarding the number of learning parameters, for the
+classical Fourier layer the parameter count is K · (d
+C
+v
+)
+2
+,
+where d
+C
+v = dv − d
+Q
+v
+, and for the Quantum Fourier layer
+the count is K ·
+d
+Q
+v
+2
+log d
+Q
+v
+. At equal number of modes K,
+the classical Fourier Neural Operator exhibits a quadratic
+dependence on dv, which renders the classical circuit more
+expressive. In contrast, the Quantum Fourier layer employs
+quantum orthogonal layers with fewer parameters, resulting in
+a loss of expressiveness but yielding gains in training stability
+and convergence speed, as observed in our experiments.
+2. Two-Dimensional Navier Stokes Equations: The input is constructed by concatenating [u(x, y), x, y], with
+x, y ∈ R
+8
+. The first operation is implemented as
+torch.nn.Linear(3, dv), where, as in the 1D case, dv
+regulates the hybrid proportion of the model. We consider the
+configurations described in Table I.
+For the two-dimensional problems, the number of learning
+parameters in the classical Fourier layer is given by K1 · K2 ·
+(d
+C
+v
+)
+2
+, and for the Quantum Fourier layer the number is K1 ·
+K2·
+d
+Q
+v
+2
+log d
+Q
+v
+, which brings to the same conclusions of before.
+B. Evaluation Metrics
+Model performance is evaluated using the relative error on
+test sets, as defined in (18), following standard practice in
+related work. Consistent with prior studies on the classical
+FNO [10], we use the same datasets with training/testing
+splits of 500/50 for Burgers’ equation and 100/25 for the
+Navier–Stokes equation. For the Kelvin–Helmholtz problem,
+we generate a new dataset with a 20/5 split. To address qubit
+limitations in PennyLane, the spatial domain is downsampled to 8 points for Burgers’ equation and an 8 × 8 grid for
+the Navier–Stokes equation.
+RelError(ypred, ytrue) = ∥ypred − ytrue∥2
+∥ytrue∥2
+(18)
+Experiments include comparative analysis between PHQFNO and FNO under varying hybridization rates and multiple configurations of the modal parameters K and (Kx, Ky)
+within the learning layers WQ and W K. Additionally, we
+conduct a comparative analysis between the quantum circuit implementation and its original classical counterpart by
+evaluating their robustness to input noise. The similarity we
+adopted, aka cosine similarity, is quantified using the following
+metric:
+Similarity(˜x, x) = 1
+B
+X
+B
+b=1
+˜xb · xb
+∥˜xb∥2 · ∥xb∥2
+(19)
+where xb denotes the output corresponding to the b-th clean
+input sample, and ˜xi denotes the output generated from the
+same input with added noise. The variable B represents the
+batch size, which is set to 5 in our experiments. This similarity
+metric allows us to quantitatively assess the effect of noise
+on the output and evaluate the comparative resilience of the
+quantum and classical models.
+V. RESULTS
+This section analyses our proposed quantum algorithms for
+solving PDEs, see Table I to have more details about each
+hybrid model.
+First, we show the results relative to the solution of the
+Burger’s equation. Fig. 7a shows the evolution of the relative
+error on the test dataset during the training of different neural
+operators. Specifically, we compare the FNO with K =
+1 and 5 and our PH-QFNO with 100% quantum hybridization.
+As illustrated in Fig. 8, where the solution is depicted at two
+early epochs, the fully quantum model exhibits a significantly
+faster convergence, rapidly adapting to the ground truth curve
+relative to the classical FNO models. However, it achieves
+relative errors comparable to the one-mode classical model
+by the end of the training. Furthermore, it avoids overfitting
+with respect to the 1-mode classical model, highlighting that
+the use of Orthogonal Quantum Layers [18] entails a tradeoff between a potential loss in expressiveness and improved
+training stability. Nevertheless, the five-modes classical model
+achieves superior performance compared to the others, a
+result that can be attributed to its higher number of trainable
+parameters.
+As a second experiment, we study how the degree of
+quantum layers in the PH-QFNO impacts the accuracy of
+the results. Fig. 7b shows the usage of classical computation
+together with quantum counterpart largely enhances the accuracy of the PH-QFNO for the Burger’s equation test case: the
+presence of classical computation (red and purple lines) leads
+to a smaller relative error compared to classical FNO.
+Fig. 8: Predictions of the u profile obtained by FNO and PH-QFNO at two
+different epochs during the training. The parameter K is set to 5 for both the
+models.
+Furthermore, a third experiment has been conducted. As
+shown in Fig. 9, an additional analysis was performed to
+reproduce the Burgers’ shock with u(x, 0) = − sin(πx) as
+initial condition, following the approach presented in [23]. We
+performed the training on this trajectory and reproduced the
+operator mapping the velocity up to time t = 4 to the velocity
+at later times (T > 4), i.e., G†: C([0, 4]; Hr
+per((0, 1); R)) →
+C((4, 10]; Hr
+per((0, 1); R)). Both the fully quantum and classical model demonstrated a good adaptation to the shock,
+yielding a relative error of 10−4.
+── page 10 ──
+Fig. 9: Top panel: Contourplot of the u evolution for 1D Burger with a
+sinusoidal initial condition. Bottom panel: Comparison between ground truth
+(blue line), classical prediction (dashed green line) and fully quantum model
+(dashed red line) over the last two times steps for 1D Burger with sinusoidal
+initial condition.
+Then, we present the results relative to the two-dimensional
+Incompressible Navier Stokes equation. In Fig. 7c we see that
+the quantum model outperforms both classical FNO, reaching
+a lower relative error by the end of training. This may be attributed to the fact that the two-dimensional quantum model is
+designed with a higher number of parameters than its classical
+counterpart, as explained in Sec. III-D2. Then, Fig. 7d shows
+that the 33% PH-QFNO, outperforms the FNO, exhibiting
+behavior similar to that observed in the one-dimensional case.
+Indeed, to have a more clear understanding of the results, we
+provide in Fig. 10 a graphical representation of the prediction
+at time t = 1 over the two-dimensional domain. It can be
+observed that the purely quantum model yields more accurate
+predictions than its classical counterpart. However, the best
+performance is achieved by the hybrid architecture, which
+benefits from a larger number of trainable parameters, thereby
+attaining higher accuracy.
+Additionally, we conducted a further experiment on the
+compressible Navier Stokes equation, modeling the KelvinHelmotz instability. From Fig. 12 (left), we observe that
+the 50% hybrid model converges more rapidly, confirming
+previous experimental findings, while ultimately achieving an
+accuracy comparable to that of the classical model. Both the
+models give accurate predictions, in fact, the relative error
+across different time steps is very low, as demonstrated in the
+right-hand panel.
+To evaluate the adaptiveness of our quantum Fourier layer,
+comprising the encoding, QFT, orthogonal layer, and IQFT,
+we introduce Gaussian noise to the input data with varying
+mean and standard deviation. We then measure the similarity
+between the outputs generated from clean and noisy inputs.
+Fig. 11 presents heatmaps of the batch-averaged similarity
+scores across different noise configurations. The quantum
+model exhibits greater robustness to noise, particularly at lower
+mean values and across a broader standard deviation range. In
+(a) Top Panel: Fully quantum. Bottom Panel: classical FNO. Latent dimensionality
+dv = 4.
+(b) Top Panel: 33% hybrid quantum. Bottom Panel: classical FNO. Latent dimensionality dv = 12.
+Fig. 10: Vorticity field of the solution for the incompressible Navier-Stokes
+problem with viscosity ν = 1e − 3. Ground truth on the left column,
+predictions in central position and their difference on the right.
+Fig. 11: Heatmaps showing the similarity as a function of input noise
+parameters (mean and standard deviation) for (left) quantum and (right)
+classical Fourier layer. Both components are evaluated under the same input
+noise conditions. Brighter colors indicate higher similarity.
+contrast, the classical model shows a more rapid similarity
+drop-off, especially when the standard deviation increases.
+These results highlight the quantum Fourier layer’s resilience
+and tolerance to input perturbations, indicating its potential
+advantages in noisy environments.
+VI. RELATED WORK
+Quantum Scientific Machine Learning. Quantum Neural
+Networks(QNNs) [24], [25], [26], [27], also referred to as
+Parametrized Quantum Circuits [28], [7], have been proposed
+── page 11 ──
+Fig. 12: Left Panel: Relative error variation over training epochs, with the classical model shown in light blue and the 50% hybrid quantum model in green,
+both with K = 3. Right Panel: Evolution of the density field for the two-dimensional Kelvin–Helmholtz equation across multiple time steps: the top row
+represents the ground truth, the middle row the hybrid quantum prediction, and the bottom row the corresponding relative error.
+for a range of tasks in scientific computing, including data
+analysis applications such as classification [29] and regression [25], as well as the solution of PDEs. This work focuses
+on the application of QNNs to PDE solving. Two general
+strategies are typically employed: (i) a supervised approach,
+in which QNNs are trained on datasets generated by classical
+simulations; and (ii) an unsupervised approach, where the governing equations are embedded directly into the loss function,
+enabling training via automatic differentiation. Methods such
+as Differentiable Quantum Circuits (DQCs) [30], [31] and
+Quantum Physics-Informed Neural Networks (QPINNs) [32],
+[33] follow this latter paradigm. In the present work, we adopt
+the supervised strategy, training QNNs on datasets derived
+from classical numerical solutions.
+Fourier Neural Operators for Scientific Computing. Various QNN architectures have been proposed for solving PDEs.
+A primary design choice in such architectures is the selection
+of the variational quantum circuit, which typically consists of
+parameterized quantum gates combined with data encoding
+layers [34]. In addition to these architectural distinctions,
+classical neural network models, such as convolutional networks [35], [36] and neural operators [16] have been adapted
+to quantum computing frameworks. In this work, we focus
+on a quantum variant of the neural operator paradigm based
+on spectral methods, specifically the Fourier Neural Operator
+(FNO) [10], which has been successfully used for solving
+Computational Fluid Dynamics and electromagnetics problems [11], [37]. Our approach builds on the Quantum Fourier
+Operator (QFO) framework [9], which incorporates quantum circuits into the FNO architecture by replacing classical
+Fourier transforms with Quantum Fourier Transforms (QFTs).
+We extend this method by partitioning the Fourier transform
+computation across classical and quantum devices to improve
+scalability and resource efficiency.
+VII. CONCLUSIONS
+This work presented PH-QFNO, a hybrid quantum-classical
+architecture for operator learning in scientific machine learning. PH-QFNO extends the QFNO by introducing a partitioning strategy, enabling distributed execution across classical and
+quantum devices. Inspired by the structure of multidimensional
+FFTs, the quantum Fourier components are decomposed into
+parallelizable sub-blocks: each of these is assigned to either
+classical processors or quantum device. This design allows
+for tunable degrees of quantum-classical hybridization and
+scalability across high-dimensional domains.
+The method uses unary encoding to map input data into
+quantum states and trains a parametrized quantum circuit via
+a variational optimization algorithm. A distributed execution
+framework based on MPI assigns computational partitions to
+classical and quantum resources, enabling hybrid emulation
+using PennyLane’s state vector simulator. The PennyLane implementation is integrated with PyTorch, supporting gradientbased learning.
+PH-QFNO was validated on three benchmark problems:
+Burgers’ equation, the incompressible Navier-Stokes equation,
+and the compressible Navier-Stokes equation modeling the
+fluid Kelvin–Helmholtz instability. We showed that PH-QFNO
+achieves accuracy comparable to classical FNO for Burgers’
+equation, even with limited quantum device involvement. For
+the incompressible Navier-Stokes system, PH-QFNO consistently outperforms classical FNO. Robustness to input noise
+was evaluated, showing increased stability over classical counterparts.
+Future work will focus on extending the current framework
+to include the impact of quantum device noise, using both
+realistic noise models available in PennyLane and execution
+on actual quantum hardware. While variational training on
+emulated QPUs remains feasible, communication latency between classical and quantum components is expected to be
+a dominant performance bottleneck in real deployments due
+to the iterative nature of gradient evaluation and circuit updates. Algorithms, such as PH-QFNO, require high integration
+of classical and quantum devices and avoid communication
+across the internet.
+Algorithmically, the current implementation is purely data-
+── page 12 ──
+driven, with training samples obtained from finite difference
+and finite volume classical simulations. A future extension
+will incorporate physics-based loss functions that penalize the
+residual of the governing PDEs, following the principles of
+DQC [30] and QPINNs [33]. The inclusion of a physicsinformed loss function part will improve generalization and
+enforce physical conservation laws.
+ACKNOWLEDGMENTS
+Partial financial support from ICSC - “National Research Centre in High Performance Computing, Big Data and Quantum
+Computing”, funded by European Union – NextGenerationEU,
+is gratefully acknowledged. S.M. acknowledges support from
+a Center of Excellence in Exascale CFD (CEEC) grant No
+101093393 funded by the European Union via the European
+High Performance Computing Joint Undertaking (EuroHPC
+JU) and Sweden, Germany, Spain, Greece and Denmark.
+REFERENCES
+[1] P. R. Hegde, O. Kyriienko, H. Heimonen, P. Tolias, G. Netzer, P. Barkoutsos, R. Vinuesa, I. Peng, and S. Markidis, “Beyond the buzz: Strategic
+paths for enabling useful NISQ applications,” in Proceedings of the 21st
+ACM International Conference on Computing Frontiers, 2024, pp. 310–
+313.
+[2] A. W. Harrow, A. Hassidim, and S. Lloyd, “Quantum algorithm for
+linear systems of equations,” Physical review letters, vol. 103, no. 15,
+p. 150502, 2009.
+[3] M. A. Nielsen and I. L. Chuang, Quantum computation and quantum
+information. Cambridge university press, 2010.
+[4] S. Markidis, “What is quantum parallelism, anyhow?” in ISC High
+Performance 2024 Research Paper Proceedings (39th International
+Conference). Prometeus GmbH, 2024, pp. 1–12.
+[5] J. Preskill, “Quantum computing in the NISQ era and beyond,” Quantum, vol. 2, p. 79, 2018.
+[6] M. Cerezo, A. Arrasmith, R. Babbush, S. C. Benjamin, S. Endo, K. Fujii,
+J. R. McClean, K. Mitarai, X. Yuan, L. Cincio et al., “Variational
+quantum algorithms,” Nature Reviews Physics, vol. 3, no. 9, pp. 625–
+644, 2021.
+[7] S. Markidis, “Programming quantum neural networks on nisq systems:
+An overview of technologies and methodologies,” Entropy, vol. 25,
+no. 4, p. 694, 2023.
+[8] B. Jaderberg, A. A. Gentile, A. Ghosh, V. E. Elfving, C. Jones,
+D. Vodola, J. Manobianco, and H. Weiss, “Potential of quantum scientific
+machine learning applied to weather modeling,” Physical Review A, vol.
+110, no. 5, p. 052423, 2024.
+[9] N. Jain, J. Landman, N. Mathur, and I. Kerenidis, “Quantum Fourier
+networks for solving parametric PDEs,” 2023. [Online]. Available:
+https://arxiv.org/abs/2306.15415
+[10] Z. Li, N. Kovachki, K. Azizzadenesheli, B. Liu, K. Bhattacharya,
+A. Stuart, and A. Anandkumar, “Fourier neural operator for parametric
+partial differential equations,” arXiv preprint arXiv:2010.08895, 2020.
+[11] P. A. Costa Rocha, S. J. Johnston, V. Oliveira Santos, A. A. Aliabadi,
+J. V. G. The, and B. Gharabaghi, “Deep neural network modeling for ´
+CFD simulations: Benchmarking the Fourier neural operator on the liddriven cavity case,” Applied Sciences, vol. 13, no. 5, p. 3165, 2023.
+[12] V. Bergholm, J. Izaac, M. Schuld, C. Gogolin, S. Ahmed, V. Ajith,
+M. S. Alam, G. Alonso-Linaje, B. AkashNarayanan, A. Asadi et al.,
+“Pennylane: Automatic differentiation of hybrid quantum-classical computations,” arXiv preprint arXiv:1811.04968, 2018.
+[13] N. Kovachki, Z. Li, B. Liu, K. Azizzadenesheli, K. Bhattacharya,
+A. Stuart, and A. Anandkumar, “Neural operator: Learning maps
+between function spaces with applications to PDEs,” Journal of
+Machine Learning Research, vol. 24, no. 89, pp. 1–97, 2023. [Online].
+Available: http://jmlr.org/papers/v24/21-1524.html
+[14] E. A. Cherrat, I. Kerenidis, N. Mathur, J. Landman, M. Strahm, and
+Y. Y. Li, “Quantum Vision Transformers,” Quantum, vol. 8, p. 1265,
+Feb. 2024.
+[15] S. Johri, S. Debnath, A. Mocherla, A. SINGK, A. Prakash, J. Kim, and
+I. Kerenidis, “Nearest centroid classification on a trapped ion quantum
+computer,” npj Quantum Information, vol. 7, no. 1, p. 122, 2021.
+[Online]. Available: https://doi.org/10.1038/s41534-021-00456-5
+[16] P. Xiao, M. Zheng, A. Jiao, X. Yang, and L. Lu, “Quantum DeepONet:
+Neural operators accelerated by quantum computing,” arXiv preprint
+arXiv:2409.15683, 2024.
+[17] H. S. Stone, “R66-50 an algorithm for the machine calculation of
+complex fourier series,” IEEE Transactions on Electronic Computers,
+vol. EC-15, no. 4, pp. 680–681, 1966.
+[18] S. Li, K. Jia, Y. Wen, T. Liu, and D. Tao, “Orthogonal deep neural
+networks,” IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. 43, no. 4, pp. 1352–1368, 2021.
+[19] J. Landman, N. Mathur, Y. Y. Li, M. Strahm, S. Kazdaghli, A. Prakash,
+and I. Kerenidis, “Quantum Methods for Neural Networks and Application to Medical Image Classification,” Quantum, vol. 6, p. 881, Dec.
+2022.
+[20] W. Gropp, E. Lusk, and A. Skjellum, Using MPI: portable parallel
+programming with the message-passing interface. MIT press, 1999,
+vol. 1.
+[21] L. Dalcin and Y.-L. L. Fang, “mpi4py: Status update after 12 years of
+development,” Computing in Science & Engineering, vol. 23, no. 4, pp.
+47–54, 2021.
+[22] A. Asadi, A. Dusko, C.-Y. Park, V. Michaud-Rioux, I. Schoch,
+S. Shu, T. Vincent, and L. J. O’Riordan, “Hybrid quantum programming with pennylane lightning on hpc platforms,” arXiv preprint
+arXiv:2403.02512, 2024.
+[23] M. Raissi, P. Perdikaris, and G. Karniadakis, “Physics-informed neural
+networks: A deep learning framework for solving forward and inverse
+problems involving nonlinear partial differential equations,” Journal of
+Computational Physics, vol. 378, pp. 686–707, 2019.
+[24] M. Schuld, I. Sinayskiy, and F. Petruccione, “The quest for a quantum
+neural network,” Quantum Information Processing, vol. 13, pp. 2567–
+2586, 2014.
+[25] N. Killoran, T. R. Bromley, J. M. Arrazola, M. Schuld, N. Quesada,
+and S. Lloyd, “Continuous-variable quantum neural networks,” Physical
+Review Research, vol. 1, no. 3, p. 033063, 2019.
+[26] A. Abbas, D. Sutter, C. Zoufal, A. Lucchi, A. Figalli, and S. Woerner,
+“The power of quantum neural networks,” Nature Computational Science, vol. 1, no. 6, pp. 403–409, 2021.
+[27] M. Schuld and F. Petruccione, Machine learning with quantum computers. Springer, 2021, vol. 676.
+[28] Y. Du, M.-H. Hsieh, T. Liu, and D. Tao, “Expressive power of
+parametrized quantum circuits,” Physical Review Research, vol. 2, no. 3,
+p. 033125, 2020.
+[29] E. Farhi and H. Neven, “Classification with quantum neural networks
+on near term processors,” arXiv preprint arXiv:1802.06002, 2018.
+[30] O. Kyriienko, A. E. Paine, and V. E. Elfving, “Solving nonlinear
+differential equations with differentiable quantum circuits,” Physical
+Review A, vol. 103, no. 5, p. 052416, 2021.
+[31] O. Kyriienko and V. E. Elfving, “Generalized quantum circuit differentiation rules,” Physical Review A, vol. 104, no. 5, p. 052417, 2021.
+[32] A. E. Paine, V. E. Elfving, and O. Kyriienko, “Physics-informed
+quantum machine learning: Solving nonlinear differential equations
+in latent spaces without costly grid evaluations,” arXiv preprint
+arXiv:2308.01827, 2023.
+[33] S. Markidis, “On physics-informed neural networks for quantum computers,” Frontiers in Applied Mathematics and Statistics, vol. 8, p.
+1036711, 2022.
+[34] S. Sim, P. D. Johnson, and A. Aspuru-Guzik, “Expressibility and entangling capability of parameterized quantum circuits for hybrid quantumclassical algorithms,” Advanced Quantum Technologies, vol. 2, no. 12,
+p. 1900070, 2019.
+[35] I. Kerenidis, J. Landman, and A. Prakash, “Quantum algorithms for deep
+convolutional neural networks,” arXiv preprint arXiv:1911.01117, 2019.
+[36] C. Umeano, A. E. Paine, V. E. Elfving, and O. Kyriienko, “What can we
+learn from quantum convolutional neural networks?” Advanced Quantum
+Technologies, p. 2400325, 2023.
+[37] N. Pornthisan and S. Markidis, “Fast electromagnetic field pattern
+calculation with fourier neural operators,” in International Conference
+on Computational Science. Springer, 2023, pp. 247–255.

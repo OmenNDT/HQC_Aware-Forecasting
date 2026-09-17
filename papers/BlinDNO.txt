@@ -1,0 +1,1552 @@
+
+── page 1 ──
+BLINDNO: A DISTRIBUTIONAL NEURAL OPERATOR FOR
+DYNAMICAL SYSTEM RECONSTRUCTION FROM
+TIME-LABEL-FREE DATA∗
+ZHIJUN ZENG†, JUNQING CHEN‡, AND ZUOQIANG SHI§
+Abstract. We study an inverse problem for stochastic and quantum dynamical systems in a
+time-label-free setting, where only unordered density snapshots—sampled at unknown times drawn
+from an observation-time distribution νt—are available. These observations induce a distribution over
+state densities, from which we seek to recover the parameters of the underlying evolution operator.
+We formulate this as learning a distribution-to-function neural operator and propose BlinDNO, a
+permutation-invariant architecture that integrates a multiscale U-Net encoder with attention-based
+mixer. Numerical experiments on a wide range of stochastic and quantum systems—including a 3D
+protein-folding mechanism reconstruction problem in cryo-EM setting—demonstrate that BlinDNO
+reliably recovers governing parameters and consistently outperforms existing neural inverse operator
+baselines.
+Key words. Operator learning; Stochastic dynamic; Inverse problem.
+MSC codes. 68Q25, 68R10, 68U05
+1. Introduction. Stochastic dynamics are fundamental to advancing our understanding of natural phenomena. By leveraging massive datasets to uncover the
+underlying stochastic equations that govern complex physical systems, we can substantially enhance our capacity to model and predict system behavior across diverse scientific disciplines[3, 34, 1]. In the classical stochastic system identification
+problem, one collects either trajectory data {{t
+j
+i
+, x
+j
+i
+}
+n
+i=1}
+m
+j=1 or aggregate measurements {ti
+, {x
+j
+i
+}
+m
+j=1}
+n
+i=1 and then employs Bayesian inference, sparse regression, weakform methods, or machine-learning techniques to extract the evolution law xt+1 =
+f(xt, t, ω)[25, 2, 22, 39, 21]. The effectiveness of these approaches, however, hinges on
+the availability of precise time labels ti, whose acquisition may be hindered by technical constraints in many practical settings. When exact time stamps are unavailable
+and only a distribution of observation times is known, a novel inverse problem emerges:
+reconstructing the stochastic dynamics without time label.
+In this setting, the probability density function of an observable state evolves
+according to the probabilistic transport equation
+(1.1) ∂ρ(x, t)
+∂t = Lρ(x, t),
+where L denotes a suitable probability evolution operator(e.g. Fokker-Planck operator). Suppose that the observation times ti are sampled from a known distribution
+P(t), and that the initial condition is given by ρ(x, 0) = ρ0(x).The available data
+then consist of sampled density functions {ρ(x, ti): ti ∼ P(t)}M
+i=1. The objective is
+∗Submitted to the editors DATE.
+Funding: This work was supported by the National Natural Science Foundation of China
+(NSFC) 92370125 and New Cornerstone Investigator Program 100001127
+†Department of Mathematical Sciences, Tsinghua University, Beijing, China
+(zengzj22@mails.tsinghua.edu.cn).
+‡Department of Mathematical Sciences, Tsinghua University, Beijing, China
+(jqchen@tsinghua.edu.cn).
+§Yau Mathematical Sciences Center, Tsinghua University, Beijing, China and Yanqi
+Lake Beijing Institute of Mathematical Sciences and Applications, Beijing, China
+(zqshi@tsinghua.edu.cn).Corresponding author.
+1
+arXiv:2511.12316v1 [cs.LG] 15 Nov 2025
+── page 2 ──
+2 ZHIJUN ZENG, JUNQING CHEN, AND ZUOQIANG SHI
+to infer the operator L directly from these distributions. This problem arises in
+various biological applications, such as reconstructing conformational transitions in
+single-particle cryo-EM and inferring developmental trajectories from single-cell RNA
+sequencing data[32, 26, 7, 8, 33]. For instance, single-particle cryo-EM reconstructs 3D
+Coulomb-potential distributions of biomolecules at near–atomic resolution from thousands of static 2D particle images. Biomolecules exhibit conformational heterogeneity, and their functions are often governed by transitions among different stable states
+ρstart(x) and ρend(x). Several recent works have leveraged optimal-transport–guided
+dynamics to elucidate conformational transitions[4, 5], while others have exploited optimal transport within neural networks to approximate more complex transport forces
+in density-function or latent spaces[6, 27]. Yet, these methods yield only deformation
+trajectories and do not recover the underlying energy landscape or force field. This
+limitation constrains deeper mechanistic insights into molecular function.
+Deep learning has recently emerged as an efficient surrogate for both forward
+and inverse maps in dynamical systems. Operator learning frameworks seek to infer maps defined by partial differential equations—such as parameter-to-solution or
+observation-to-parameter operators—directly from data. Prominent among these are
+Deep Operator Networks (DeepONets)[20], which employ a “branch–trunk” architecture to decouple input functions from spatial evaluation points, and Fourier Neural
+Operators (FNOs)[16], which leverage FFT-based convolutions to capture nonlocal
+and nonlinear interactions. Further variants enhance predictive accuracy by incorporating attention mechanisms or multigrid-inspired refinements[35, 11, 10]. In inverse
+settings, many studies construct neural surrogates—based on DeepONets, FNOs, and
+other architectures such as CNNs or UNets—to approximate solution-to-parameter
+or operator-to-parameter maps[36, 40, 18, 38]. However, these approaches typically
+require deterministic, discretized inputs rather than distributions. To address this,
+Roberto et al.[23] introduced the Neural Inverse Operator (NIO), which enforces input permutation invariance via feature averaging and employs randomized batching
+to learn a distribution-to-parameter map. Despite its innovations, NIO remains limited by the representational capacity of its DeepONet part and by information loss
+incurred during averaging.
+Motivated by these challenges and existing methods, we introduce BlinDNO,
+a novel neural operator framework that leverages deep learning for time-label-free
+dynamical-system reconstruction. Our main contributions are as follows:
+1. We provide a rigorous definition of the general learning problem for reconstructing dynamical systems without time label and and decompose the
+resulting distributional neural operator into three components—an imaging operator, a feature-fusing operator, and a refinement operator. Building on this analysis, we propose BlinDNO to approximate distribution-toparameter maps by integrating an attention-based feature-fusing module into
+a U-Net–based imaging operator, underpinned by an FNO backbone to enhance high-frequency detail recovery.
+2. We validate BlinDNO on a suite of problems governed by classical and quantum mechanics, demonstrating accurate reconstructions across varying dimensions, complex dynamics, and non-conservative force fields. Our method
+further accommodates arbitrary observation-time distributions.
+3. We apply BlinDNO to a realistic three-dimensional protein-folding example
+drawn from cryo-EM, illustrating its potential to reveal molecular mechanisms
+in practical structural-biology settings.
+The rest of the paper is organized as follows. In Section 2, we present the mathe-
+── page 3 ──
+BLINDNO FOR TIME-LABEL-FREE DYNAMICAL SYSTEM RECONSTRUCTION 3
+matical formulation for the time-label-free dynamical system reconstruction problem.
+Section 3 presents the discussion of a neural operator from distribution to functions
+and the proposed BlinDNO architecture. Section 4 showcases numerical results. Finally, Section 5 provides conclusions of this work and gives some discussions of future
+works.
+2. Problem Formulation. Here, we consider an observable state defined on a
+domain Ω ⊂ R
+d
+, whose evolution is governed by a probabilistic transport equation
+parameterized by θ
+⋆
+:
+(2.1)
+
+
+
+∂ρ(x, t)
+∂t = Lθ
+⋆ ρ(x, t),
+ρ(x, 0) = ρ0(x),
+where Lθ
+⋆ denotes a transport operator dictated by the underlying physical principles.
+Let H denote the infinite-dimensional space of probability density functions on
+Ω ⊂ R
+d
+. The dynamics specified in (2.1) induce an observation operator
+(2.2) Λθ
+⋆ : [0, T] −→ H, t 7→ ρ(·, t),
+which assigns to each observation time t the corresponding state density. Suppose
+that the observation times are sampled from a prescribed distribution νt ∈ P([0, T])
+supported on [0, T], referred to as the observation-time distribution. The pushforward
+measure
+ν
+θ
+⋆
+ρ = Λθ
+⋆#νt
+then characterizes the induced data distribution.
+In practice, we observe an unordered collection of samples, ρ(·, ti): ti ∼ νt
+	N
+i=1,
+which we identify with the empirical probability measure ν
+θ
+⋆
+,N
+ρ ∈ P(H) defined by
+(2.3) ν
+θ
+⋆
+,N
+ρ
+:=
+1
+N
+X
+N
+i=1
+δρ(·,ti) ≈ ν
+θ
+⋆
+ρ
+,
+where δy denotes the Dirac measure, i.e., δy(A) = 1 if y ∈ A and δy(A) = 0 otherwise.
+This empirical measure serves as a discrete approximation of ν
+θ
+⋆
+ρ
+. Our objective is to
+find the unknown parameter θ such that the induced distribution ν
+θ
+ρ
+is sufficiently close
+to the observed data distribution ν
+θ
+⋆
+ρ
+. Let Lθ
+⋆ denote the true evolution operator;
+then the parameter estimation problem can be formulated as
+(2.4)
+min
+θ∈Θ
+d
+
+ν
+θ
+ρ
+, νθ
+⋆
+ρ
+
+subject to (
+ν
+θ
+ρ = Λθ#νt,
+ν
+θ
+⋆
+ρ = Λθ
+⋆#νt,
+where d(·, ·) quantifies the discrepancy between probability distributions.
+Problem I: SDE driven dynamic. Consider the observable state Xt ∈ R
+d
+evolves by the following stochastic differential equation:
+(2.5) dXt = µ(Xt) dt + σ(Xt) dWt,
+where µ(Xt) ∈ is the vector drift term, σ(Xt) ∈ R
+d×d
+is the diffusion term, Wt is the
+Brownian motion in R
+d
+. Then the density function ρ(x, t) of the above state Xt can
+be described by the Fokker-Planck equation (FPE)[31], and we restate the result in
+Lemma 2.1.
+── page 4 ──
+4 ZHIJUN ZENG, JUNQING CHEN, AND ZUOQIANG SHI
+Lemma 2.1. Suppose Xt solves the SDE (2.5), then the probability density function ρ(x, t) satisfies the following d-dimensional Fokker-Planck equation by the Itˆo
+integral
+(2.6) ∂ρ
+∂t = −∇ · (µρ) +X
+d
+i,j
+∂ij (Dijρ),
+where t ∈ [0, T] ⊂ R, µ =
+
+µ1(x, t), µ2(x, t), . . . , µd(x, t)
+T
+, and the diffusion matrix
+[Dij ] = [Dij (x, t)] is given by
+(2.7) D =
+1
+2
+σ σT.
+In this case, the probabilistic evolution equation is the FPE (2.6) and we need to
+recover the unknown drift term µ and diffusion matrix D given the collected samples
+
+ρ(·, ti): ti ∼ νt
+	N
+i=1.
+Problem II: Quantum-mechanical dynamic. Consider a quantum state Ψ(x, t) ∈
+L
+2
+(R
+d
+) evolving under the time-dependent nonlinear Schr¨odinger equation in the form
+(2.8) iℏ
+∂
+∂tΨ(x, t) = 
+−
+ℏ
+2
+2m
+∇2+V (x, t)+g
+
+α, |Ψ(x, t)|
+2
+
+
+Ψ(x, t), Ψ(x, 0) = Ψ0(x),
+where V (x, t) is the time–dependent potential, α parametrizes the nonlinear coupling
+g, and ℏ is the reduced Planck constant. The observable probability density is
+ρ(x, t) =
+
+Ψ(x, t)
+
+
+.
+Similarly, we can define the observation operator by
+Λ(V,α): [0, T] −→ H, t 7→ ρ(·, t),
+and assume observation times ti ∼ νt. We need to recover recover the unknown
+potential V and nonlinearity parameter α given the collected data ρ(·, ti): ti ∼
+νt
+	N
+i=1.
+In both the SDE–driven and quantum-mechanical dynamical settings, the forward
+problem is to determine the induced data distribution given the initial density ρ0(x)
+or state Ψ(x, 0), the parameters θ ∈ Θ, and the observation-time distribution νt ∈
+P([0, T]). This formulation naturally defines the forward operator
+(2.9) F : Θ −→ P(H), θ 7→ Λθ#νt.
+To the best of our knowledge, the optimization problem (2.4) has not been addressed in the literature, owing to the inherent difficulty of comparing complex probability measures in the objective functional. Rather than solving the optimization
+task(2.4) , an alternative paradigm—direct inversion—aims to approximate the inverse map
+(2.10) F
+−1
+: P(H) −→ Θ, ν⋆
+ρ
+7→ θ.
+Establishing rigorous guarantees for the existence and the uniqueness of this inverse
+map constitutes the principal challenge of the problem. Inspired by recent data-driven
+approaches in PDE inverse problems, which approximate inverse operators via deep
+learning, our work seeks to extend this framework to the recovery of parameters from
+distributional observations.
+── page 5 ──
+BLINDNO FOR TIME-LABEL-FREE DYNAMICAL SYSTEM RECONSTRUCTION 5
+3. Method.
+3.1. Neural Operators between Function Spaces. Let Ω ⊂ R
+d be bounded
+open set, and consider the Banach spaces X = X (Ω; R
+da ) andΘ = Θ(Ω; Rdu ) of input
+and output functions defined on bounded Euclidean subsets Ω. We assume that there
+exists a target operator that we wish to learn
+F : X −→ Θ, θ = F(ρ),
+arising, for instance, from a parametric PDE. In the supervised operator learning
+setting, given a finite dataset {(ρ
+(i)
+, θ(i))}
+N
+i=1 ⊂ X ×Θ, the learning task is to construct
+a data-driven surrogate operator
+Gϕ : X −→ Θ,
+by solving the empirical risk minimization (ERM) problem
+min
+ϕ∈Φ
+1
+N
+X
+N
+i=1
+
+θ
+(i) − Gϕ(ρ(i)
+)
+
+
+2
+Θ
+,
+where Φ denotes the hypothesis space of admissible surrogate operators. Below we
+briefly summarize two representative architectures: the Deep Operator Network and
+the Spectral Neural Operator.
+3.1.1. Deep Operator Network (DeepONet). The DeepONet[20] architecture realizes Gϕ through an encoder–decoder structure consisting of two subnetworks.
+Let E = (Lj )
+dβ
+j=1 ⊂ L(X ; R) denote a finite collection of continuous linear functionals
+on X , which act as probes of the input function ρ. For example, if X is a Hilbert
+space, each Lj may be taken as a projection onto a basis element. The branch net
+β : R
+dβ → R
+p processes the encoded inputs
+E(ρ) = L1(ρ), . . . , Ldβ(ρ)
+
+∈ R
+dβ
+,
+producing output coefficients β(E(ρ)) ∈ R
+p
+.
+In parallel, the trunk net τ : Ω → R
+p
+evaluates p basis functions τ1, . . . , τp at a
+query location y ∈ Ω. The decoder then forms the approximation
+(3.1) G
+DON
+ϕ
+(ρ)
+
+(y) = Xp
+k=1
+βk
+
+E(ρ)
+
+τk(y), ρ ∈ X , y ∈ Ω,
+where ϕ collects the parameters of both β and τ . In this formulation, the branch
+net supplies the coefficients while the trunk net provides location-dependent basis
+functions, and their combination yields an approximation in Θ.
+3.1.2. Spectral Neural Operator. Let the channel dimension be dc ≥ max(da, du)
+and define the latent function space H = H(Ω; R
+dc ). For convenience we set the
+hidden-layer spaces Vt := H (t = 0, 1, . . . , T). A spectral neural operator realizes
+G : X → Θ as
+G = Q ◦ LT ◦ · · · ◦ L1 ◦ P,
+with pointwise lifting operator P : X → H and projection operator Q : H → ×
+defined as
+(Pρ)(x) := P(x, ρ(x)) ∈ R
+dc
+, (Qh)(x) := Q(x, h(x)) ∈ R
+du ,
+── page 6 ──
+6 ZHIJUN ZENG, JUNQING CHEN, AND ZUOQIANG SHI
+where P : Ω × R
+da → Rdc and Q : Ω × Rdc → Rdu are typically shallow neural
+networks. Each hidden layer Lt : Vt−1 → Vt acts as
+(3.2) (Lth)(x) = σt
+
+Wt h(x) + (Kth)(x) + bt(x)
+
+, x ∈ Ω,
+where Wt ∈ R
+dc×dc
+, bt ∈ H, σt : R → R is a nonlinearity acting componentwise on
+functions, and Kt : H → H is the (generally nonlocal) kernel integral operator
+(3.3) (Kth)(x) = Z
+Ω
+κt(x, y) h(y) dy, κt : Ω × Ω → R
+dc×dc
+.
+Different parameterizations of the matrix–valued kernel κt yield different neural–operator
+architectures.
+Fourier Neural Operator (FNO). Assume Ω = T
+d = [0, 1]d
+per and parameterize Kt
+in Fourier space. Let bh(k) ∈ C
+dc be the vector of Fourier coefficients of h, and let
+Λkmax:= {k ∈ Z
+d
+: ∥k∥∞ ≤ kmax} denote the retained modes. The FNO layer
+specifies a (truncated) Fourier multiplier P
+(k)
+t ∈ C
+dc×dc and acts by
+(3.4) (\Kth)(k) = (
+P
+(k)
+t
+bh(k), k ∈ Λkmax
+,
+0, otherwise,
+equivalently,
+(3.5)
+
+(Kth)(x)
+
+ℓ
+=
+X
+k∈Λkmax
+X
+dc
+j=1
+
+P
+(k)
+t
+
+ℓj
+
+
+e
+2πi⟨k,·⟩, hj
+
+L2(Td;C)
+e
+2πi⟨k,x⟩
+, ℓ = 1, . . . , dc.
+Thus Kt is a translation–invariant convolution operator whose matrix–valued kernel
+κt(x − y) has Fourier coefficients P
+(k)
+t
+; the computation is implemented efficiently via
+FFTs.
+Convolution–based and Graph Neural Operators. An alternative parameterization of
+the kernel operator (3.3) is obtained by localizing the integration to a neighborhood
+of radius r > 0. Specifically,
+(3.6) (Kth)(x) = Z
+Ω
+κt(x, y) h(y) dy ≈
+Z
+Br(x)
+κt(x, y) h(y) dy,
+where Br(x) ⊂ Ω denotes the ball of radius r centered at x. A numerical approximation of (3.6) can be obtained by discretization. Let {yi}M
+i=1 ⊂ Br(x) denote the
+neighboring points of x and µ(yi) the associated quadrature weights. Then
+(3.7) (Kth)(x) ≈
+X
+M
+i=1
+κt(x, yi) h(yi) µ(yi).
+This localized formulation admits efficient realizations: if Ω is represented by a regular grid, (3.7) corresponds to a standard convolution (convolution-based neural operator [30]); if Ω is discretized as an irregular mesh or point cloud, (3.7) corresponds
+to a graph convolution[17] defined with respect to the graph connectivity of the discretization.
+── page 7 ──
+BLINDNO FOR TIME-LABEL-FREE DYNAMICAL SYSTEM RECONSTRUCTION 7
+3.2. Neural Operator from distribution to functions. In Section 3.1, existing neural operators are designed to approximate a mapping from the input function
+space X to the output function space Y. However, in our setting we instead seek
+to approximate the inverse operator F
+−1
+: P(H) −→ Θ, where P(H) denotes
+the space of probability density functions and Θ is the target function space. We
+discretize the input distribution by drawing i.i.d. samples ρ(·, ti): ti ∼ νt
+	N
+i=1. To
+construct a neural operator capable of modeling F
+−1
+, Molinaro et al. [23] propose
+that the architecture satisfy the following properties:
+1. Permutation invariance. The model must be invariant under any permutation of the i.i.d. samples {ρ(·, ti)}
+N
+i=1.
+2. Input-size independence. The model must accommodate arbitrary sample
+size N and maintain performance regardless of N.
+Among neural architectures satisfying these two properties, the most representative
+examples are the PointNet[28] and DeepSet[37], originally developed for learning from
+point-cloud data. These models can be viewed as a class of permutation-invariant
+set functions[14]. Subsequent research has focused on designing permutation neural
+networks that approximate such functions effectively[15, 19, 29, 9]. In what follows, we
+extend the theory of permutation-invariant set functions to the infinite-dimensional
+setting and introduce the notion of a permutation-invariant set operator. To make
+this precise, we first define function-valued tuples as follows
+Definition 3.1 (Function-valued tuple). Let H be a function space. A tuple (or
+ordered n-tuple) is an ordered list of n elements {ρi}
+n
+i=1, denoted
+S = (ρ1, . . . , ρn).
+In practice, the empirical measure is subject to a maximal sample size N due to
+instrumentation limits. The set operator F :
+SN
+k=1 Hk −→ Θ maps a function-valued
+tuple to an element of Θ. Denote by ΠS the set of all permutations of S. We then
+define
+Definition 3.2 (Permutation-invariant set operator). A set operator
+F :
+[
+N
+k=1
+Hk −→ Θ
+is permutation-invariant if for every S ∈ SN
+k=1 Hk and every π ∈ ΠS ,
+(3.8) F
+
+ρπ(1), . . . , ρπ(n)
+
+= F
+
+ρ1, . . . , ρn
+
+,
+where n = |S|.
+A set operator that does not satisfy (3.8) is called permutation-sensitive. Designing neural operators that satisfy permutation invariance inherently addresses inputsize independence, but poses significant challenges in efficiently aggregating across
+all sample orderings. A universal framework for constructing any such operator is
+provided by Janossy pooling:
+Definition 3.3 (Janossy pooling [24]). Let F :
+SN
+k=1 Hk −→ Θ be any (permutationsensitive) set operator. For any tuple S and its permutation set ΠS , the Janossy
+pooling of F is defined by
+(3.9) Fb(S) ≜
+1
+|ΠS |
+X
+π∈ΠS
+F
+
+ρπ(1), . . . , ρπ(n)
+
+.
+── page 8 ──
+8 ZHIJUN ZENG, JUNQING CHEN, AND ZUOQIANG SHI
+Furthermore, one may post-process Fb by another operator G, yielding
+Fe(S) = G
+
+Fb(S)
+
+,
+for a suitable G : Z → Θ.
+While Fe is manifestly permutation-invariant, its computational cost scales as O(n!),
+rendering it impractical for high-dimensional tasks. The k-ary Janossy pooling offers
+an efficient strategy to mitigate this cost:
+Definition 3.4 (k-ary Janossy pooling [24]). Let Sk denote the collection of all
+k-element subsets of S, for some k < |S|. The k-ary Janossy pooling of a set operator
+F with post-processing operator G is defined by
+(3.10) Fe(S) = G
+ 
+(|S| − k)!
+|S|
+X
+V∈Sk
+F(V)
+!
+.
+This approach recovers many practical models when applied to set functions rather
+than set operators. For instance, when k = 1, Janossy pooling for set functions is
+equivalent to the Deep Sets architecture, which extends to set operators as
+(3.11) Fe(S) = G
+X
+ρ∈S
+F(ρ)
+
+.
+where F is a classical operator mapping H to Θ. This formulation provides a feasible
+way for extending a classical operator to a set operator. Hereafter, we treat a classical
+operator between function spaces and a set operator with a single input element
+as equivalent. As an illustrative example, the Neural Inverse Operator (NIO)
+adopts this Deep Sets framework to construct a permutation-invariant set operator.
+Specifically, it employs a DeepONet, denoted by FDON, as the base operator F, and
+a Fourier Neural Operator (FNO), denoted by GFNO, as the post-processing operator
+G. This yields a discrete approximation of a distribution-to-function operator:
+(3.12) F˜(µ) := GFNO Z
+H
+FDON(ρ)µ(dρ)
+
+.
+where µ ∈ P(H) denotes a probability measure on H,Y represents a latent function
+space, FDON : H → Y, GFNO : Y → Θ, and the integral is understood as a Y-valued
+Bochner integral.
+Based on equation (3.10), the design of a permutation-invariant set operator must
+consider three aspects:
+1. The permutation-sensitive operator F, which serves as a feature extractor
+and must capture multiscale characteristics of the input distribution;
+2. The aggregation step—i.e., the choice of k—which must balance the modeling
+of the interaction betweeen inputs against computational cost;
+3. The post-processing module, which requires sufficient expressive capacity to
+recover both low- and high-frequency components of unknown functions (e.g.,
+potential, drift, and diffusion terms) from the aggregated representation, a
+task that may be highly nonlinear.
+3.3. BlinDNO. Based on the analysis in Section 3.2, we develop BlinDNO,
+an efficient architecture for approximating a permutation-invariant set operator. We
+── page 9 ──
+BLINDNO FOR TIME-LABEL-FREE DYNAMICAL SYSTEM RECONSTRUCTION 9
+further establish the permutation invariance of the proposed architecture and provide
+a schematic diagram.
+The inputs in our problem are high-dimensional complex distributions, we represent, for example in two dimensions, the grid function ρ(x) = PM
+i=1
+PM
+j=1 ρi,j ϕi,j (x) −→
+ρ ∈ RM×M. supported on a bounded domain Ω ⊂ R
+d
+. Although the Fourier Neural Operator (FNO) has demonstrated effectiveness in operator learning, its global
+spectral convolution can be computationally expensive. On the other hand, the expressive power of the vanilla DeepONet is constrained by its network architecture in
+high-dimensional, complex operator learning tasks. Under these conditions, for the
+computationally demanding permutation-sensitive operator F, convolution-based architectures—particularly the U-Net—provide a favorable choice. The effectiveness of
+the U-Net stems from its ability to process data on structured grids through local
+convolutions, a feature closely related to multigrid methods in the numerical solution
+of PDEs.
+Attention
+Mixer
+Attention
+Mixer
+Attention
+Mixer
+Attention
+Mixer
+Attention
+Mixer
+N snapshots{
+Fourier Layer Fourier Layer
+Concat
+DownConvNext
+UpConvNext
+×n
+Force Field
+Time
+(a)
+(b)
+t
+i1 t
+i2 t
+i3 t
+in
+Density Observation
+t
+{ti}N~p(t)
+Down/Up
+Conv 3×3
+Conv 7×7
+LayerNorm
+Pointwise
+Conv
+GELU
+Pointwise
+Conv
+ConvNext Layer
+uin(x) uout(x)
+W(x)
+Fourier Layer
+Fig. 1. (a) Schematic illustration of the time-Label-Free dynamical system reconstruction problem. (b)The architecture of the BlinDNO.
+3.3.1. U-Net as a Neural Operator. We now describe the U-Net architecture
+from the perspective of neural operators. The U-Net operator is built from three
+principal components: (i) multi-channel convolution, (ii) down- and up-sampling,
+and (iii) skip connections. Let Ωhℓ = {x
+ℓ
+i
+}
+Nℓ
+i=1 ⊂ Ω be a uniform mesh of Ω ⊂ R
+d with
+spacing hℓ, and consider a nested hierarchy h0 > h1 > · · · > hL. We define Vhℓas the
+space of grid functions on Ωhℓ
+Vhℓ(Ω; R
+dℓ
+) = ρ: Ωhℓ → R
+dℓ
+	
+,
+We define three families of linear operators between these spaces:
+• Downsampling Operator : The downsampling operator D
+ℓ+1
+ℓ
+: Vhℓ(Ω; R
+dℓ ) −→
+── page 10 ──
+10 ZHIJUN ZENG, JUNQING CHEN, AND ZUOQIANG SHI
+Vhℓ+1 (Ω; R
+dℓ ) maps a fine-grid function to a coarse-grid function
+
+D
+ℓ+1
+ℓ
+ρ
+
+(x) = X
+y∈Nℓ(x)
+ω
+ℓ
+(y, x) ρ(y), x ∈ Ωhℓ+1 ,
+where Nℓ(x) is the patch of fine-grid nodes associated with x and ω
+ℓ are
+learnable averaging kernels.
+• Upsampling Operator: The upsampling operator P
+ℓ
+ℓ+1 : Vhℓ+1 (Ω; R
+dℓ ) −→
+Vhℓ(Ω; R
+dℓ ) maps a coarse-grid function to a fine-grid function
+
+P
+ℓ
+ℓ+1 ρ
+
+(x) = X
+y∈Cℓ(x)
+η
+ℓ
+(y, x) ρ(y), x ∈ Ωhℓ,
+where Cℓ(x) collects the coarse neighbors of x, and η
+ℓ are learnable interpolation kernels.
+• Multi-channel Convolution Operator: The multi-channel convolution operator Cℓ : Vhℓ
+(Ω; R
+dℓ ) → Vhℓ
+(Ω; R
+dℓ+1 ) acts as a localized kernel integral:
+(Cℓu)(x) = X
+y∈Br(x)
+Kℓ(x, y) u(y) µhℓ(y), x ∈ Ωhℓ,
+where Br(x) is a radius-r neighborhood, Kℓ(x, y) ∈ R
+dℓ+1×dℓ encodes all
+channel interactions and µhℓ(y) is the discrete cell weight; r is chosen small
+for computational efficiency .
+• Skip Connection: The skip operator
+(3.13) Sℓ : Vhℓ
+(Ω; R
+dℓ ) × Vhℓ
+(Ω; R
+d˜ℓ ) −→ Vhℓ
+(Ω; R
+dℓ+d˜ℓ )
+
+Sℓ(u, u˜)
+
+(x) = u(x), u˜(x)
+
+, x ∈ Ωhℓ
+is the direct-sum embedding which corresponds to feature-wise concatenation
+and provides an identity shortcut between encoder and decoder representations at the same resolution.
+In summary, the U-Net neural operator
+FUNet : Vh0(Ω; R
+d0
+) −→ Vh0(Ω; R
+d0
+)
+is given by the following encoder–decoder recursion. First define the encoder outputs
+e
+0 = ρ, eℓ+1 =
+
+σ ◦ Dℓ+1
+ℓ
+◦ Cℓ
+
+(e
+ℓ
+), ℓ = 0, . . . , L − 1.
+where σ is a point-wise nonlinear activation operator(e.g. ReLU, GELU). At the
+bottleneck at the coarsest level, set
+d
+L = CL(eL
+).
+Then propagate through the decoder via skip-connections:
+d
+ℓ =
+
+σ ◦ Cℓ ◦ Sℓ ◦
+
+e
+ℓ
+, P
+ℓ
+ℓ+1(d
+ℓ+1)
+, ℓ = L − 1, . . . , 0,
+where e
+ℓ
+, P
+ℓ
+ℓ+1(d
+ℓ+1)
+
+denotes the pair of encoder and upsampled decoder features
+at level ℓ. Finally, the output of the UNet operator is
+(3.14) FUNet(ρ) = d
+0
+.
+── page 11 ──
+BLINDNO FOR TIME-LABEL-FREE DYNAMICAL SYSTEM RECONSTRUCTION 11
+3.3.2. Permutation-invariant UNet. We now turn to the architecture of
+BlinDNO. Although the vanilla U-Net is computationally efficient, its simple structure often underperforms global convolutional networks such as the Fourier Neural
+Operator when tackling high-dimensional, complex problems. To enhance the representational capacity of the U-Net, we apply ConvNeXt layers to the outputs of both
+the encoder and the decoder (see Fig. 1).
+The ConvNeXt module applies a 7 × 7 depthwise convolution for larger receptive field, followed by layer normalization, a two-layer pointwise MLP with GELU
+nonlinearity, and a residual connection to preserve gradient flow:
+(3.15) CCN(ρ) ≜ ρ + C1×1,2 ◦ GELU ◦ LN ◦ C1×1,1 ◦ DC7×7(ρ),
+where DC7×7 is a depthwise convolution with a 7 × 7 kernel, C1×1,1 and C1×1,2 are
+pointwise convolutions, LN denotes layer normalization, and GELU is the Gaussian
+Error Linear Unit.
+To establish a permutation-invariant set operator, we represent the inputs
+(ρ1, . . . , ρN ) = ρ(·, t1), . . . , ρ(·, tN )
+
+as an N-tuple. For convenience, define
+Eℓ+1(·) = Y
+ℓ
+i=1
+
+CCN ◦ σ ◦ Dℓ+1
+ℓ
+◦ Cℓ
+
+(·)
+to be the overall encoder for the (ℓ + 1)-th layer. Applying this shared-parameter
+encoder to each input yields the output tuple at layer ℓ:
+(3.16) eℓ+1 = (z1, . . . , zN ) = Eℓ+1ρ1, . . . , Eℓ+1ρN
+
+.
+Since the inputs are i.i.d. realizations from a common distribution, the mutual information between the elements of Sℓ+1 can facilitate modeling of the input distribution
+and thereby improve predictive accuracy. To this end, we employ multi-head selfattention, which is permutation-equivariant, to extract multi-scale features with high
+mutual information. We first consider single-head attention mechanism and define
+the key, query, and value operators at layer ℓ as
+(3.17)
+Kℓ+1 : Vhℓ+1 (Ω; R
+dℓ+1 ) → Vhℓ+1 (Ω; Rdk
+),
+Qℓ+1 : Vhℓ+1 (Ω; R
+dℓ+1 ) → Vhℓ+1 (Ω; R
+dq
+),
+Vℓ+1 : Vhℓ+1 (Ω; R
+dℓ+1 ) → Vhℓ+1 (Ω; R
+dv
+),
+each being a linear map that lifts the input function to the appropriate dimension.
+Let {kj}
+N
+j=1, {qj}
+N
+j=1, and {vj}
+N
+j=1 denote the input key, query, and value functions
+in Vhℓ+1 (Ω; R
+dℓ+1 ). Assuming dk = dq, we denote
+k
+j = Kℓ+1[kj ], qj = Qℓ+1[qj ], vj = Vℓ+1[vj ],
+the embedded key, query, and value functions. The output of the single-head attention
+operator for token j is then
+(3.18) o
+j = Softmax
+1
+τ
+
+⟨q
+j
+, k1⟩, . . . ,⟨q
+j
+, kN ⟩
+
+ 
+v
+1
+, . . . , vN
+⊤
+,
+── page 12 ──
+12 ZHIJUN ZENG, JUNQING CHEN, AND ZUOQIANG SHI
+where τ > 0 is the temperature hyperparameter. The single-head self-attention operator corresponds to the special case kj = qj = vj .
+The multi-head attention applies the single-head attention described above separately for multiple head h ∈ {1 . . . , H} and concatenate the output together
+(3.19) o
+j = Concat(oj,1
+, . . . , oj,H)
+where o
+j,i is the j-th output of the i-th head. For convenience, we denote the
+multi-head self-attention operator and cross-attention operator as SelfAttn(·) and
+Attn(·, ·, ·), respectively.
+Finally, to obtain a permutation-invariant, set-level feature, we average over the
+output tokens of multi-head self-attention operator
+(3.20) ˜eℓ+1 =
+1
+N
+X
+N
+j=1
+o
+j = Avg ◦ SelfAttn ◦
+Y
+ℓ
+i=1
+
+CCN ◦ σ ◦ Dℓ+1
+ℓ
+◦ Cℓ
+
+((ρ1, . . . , ρN )).
+These encoder features, extracted at multiple scales, are injected into the decoder via
+skip connections (cf. (3.13)), and the final output is produced by successive upsampling
+layers:
+(3.21) d
+ℓ =
+
+σ ◦ Cℓ ◦ Sℓ ◦
+
+e˜
+ℓ+1
+, P
+ℓ
+ℓ+1(d
+ℓ+1)
+, ℓ = L − 1, . . . , 0,
+We denote the above neural operator as FBlinDNO. The following proposition
+establishes its invariance under input permutations.
+Proposition 3.5. The modified UNet operator FBlinDNO :
+SN
+k=1 Hk −→ Θ is a
+permutation invariant set operator.
+Proof. It suffices to show that the encoder (3.20) of each layer is permutation
+invariant. For clarity, we consider the single-head attention version. Let eℓ+1 =
+(z1, . . . , zN ) be the output tuple at layer l. We then introduce a fixed tuple of functions
+T = (y1, . . . , yN ) as the input of key operator at layer ℓ + 1. The attention with keys
+k
+i = Kℓ+1[yi
+], queries q
+i = Qℓ+1[zi
+] and values v
+i = Vℓ+1[zi
+], followed by averaging,
+reads
+(3.22) Avg ◦ Attn(eℓ+1, T , eℓ+1) = 1
+N
+X
+N
+j=1
+X
+N
+i=1
+exp
+⟨q
+j
+, ki⟩
+τ
+
+v
+i
+X
+N
+t=1
+exp
+⟨q
+j
+, kt⟩
+τ
+ .
+Define the pairwise kernels
+ψ(xj , xi) := exp
+⟨Qℓ+1[xj ],Kℓ+1[xi]⟩
+τ
+
+Vℓ+1[xi], χ(xj , xi) := exp
+⟨Qℓ+1[xj ],Kℓ+1[xi]⟩
+τ
+
+.
+We now show that the mapping in (3.22) can be written as a 2-ary Janossy
+pooling. Consider the function
+H(zj , zi; T ) := N ψ(zj , zi)
+X
+N
+t=1
+χ(zj , yt)
+.
+── page 13 ──
+BLINDNO FOR TIME-LABEL-FREE DYNAMICAL SYSTEM RECONSTRUCTION 13
+Observe that the denominator is symmetric in T , so for any permutation π of {1, . . . , N},
+H(zπ(j), zπ(i); πT ) = H(zj , zi; T ).
+Therefore, the aggregation with 2-ary Janossy pooling gives
+(3.23)
+J2(eℓ+1) := 1
+N2
+PN
+j=1
+PN
+i=1 H(zj , zi
+; T )
+=
+1
+N
+PN
+j=1
+PN
+i=1 ψ(zj ,zi)
+PN
+i=1 χ(zj ,zi)
+= Avg ◦ Attn(eℓ+1, T , eℓ+1)
+Hence the attention–average operator coincides exactly with a 2-ary Janossy pooling.
+Finally, by setting T to the encoder output tuple eℓ+1 = (z1, . . . , zN ) yields
+e˜ℓ+1 = Avg ◦ Attn(eℓ+1, eℓ+1, eℓ+1) = J2(eℓ+1),
+establishing the permutation invariance of the encoder layer. Since the decoder
+in (3.21) consists solely of pointwise convolutions, upsampling, and skip connections operating on permutation-invariant features, it introduces no order dependence.
+Therefore, the overall operator FBlinDNO is permutation invariant.
+From a distributional perspective, the proposed attention–then–average mechanism admits an integral representation analogous to (3.12). Specifically, let {z1, . . . , zN }
+in the output tuple eℓ+1 at layer ℓ be i.i.d. samples drawn from a probability distribution µ over the function space Vhℓ+1 (Ω; R
+dℓ+1 ), i.e., zi ∼ µ ∈ P(Vhℓ+1 (Ω; R
+dℓ+1 )).
+Then, the empirical output of the attention and averaging operation in (3.20) can be
+written as
+(3.24)
+Avg ◦ Attn(eℓ+1, eℓ+1, eℓ+1) = 1
+N
+X
+N
+j=1
+PN
+i=1 exp
+⟨q
+j
+,ki⟩
+τ
+
+v
+i
+PN
+t=1 exp
+⟨q
+j
+,kt⟩
+τ
+
+−−−−→
+N→∞ Z
+Z
+exp
+⟨Qℓ+1[z],Kℓ+1[z
+′
+]⟩
+τ
+
+Vℓ+1[z
+′
+] µ(dz′)
+Z
+exp
+⟨Qℓ+1[z],Kℓ+1[s]⟩
+τ
+
+µ(ds)
+µ(dz),
+where the convergence holds in the Bochner sense under standard integrability and
+boundedness assumptions. We denote the right-hand side of (3.24) by Aℓ+1[µ]. Equation (3.24) thus defines a nonlinear double integral operator on the probability measure µ, in which the inner integral corresponds to an exponentially tilted expectation
+with respect to µ, and the outer integral averages over all query samples.
+Furthermore, as the temperature parameter τ → ∞, the exponential kernel becomes asymptotically uniform, i.e.,
+exp
+⟨Qℓ+1[z],Kℓ+1[z
+′
+]⟩
+τ
+
+= 1 + O(
+1
+τ
+),
+so that the normalized attention weights converge to unity. In this limit, the operator Aℓ+1[µ] reduces to the single-integral form
+(3.25) Aℓ+1[µ] −−−−→ τ→∞ Z
+Vℓ+1[z] µ(dz),
+which coincides with the Deep Sets (or k = 1 Janossy pooling) representation (3.12).
+Hence, the proposed attention–average mechanism can be interpreted as a continuous
+generalization of the Deep Sets formulation, where finite τ introduces an exponentially weighted coupling between samples, thereby capturing higher-order statistical
+interactions within the input distribution µ.
+── page 14 ──
+14 ZHIJUN ZENG, JUNQING CHEN, AND ZUOQIANG SHI
+4. Numerical Experiments. In this section, we present a series of numerical
+experiments to comprehensively evaluate the performance of the proposed method
+under diverse settings. We begin with one-dimensional demonstrations: (i) recovering stochastic dynamics governed by a stochastic differential equation (SDE) with
+unknown drift and diffusion coefficients, and (ii) inferring both linear and nonlinear
+Schr¨odinger equations with unknown potential and nonlinear terms. Subsequently, we
+test our method on two-dimensional SDEs featuring non-uniform diffusion and nonconservative force fields. Finally, we apply BlinDNO to reconstruct realistic proteinfolding trajectories, explicitly assessing its performance under varying observationtime distributions.
+For all experiments, we benchmark against two baselines: the Neural Inverse
+Operator (NIO) and an augmented variant, FNO-NIO, in which the permutationsensitive operator of NIO is replaced by Fourier Neural Operators (FNOs) to enhance
+representational capacity. In all of the experiments, we record 100 density snapshots
+{p(·, ti)}
+100
+i=1 at randomly selected times ti ∼ νt as the model input. To assess inversion
+accuracy, we report the relative ℓ2 error of each inferred quantity,
+(4.1) Eθ =
+∥θ − θ
+⋆∥2
+∥θ
+⋆∥2
+,
+where the parameter θ represents the drift function µ, diffusion matrix D, potential
+V (x), or other unknown quantities of interest.
+In addition, we evaluate the reconstruction quality of the inferred density ρθ(x, t)
+by computing its time-averaged relative L
+2
+error against the reference density ρθ
+⋆ (x, t),
+namely,
+(4.2) Eρ =
+1
+T
+Z T
+0
+∥ρθ(·, t) − ρθ
+⋆ (·, t)∥2
+∥ρθ
+⋆ (·, t)∥2
+dt
+This metric quantifies the average relative discrepancy between the inferred and
+ground-truth density evolutions over time.
+All computations were performed on a workstation equipped with four NVIDIA
+RTX-4090 GPUs and 128 GB of system memory. Comprehensive details regarding
+dataset generation and training protocols are provided in Appendix SM1.
+4.1. Example 1: 1D Fokker–Planck Equation. We begin with an inverse
+reconstruction problem for a one-dimensional Itˆo diffusion process whose drift term
+is derived from a mixture-of-Gaussians potential and whose diffusion coefficient is an
+unknown constant. The corresponding probability density ρ(x, t) evolves according
+to the Fokker–Planck equation
+(4.3) ∂tρ(x, t) = −∂x
+
+µ(x)ρ(x, t)
+
++ D ∂xxρ(x, t), (x, t) ∈ R × [0, 1],
+where the drift is given by
+(4.4) µ(x) = −∂xU(x), U(x) = X
+3
+i=1
+Ai exp−
+(x − ci)
+2
+2σ
+2
+i
+
+,
+where the potential parameters are randomly sampled as Ai ∼ Unif[1, 2], ci ∼
+Unif
+5
+16 ,
+11
+16 
+, σi ∼ Unif[0.025, 0.1], and D ∼ Unif[1, 2].
+The computational domain is restricted to Ω = [0, 1] with absorbing boundary
+conditions. Temporal observation times are independently sampled from the uniform
+── page 15 ──
+BLINDNO FOR TIME-LABEL-FREE DYNAMICAL SYSTEM RECONSTRUCTION 15
+distribution νt = Unif[0, 1], and the spatial discretization is fixed at ∆x = 1/80. For
+each realization of (µ, D), we numerically evolve (4.3) on a refined temporal mesh
+to ensure stability and accuracy, employing a thermodynamically consistent finitedifference solver [13]. Notably, as D is constant, its estimate is taken as the spatial
+mean of the network’s output.
+Figure 2 and Table 1 summarize the reconstruction results obtained by BlinDNO
+and several baseline methods. As shown in Fig. 2(a–c), BlinDNO achieves substantially more accurate recovery of both the drift and diffusion, particularly in regions
+near potential saddles. Furthermore, Figs. 2(d–h) demonstrate that the dynamics
+reconstructed by our method produce solutions closely aligned with the true system
+evolution, whereas baseline approaches exhibit pronounced deviations, especially in
+transient regimes.
+(a) (b) (c) (d)
+(e) (f) (g) (h)
+Fig. 2. Inversion results for the one-dimensional Fokker–Planck equation (FPE) problem. (a)
+Reconstructed potential profile, U(x). (b) Reconstructed diffusion term. (c) Comparison between
+the density ρ(T) obtained from simulations of the reconstructed dynamical system and the ground
+truth. (d) Relative L2 error at each time step between the simulated density and the ground truth.
+(e) Ground-truth density distribution, ρGT(x, t). (f)–(h) Pointwise errors in the simulated density
+function ρ(x, t), obtained using the reconstructed potential and diffusion term with BlinDNO, NIO,
+and FNO–NIO.
+4.2. Example 2: 1D Linear/Nonlinear Schr¨odinger Equation. We next
+consider the inverse potential reconstruction problem for both the one-dimensional
+linear Schr¨odinger equation and the Gross–Pitaevskii equation (GPE). In either case,
+the goal is to recover the unknown external potential V (x) from unordered measurements of the probability density ρ(x, t) = |Ψ(x, t)|
+2
+. The linear dynamics are governed
+by
+(4.5) iℏ ∂tΨ(x, t) = −
+ℏ
+2
+2m
+∇2 + V (x)
+
+Ψ(x, t),
+while the GPE augments (4.5) with nonlinear interaction terms,
+(4.6) iℏ ∂tΨ(x, t) = −
+ℏ
+2
+2m
+∇2 + V (x) + β|Ψ(x, t)|
+2 + κ|Ψ(x, t)|4
+
+Ψ(x, t),
+── page 16 ──
+16 ZHIJUN ZENG, JUNQING CHEN, AND ZUOQIANG SHI
+where, in our experiments, we fix β = κ = 2. The computational domain is taken as
+Ω = [−10, 10] with Nx = 128 uniformly spaced grid points, and the initial condition
+is prescribed by
+Ψ(x, 0) = sin(x)
+cosh(x)
+.
+The external potential combines harmonic and periodic components and is parameterized as
+(4.7) V (x) = a (x − x0)
+2 + b cos(c (x − x0))2
+,
+where the potential parameters are randomly sampled as a ∼ Unif[0.1, 0.3], b ∼
+Unif[0.5, 2], c ∼ Unif[0.5, 2], x0 ∼ Unif[−3, 3].
+For each realization of V (x), we solve either (4.5) or (4.6) up to tfinal = 5.0 using
+a maximum time step of ∆tmax = 0.005 and a second-order Strang splitting scheme
+to ensure stability and accuracy. Following this procedure, we generate 5000 training
+samples and 1000 testing samples.
+As shown in Figs. 3(b) and 3(f), the NIO model fails to capture the periodic
+component of the potential and primarily recovers only its harmonic structure. In
+contrast, both BlinDNO and FNO–NIO successfully reconstruct the harmonic and
+periodic components, with BlinDNO achieving noticeably higher accuracy. This improvement is further reflected in the dynamical simulations presented in Figs. 3(c)–(d)
+and 3(g)–(h), where the trajectories generated using the reconstructed potentials show
+that BlinDNO yields dynamics that remain substantially closer to the ground truth.
+Quantitative comparisons are summarized in Table 1.
+(a) (b) (c) (d)
+(e) (f) (g) (h)
+Fig. 3. Inversion results for the 1D linear/nonlinear Schrodinger equation problem. (a)
+Ground-truth density distribution of the 1D linear Schrodinger equation, ρGT(x, t). (b) Reconstructed potential of the 1D linear Schrodinger equation, V (x). (c) Comparison between the density
+ρ(T) obtained from simulations of the reconstructed dynamical system and the ground truth. (d)
+Relative L2 error at each time step between the simulated density and the ground truth. (a) Groundtruth density distribution of the 1D Gross-Pitaevskii equation, ρGT(x, t). (b) Reconstructed potential
+of the 1D 1D Gross-Pitaevskii equation, V (x). (c) Comparison between the density ρ(T) obtained
+from simulations of the reconstructed dynamical system and the ground truth. (d) Relative L2 error
+at each time step between the simulated density and the ground truth.
+── page 17 ──
+BLINDNO FOR TIME-LABEL-FREE DYNAMICAL SYSTEM RECONSTRUCTION 17
+4.3. Example 3: 2D Fokker Planck Equation with Non-uniform Diffusion Term. We next assess the performance of our framework on a 2D inverse
+problem involving the joint reconstruction of the drift field and a non-uniform diffusion coefficient. The dynamics are governed by an SDE whose drift is derived from
+a mixture-of-Gaussian potential, while the diffusion tensor is diagonal with nonconstant entries Dxx(x) = Dyy(x) ≡ D(x). The corresponding probability density p(x, t)
+evolves according to
+(4.8) ∂tρ = −∇ · (µ ρ) + ∂x1x1
+
+D ρ+ ∂x2x2
+
+D ρ, (x, t) ∈ R
+2 × [0, 1].
+The drift field is specified as
+(4.9) µ(x) = ∇U(x), U(x) = X
+3
+i=1
+Ai exp−
+∥x − ci∥
+2
+2σ
+2
+i
+
+,
+where the parameters are randomly sampled as Ai ∼ Unif[1, 2], ci ∼ Unifh
+1
+3
+,
+2
+3
+i2
+, σi ∼
+Unifh
+1
+30 ,
+4
+30 i
+. The diffusion coefficient is modeled by a harmonic function of the form
+(4.10) D(x) = 1 + α
+
+(x1 − p1)
+2 + (x2 − p2)2
+
+,
+with α ∼ Unif[0, 2] and (p1, p2) ∼ Unif
+1
+3
+,
+2
+3
+2
+.
+The computational domain is restricted to Ω = [0, 1]2 with absorbing boundary
+conditions. The spatial resolution is ∆x = 1/60 and temporal observation times are
+independently sampled from νt = Unif[0, 1]. For each realization of (µ, D), we solve
+(4.8) using the same numerical scheme described in Sec. 4.1, advancing the solution on
+a refined temporal mesh to ensure stability and accuracy. Following this procedure,
+we obtain a dataset comprising 3200 training samples and 800 testing samples.
+As illustrated in Figs. 4(c)–(j), and consistent with the one-dimensional experiments, the NIO model fails to accurately reconstruct the underlying potential. In
+contrast, both FNO–NIO and BlinDNO recover the unknown potential with significantly higher fidelity, with BlinDNO achieving the most accurate reconstructions
+among the three. For the diffusion term, all models deliver comparably reliable reconstructions. The recovered probabilistic dynamics shown in Fig. 4(b), together with the
+quantitative error metrics in Table 1, further demonstrate the superior performance
+of BlinDNO.
+4.4. Example 4: 2D Fokker Planck Equation with Non-conservative
+Force Field. In many practical scenarios the drift term is not derived from a potential, leading to intrinsically non–equilibrium dynamics. Here we investigate a setting
+with a non–conservative force field exhibiting both rotational structure and radial
+dissipation. The probability density p(x, t) evolves according to
+(4.11) ∂tp = −∇ · (µ p) + D ∆p, (x, t) ∈ [0, 1]2 × [0, 1],
+where D > 0 is a known constant. The drift field µ(x) = (Fx, Fy) is parameterized
+in polar coordinates (r, ϕ) through tangential and radial components Fϕ and Fr,
+respectively:
+(4.12)
+Fϕ(r) = γϕ
+r
+L
+exp−
+b r
+L
+
+,
+Fr(r) = γr
+
+1 −
+r
+L
+
+exp−
+d r
+L
+
+,
+── page 18 ──
+18 ZHIJUN ZENG, JUNQING CHEN, AND ZUOQIANG SHI
+(a) (b)
+(c) (d) (e) (f)
+(g) (h) (i) (j)
+t=0 t=T/2 t=T
+Fig. 4. Inversion results for the 2D Fokker–Planck equation with a non-uniform diffusion term.
+(a) Temporal evolution of the ground-truth density, ρGT(x, t). (b) Relative L2 error at each time
+step between the simulated density and the ground truth. (c) Ground-truth potential, U(x). (d)–(f)
+Reconstructed potential profiles, U(x), obtained using BlinDNO, NIO, and FNO–NIO. (g) Groundtruth diffusion term, D(x). (h)–(j) Reconstructed diffusion terms, D(x), obtained using BlinDNO,
+NIO, and FNO–NIO.
+with r =
+p
+x
+2
+1 + x
+2
+2
+and ϕ = arctan 2(x2, x1). The Cartesian components are obtained
+via the standard polar-to-Cartesian transformation:
+(4.13)
+Fx = − sin ϕ Fϕ(r) + cos ϕ Fr(r),
+Fy = cos ϕ Fϕ(r) + sin ϕ Fr(r).
+The parameters are sampled as L ∼ Unif[0.25, 0.75], γϕ, γr ∼ Unif[0.5, 2], b, d ∼
+Unif[0.5, 2], where γϕ and γr control the strength of the tangential and radial components, while b and d determine their exponential decay rates. We adopt a setting
+analogous to that of the previous example, but employ a finer spatial discretization
+with grid spacing ∆x = 1/80.
+In this setting, all three models are able to reconstruct the underlying force field
+successfully. As illustrated by the example in Fig. 5, the FNO–NIO model tends
+to underestimate the overall magnitude of the force field, whereas BlinDNO provides more accurate predictions near the center compared to NIO. Consequently, the
+trajectories generated using the BlinDNO-recovered field remain closer to the true
+dynamics. The statistical results reported in Table 1 further corroborate the superior
+performance of BlinDNO.
+4.5. Example 5: 3D Dynamics of Protein Folding. We conclude with a
+high-dimensional inverse problem arising from a realistic 3D cryo-EM setting. Specifically, we study the folding dynamics of the heterodimeric ABC exporter TmrAB,
+── page 19 ──
+BLINDNO FOR TIME-LABEL-FREE DYNAMICAL SYSTEM RECONSTRUCTION 19
+(a) (b)
+(c) (d) (e) (f)
+(g) (h) (i) (j)
+t=0 t=T/2 t=T
+Fig. 5. Inversion results for the 2D Fokker–Planck equation with a non-conservative force field.
+(a) Temporal evolution of the ground-truth density, ρGT(x, t). (b) Relative L2 error at each time
+step between the simulated density and the ground truth. (c) x-component of the ground-truth force
+field, Fx(x). (d)–(f) Error of the reconstructed x-component of the force field, Fx(x), obtained using
+BlinDNO, NIO, and FNO–NIO. (g) y-component of the ground-truth force field, Fy(x). (h)–(j)
+Error of the reconstructed y-component of the force field, Fy(x), obtained using BlinDNO, NIO,
+and FNO–NIO.
+initially captured in an inward-facing conformation under turnover conditions, as reported in the EMDB entry EMD–4774[12]. In our model, the left polypeptide chain
+remains fixed, whereas the right chain undergoes rigid-body rotation about a prescribed axis passing through a point above the protein complex.
+The probability density p(x, t) evolves according to the 3D FPE where the drift
+field is induced by the rotational velocity
+µ(x) = ω (u × r)IΩright ,
+with u denoting the unit rotation axis, ω the angular velocity, and r the position
+vector. For each simulation, the rotation axis u is drawn uniformly from the unit
+sphere, and the angular velocity ω is sampled from Unif[0.5, 2.0]. The velocity is set
+to zero inside Ωleft, ensuring that the left chain remains stationary. The computational
+domain is Ω = [0, 10]3, and the diffusion coefficient is fixed at D = 10−4. The initial
+density ρ(x, 0) is obtained from the cryo-EM map of EMD–4774 and downsampled
+by a factor of eight, yielding a grid with spatial resolution ∆x = 10/64.
+Spatial derivatives for advection and diffusion are approximated using fourthorder central finite differences, and time integration is performed using a third-order
+SSP–RK scheme. Reflective boundary conditions are imposed to ensure mass conservation, and negative values introduced by numerical errors are truncated and renormalized. The final time is Tfinal = 2.0 with a maximum time step ∆tmax = 0.002.
+── page 20 ──
+20 ZHIJUN ZENG, JUNQING CHEN, AND ZUOQIANG SHI
+Model 1D FPE 1D Schr¨odinger 1D GPE
+Eθ ↓ Eρ ↓ Eθ ↓ Eρ ↓ Eθ ↓ Eρ ↓
+NIO 14.1 25.9 4.2 26.1 4.1 15.0
+FNO-NIO 17.1 10.9 4.8 20.5 2.8 7.3
+BlinDNO 12.1 10.1 3.8 18.2 2.7 6.4
+2D Diffusion 2D Force
+Eθ ↓ Eρ ↓ Eθ ↓ Eρ ↓
+NIO 5.8 41.9 4.9 12.7
+FNO-NIO 2.8 13.6 6.7 10.8
+BlinDNO 1.9 10.3 4.4 8.7
+Table 1
+Comparison of Eparam and Eρ of NIO, FNO-NIO and BlinDNO on different tasks. Lower is
+better ↓. Best results are in bold.
+This procedure produces a dataset of 1600 training samples and 400 testing samples.
+This experiment constitutes a demanding benchmark due to its high spatial dimensionality, the nontrivial rotational dynamics, and the complex initial density derived
+directly from experimental cryo-EM measurements.
+After training, BlinDNO accurately reconstructs the high-dimensional velocity
+field, successfully identifying both the direction of the rotation axis and the corresponding angular velocity (see Figs. 6(g)–(l)). Using the reconstructed velocity
+field, we simulate the resulting protein folding dynamics. The predicted trajectories
+(Figs. 6(d)–(f)) closely track the ground-truth evolution observed in Figs. 6(a)–(c),
+demonstrating that BlinDNO is capable of capturing the high-dimensional dynamics
+governing by complex 3D conformational transition.
+5. Conclusions and discussions. This work extends the classical inverse problem of parameter reconstruction in probability evolution dynamics to a time-label-free
+setting. We presented a unified mathematical formulation for recovering unknown
+drift and diffusion terms in SDE-driven dynamics, as well as external potentials in
+quantum mechanical systems, using only unordered observations of evolving probability densities. To address the intrinsic challenges posed by the loss of temporal
+information, we introduced BlinDNO, an efficient distribution-to-functions neural
+operator designed to directly approximate the inverse operator associated with these
+problems.
+The proposed framework leverages a permutation-invariant architecture tailored
+for unordered density snapshots. Central to this design is an attention-based UNet
+mixer coupled with a high-order Janossy pooling mechanism, enabling the extraction
+of compact yet expressive distributional features. These features are subsequently
+mapped to functional outputs via a lightweight Fourier neural operator, resulting
+in a scalable and robust distribution-to-functions pipeline. Through a sequence of
+experiments—ranging from one-dimensional SDE and quantum dynamics to twodimensional nonequilibrium systems and a three-dimensional synthetic cryo-EM protein folding model—we demonstrated that BlinDNO consistently outperforms existing baselines and achieves accurate reconstructions across diverse dynamical regimes
+and spatial dimensionalities, despite operating in a time-label-free setting.
+There are several important directions for future work. First, it is of theoretical
+interest to further analyze the properties of the inverse operators considered here and
+── page 21 ──
+BLINDNO FOR TIME-LABEL-FREE DYNAMICAL SYSTEM RECONSTRUCTION 21
+(g) (h) (i)
+(j) (k) (l)
+t=T/2
+(a) (c) (b)
+(d) (e) (f)
+t=T/3
+t=T/3
+t=2T/3
+t=2T/3
+t=T
+t=T
+Fig. 6. Inversion results for the 3D protein folding dynamics. (a)-(c) Temporal evolution of the ground-truth density, ρGT(x, t) at t = T
+3
+,
+2T
+3
+, T. (d)-(f) Temporal evolution
+of the reconstructed density, ρGT(x, t) at the same time points. (g)–(i) Ground-truth velocity components µx(x, y, 0),µy
+(x, y, 0),µz(x, y, 0). (j)–(l) Reconstructed velocity components
+µx(x, y, 0),µy(x, y, 0),µz(x, y, 0).
+to establish approximation guarantees for the proposed distribution-to-functions neural operator. Such results may provide additional insight into the expressiveness and
+stability of BlinDNO. Second, while data-driven operator learning methods often exhibit limited generalization to out-of-distribution regimes, one promising avenue is to
+integrate BlinDNO into PDE-constrained optimization frameworks. In this setting,
+BlinDNO could serve as a fast initializer, significantly accelerating the solution of
+large-scale inverse problems and enabling applications to real cryo-EM experimental
+datasets. These extensions will be explored in future work.
+── page 22 ──
+22 ZHIJUN ZENG, JUNQING CHEN, AND ZUOQIANG SHI
+REFERENCES
+[1] X. Chen, B. W. Soh, Z.-E. Ooi, E. Vissol-Gaudin, H. Yu, K. S. Novoselov, K. Hippalgaonkar, and Q. Li, Constructing custom thermodynamics using deep learning, Nature
+Computational Science, 4 (2024), pp. 66–85.
+[2] X. Chen, L. Yang, J. Duan, and G. E. Karniadakis, Solving inverse stochastic problems
+from discrete particle observations using the fokker–planck equation and physics-informed
+neural networks, SIAM Journal on Scientific Computing, 43 (2021), pp. B811–B830.
+[3] F. Dietrich, A. Makeev, G. Kevrekidis, N. Evangelou, T. Bertalan, S. Reich,
+and I. G. Kevrekidis, Learning effective stochastic differential equations from microscopic simulations: Linking stochastic numerics to deep learning, Chaos: An Interdisciplinary Journal of Nonlinear Science, 33 (2023), p. 023121, https://doi.org/10.1063/5.
+0113632, https://doi.org/10.1063/5.0113632, https://arxiv.org/abs/https://pubs.aip.org/
+aip/cha/article-pdf/doi/10.1063/5.0113632/16744177/023121 1 online.pdf.
+[4] A. Ecoffet, F. Poitevin, and K. Dao Duc, Morphot: Transport-based interpolation between
+em maps with ucsf chimerax, Bioinformatics, 36 (2020), pp. 5528–5529.
+[5] A. Ecoffet, G. Woollard, A. Kushner, F. Poitevin, and K. D. Duc, Application of
+transport-based metric for continuous interpolation between cryo-em density maps, AIMS
+mathematics, 7 (2021), p. 986.
+[6] X. Fan, Q. Zhang, H. Zhang, J. Zhu, L. Ju, Z. Shi, M. Hu, and C. Bao, Cryotrans:
+predicting high-resolution maps of rare conformations from self-supervised trajectories in
+cryo-em, Communications Biology, 7 (2024), p. 1058.
+[7] M. A. Gilles and A. Singer, Cryo-em heterogeneity analysis using regularized covariance
+estimation and kernel regression, Proceedings of the National Academy of Sciences, 122
+(2025), p. e2419140122.
+[8] D. Grun, A. Lyubimova, L. Kester, K. Wiebrands, O. Basak, N. Sasaki, H. Clevers, ¨
+and A. Van Oudenaarden, Single-cell messenger rna sequencing reveals rare intestinal
+cell types, Nature, 525 (2015), pp. 251–255.
+[9] M.-H. Guo, J.-X. Cai, Z.-N. Liu, T.-J. Mu, R. R. Martin, and S.-M. Hu, Pct: Point cloud
+transformer, Computational visual media, 7 (2021), pp. 187–199.
+[10] Z. Hao, Z. Wang, H. Su, C. Ying, Y. Dong, S. Liu, Z. Cheng, J. Song, and J. Zhu, Gnot:
+A general neural operator transformer for operator learning, in International Conference
+on Machine Learning, PMLR, 2023, pp. 12556–12569.
+[11] J. He, X. Liu, and J. Xu, Mgno: Efficient parameterization of linear operators via multigrid,
+arXiv preprint arXiv:2310.19809, (2023).
+[12] S. Hofmann, D. Januliene, A. R. Mehdipour, C. Thomas, E. Stefan, S. Bruchert, B. T. ¨
+Kuhn, E. R. Geertsma, G. Hummer, R. Tampe, et al. ´ , Conformation space of a heterodimeric abc exporter under turnover conditions, Nature, 571 (2019), pp. 580–583.
+[13] V. Holubec, K. Kroy, and S. Steffenoni, Physically consistent numerical solver for timedependent fokker-planck equations, Physical Review E, 99 (2019), p. 032117.
+[14] M. Kimura, R. Shimizu, Y. Hirakawa, R. Goto, and Y. Saito, On permutation-invariant
+neural networks, arXiv preprint arXiv:2403.17410, (2024).
+[15] J. Lee, Y. Lee, J. Kim, A. Kosiorek, S. Choi, and Y. W. Teh, Set transformer: A framework
+for attention-based permutation-invariant neural networks, in International conference on
+machine learning, PMLR, 2019, pp. 3744–3753.
+[16] Z. Li, N. Kovachki, K. Azizzadenesheli, B. Liu, K. Bhattacharya, A. Stuart, and
+A. Anandkumar, Fourier neural operator for parametric partial differential equations,
+arXiv preprint arXiv:2010.08895, (2020).
+[17] Z. Li, N. Kovachki, K. Azizzadenesheli, B. Liu, K. Bhattacharya, A. Stuart, and
+A. Anandkumar, Neural operator: Graph kernel network for partial differential equations, arXiv preprint arXiv:2003.03485, (2020).
+[18] Z. Liu, F. Chen, J. Chen, L. Qiu, and Z. Shi, Neumann series-based neural operator for
+solving 2d inverse medium problem, Journal of Computational Physics, (2025), p. 114025.
+[19] Z. Liu, X. Yang, H. Tang, S. Yang, and S. Han, Flatformer: Flattened window attention for
+efficient point cloud transformer, in Proceedings of the IEEE/CVF conference on computer
+vision and pattern recognition, 2023, pp. 1200–1211.
+[20] L. Lu, P. Jin, G. Pang, Z. Zhang, and G. E. Karniadakis, Learning nonlinear operators
+via deeponet based on the universal approximation theorem of operators, Nature machine
+intelligence, 3 (2021), pp. 218–229.
+[21] L. Lu, Z. Zeng, Y. Jiang, Y. Zhu, and P. Hu, Weak collocation regression method: Fast
+reveal hidden stochastic dynamics from high-dimensional aggregate data, Journal of Computational Physics, 502 (2024), p. 112799.
+── page 23 ──
+BLINDNO FOR TIME-LABEL-FREE DYNAMICAL SYSTEM RECONSTRUCTION 23
+[22] D. A. Messenger and D. M. Bortz, Learning mean-field equations from particle data using
+wsindy, Physica D: Nonlinear Phenomena, 439 (2022), p. 133406.
+[23] R. Molinaro, Y. Yang, B. Engquist, and S. Mishra, Neural inverse operators for solving
+pde inverse problems, in International Conference on Machine Learning, PMLR, 2023,
+pp. 25105–25139.
+[24] R. L. Murphy, B. Srinivasan, V. Rao, and B. Ribeiro, Janossy pooling: Learning deep
+permutation-invariant functions for variable-size inputs, in International Conference on
+Learning Representations, 2019.
+[25] M. Opper, Variational inference for stochastic differential equations, Annalen der Physik, 531
+(2019), p. 1800233.
+[26] M. M. Papasergi-Scott, G. Perez-Hern ´ andez, H. Batebi, Y. Gao, G. Eskici, A. B. Seven, ´
+O. Panova, D. Hilger, M. Casiraghi, F. He, et al., Time-resolved cryo-em of g-protein
+activation by a gpcr, Nature, 629 (2024), pp. 1182–1191.
+[27] A. Punjani and D. J. Fleet, 3dflex: determining structure and motion of flexible proteins
+from cryo-em, Nature Methods, 20 (2023), pp. 860–870.
+[28] C. R. Qi, H. Su, K. Mo, and L. J. Guibas, Pointnet: Deep learning on point sets for 3d
+classification and segmentation, in Proceedings of the IEEE conference on computer vision
+and pattern recognition, 2017, pp. 652–660.
+[29] C. R. Qi, L. Yi, H. Su, and L. J. Guibas, Pointnet++: Deep hierarchical feature learning on
+point sets in a metric space, Advances in neural information processing systems, 30 (2017).
+[30] B. Raonic, R. Molinaro, T. De Ryck, T. Rohner, F. Bartolucci, R. Alaifari, S. Mishra,
+and E. de Bezenac ´ , Convolutional neural operators for robust and accurate learning of
+pdes, Advances in Neural Information Processing Systems, 36 (2023), pp. 77187–77200.
+[31] H. Risken, Fokker-planck equation, in The Fokker-Planck Equation, Springer, 1996, pp. 63–95.
+[32] J. L. Rubinstein and M. A. Brubaker, Alignment of cryo-em movies of individual particles by
+optimization of image translations, Journal of structural biology, 192 (2015), pp. 188–195.
+[33] W. Saelens, R. Cannoodt, H. Todorov, and Y. Saeys, A comparison of single-cell trajectory inference methods, Nature biotechnology, 37 (2019), pp. 547–554.
+[34] M. Schmidt and H. Lipson, Distilling free-form natural laws from experimental data, Science,
+324 (2009), pp. 81–85.
+[35] H. Wu, H. Luo, H. Wang, J. Wang, and M. Long, Transolver: A fast transformer solver for
+pdes on general geometries, in Forty-first International Conference on Machine Learning.
+[36] Y. Wu and Y. Lin, Inversionnet: An efficient and accurate data-driven full waveform inversion, IEEE Transactions on Computational Imaging, 6 (2019), pp. 419–433.
+[37] M. Zaheer, S. Kottur, S. Ravanbakhsh, B. Poczos, R. R. Salakhutdinov, and A. J.
+Smola, Deep sets, Advances in neural information processing systems, 30 (2017).
+[38] Z. Zeng, Y. Zheng, C. Su, Q. Wu, H. Hu, Z. Dong, S. Gao, Y. Lv, R. Tang, L. Cui, et al.,
+In vivo 3d ultrasound computed tomography of musculoskeletal tissues with generative
+neural physics, arXiv preprint arXiv:2508.12226, (2025).
+[39] A. Zhu and Q. Li, Dyngma: A robust approach for learning stochastic differential equations
+from data, Journal of Computational Physics, 513 (2024), p. 113200.
+[40] M. Zhu, S. Feng, Y. Lin, and L. Lu, Fourier-deeponet: Fourier-enhanced deep operator networks for full waveform inversion with improved accuracy, generalizability, and robustness,
+Computer Methods in Applied Mechanics and Engineering, 416 (2023), p. 116300.

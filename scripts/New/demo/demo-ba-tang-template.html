@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="google" content="notranslate"><title>P29201A · Cảnh báo sớm ba tầng</title>
+<style>/*__CSS__*/</style></head>
+<body>
+<header class="bar">
+  <div class="title"><span class="eyebrow">Bơm cấp nước nồi hơi P29201A · Nhà máy Đạm Cà Mau</span><h1>Cảnh báo sớm ba tầng · phát lại theo ngày</h1></div>
+  <div class="day-box"><span class="eyebrow">Ngày đang xem</span><div id="day" class="day">—</div><div id="role" class="role">—</div></div>
+  <div class="lights">
+    <div class="light" id="lA"><span class="lname">A · Direct → 65 µm</span><span class="lstate">—</span><span class="ldetail"></span></div>
+    <div class="light" id="lB14"><span class="lname">B₁₄ · SAE, dốc 14 ngày</span><span class="lstate">—</span><span class="ldetail"></span></div>
+    <div class="light" id="lB45"><span class="lname">B₄₅ · SAE, dốc 45 ngày</span><span class="lstate">—</span><span class="ldetail"></span></div>
+    <div class="light" id="lC"><span class="lname">C · chữ ký pha ổ 2001</span><span class="lstate">—</span><span class="ldetail"></span></div>
+  </div>
+</header>
+<main class="grid">
+ <div class="col left">
+  <section class="panel chart"><div class="ptitle">Rung tổng Direct (µm peak-to-peak) · vạch nhà máy 65 µm · chấm đỏ = ngày tầng A báo</div><canvas id="cDirect"></canvas><div class="legend" id="legDirect"></div></section>
+  <section class="panel chart"><div class="ptitle">Tầng B · log₁₀ SPE của SAE so với nền 9b · chấm = ngày báo</div><canvas id="cSpe"></canvas><div class="legend" id="legSpe"></div></section>
+  <section class="panel chart"><div class="ptitle">Biên độ 1X (µm) tám kênh · mẫu 10 phút gộp ngày</div><canvas id="cAmp"></canvas><div class="legend" id="legAmp"></div></section>
+ </div>
+ <div class="col right">
+  <aside class="panel note"><div class="ptitle">Chú thích</div><div id="noteTitle" class="ntitle">—</div><div id="noteBody" class="nbody"></div><div id="noteDate" class="ndate"></div></aside>
+  <aside class="panel strip"><div class="ptitle">Tám kênh hôm nay · Direct µm p-p · còn bao nhiêu ngày tới 65</div><div id="chan" class="chan"></div></aside>
+  <aside class="panel compass"><div class="ptitle">Pha 1X ổ 2001X theo tuần · bán kính = biên độ · mũi tên = tuần mới nhất</div><canvas id="cComp"></canvas><div id="compTxt" class="ctxt"></div></aside>
+  <aside class="panel model"><div class="ptitle">Mô hình đã khóa · hướng nhúng (phase 04)</div><div id="model" class="mbody"></div></aside>
+ </div>
+</main>
+<footer class="bar ctrl">
+  <button id="btnPlay" class="btn">▶ Phát</button>
+  <div class="speed"><span class="eyebrow">Tốc độ</span><button class="btn sp" data-s="1">×1</button><button class="btn sp" data-s="3">×3</button><button class="btn sp" data-s="10">×10</button></div>
+  <input id="slider" type="range" min="0" max="1" value="0">
+  <div class="range"><span id="d0"></span><span id="d1"></span></div>
+  <div class="keys">← → ±1 ngày · Space phát · 1–9,0 mốc · N/P mốc kế/trước · F9 tổng kết</div>
+</footer>
+<div id="summary" class="summary" hidden></div>
+<script>/*__DATA__*/</script>
+<script>/*__NOTES__*/</script>
+<script>/*__CHARTS__*/</script>
+<script>/*__APP__*/</script>
+</body></html>

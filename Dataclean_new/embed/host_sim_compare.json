@@ -1,0 +1,48 @@
+{
+ "B": {
+  "n_days": 307,
+  "spe_med_rel_p95": 0.01073826353058913,
+  "spe_med_rel_max": 0.05249344709813468,
+  "slope14_absdiff_max": 0.002439270805949509,
+  "slope45_absdiff_max": 0.00034328278255155165,
+  "B14_days_identical": true,
+  "B45_days_identical": true,
+  "B14_diff": [],
+  "B45_diff": [],
+  "B14_first_dung2_chip": "2026-04-06",
+  "B45_first_dung2_chip": "2026-04-11",
+  "backtest": {
+   "B14": "2026-04-06",
+   "B45": "2026-04-11"
+  }
+ },
+ "A": {
+  "rows_chip": 231,
+  "rows_python": 231,
+  "flag_days_identical_since_2026": true,
+  "flag_diff_since_2026": [],
+  "alarm_days_identical_since_2026": true,
+  "alarm_diff_since_2026": [],
+  "flag_diff_before_2026": [],
+  "row_days_identical": true,
+  "row_days_diff": [],
+  "level_2001X_absdiff_max": 5.0000000008765255e-05,
+  "A_first_dung2_chip": "2026-04-29",
+  "backtest": "2026-04-29"
+ },
+ "C": {
+  "weeks_chip": 47,
+  "weeks_python": 47,
+  "weeks_common": 47,
+  "flag_alarm_identical": true,
+  "mismatch_weeks": [],
+  "alarm_weeks_chip": [
+   "2026-01-24"
+  ],
+  "alarm_weeks_python": [
+   "2026-01-24"
+  ],
+  "post_restart_identical": true
+ },
+ "source": "Dataclean_new/embed/esp32_replay_log.jsonl"
+}

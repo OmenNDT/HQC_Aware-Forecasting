@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="google" content="notranslate"><title>P29201A · Ba tầng chạy trên ESP32-S3</title>
+<style>/*__CSS__*/
+.top{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.btn.sm{padding:8px 14px;font-size:14px}
+.stat{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:6px}
+.stat .ch .v{font-size:20px}
+.log{font:12px/1.4 "JetBrains Mono","Consolas",monospace;color:var(--dim);height:100%;overflow:auto;white-space:pre}
+.log .ok{color:#8fd3b0} .log .warn{color:#e8c07a} .log .err{color:#f0a08e}
+.prog{height:8px;border-radius:6px;background:var(--dk);box-shadow:inset 3px 3px 8px var(--dk),inset -2px -2px 6px var(--lt);overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4f9a7a,#8fd3b0)}
+</style></head>
+<body>
+<header class="bar">
+  <div class="title"><span class="eyebrow">Bơm cấp nước nồi hơi P29201A · ESP32-S3 DevKitC</span><h1>Ba tầng cảnh báo chạy trên vi điều khiển · phát lại qua USB</h1></div>
+  <div class="day-box"><span class="eyebrow">Ngày bo vừa đóng</span><div id="day" class="day">—</div><div id="role" class="role">chưa kết nối</div></div>
+  <div class="lights">
+    <div class="light" id="lA"><span class="lname">A · Direct → 65 µm</span><span class="lstate">—</span><span class="ldetail"></span></div>
+    <div class="light" id="lB14"><span class="lname">B₁₄ · SAE, dốc 14 ngày</span><span class="lstate">—</span><span class="ldetail"></span></div>
+    <div class="light" id="lB45"><span class="lname">B₄₅ · SAE, dốc 45 ngày</span><span class="lstate">—</span><span class="ldetail"></span></div>
+    <div class="light" id="lC"><span class="lname">C · chữ ký pha ổ 2001</span><span class="lstate">—</span><span class="ldetail"></span></div>
+  </div>
+</header>
+<main class="grid">
+ <div class="col left">
+  <section class="panel chart"><div class="ptitle">SPE do bo tính (int16/int8, trung vị ngày, log₁₀) · chấm đỏ/vàng = ngày bo báo B₁₄ / B₄₅ · vạch mảnh = ngày Python báo (kỳ vọng)</div><canvas id="cSpe"></canvas><div class="legend" id="legSpe"></div></section>
+  <section class="panel chart"><div class="ptitle">Độ trễ mỗi mẫu trên bo (µs, trung bình tích lũy) và bộ nhớ động còn trống (KB)</div><canvas id="cLat"></canvas><div class="legend" id="legLat"></div></section>
+  <section class="panel"><div class="ptitle">Dòng JSON bo trả về (mới nhất ở cuối)</div><div id="log" class="log"></div></section>
+ </div>
+ <div class="col right">
+  <aside class="panel note"><div class="ptitle">Kết nối và phát lại</div>
+    <div class="top"><button id="btnConn" class="btn sm">🔌 Kết nối bo (Web Serial)</button><input id="file" type="file" accept=".txt" hidden><button id="btnFile" class="btn sm">📄 Chọn replay_stream.txt</button><button id="btnWs" class="btn sm">🔗 Nối qua cầu nối</button><input id="wsUrl" value="ws://127.0.0.1:18795" style="width:190px;background:var(--dk);color:var(--ink);border:0;border-radius:8px;padding:8px 10px;font-size:13px"><button id="btnRun" class="btn sm" disabled>▶ Phát lại</button><button id="btnStop" class="btn sm" disabled>⏹ Dừng</button></div>
+    <div class="prog" style="margin-top:10px"><i id="prog"></i></div>
+    <div id="msg" class="nbody" style="margin-top:8px">Mở trang này trên máy có cắm bo. Bước 1: kết nối bằng Web Serial (Chrome/Edge) hoặc qua cầu nối WebSocket (chạy <code>33_serial_ws_bridge.py --port …</code> trước). Bước 2 chọn file luồng, bước 3 phát lại.</div>
+  </aside>
+  <aside class="panel strip"><div class="ptitle">Thống kê từ bo (lệnh P)</div><div class="stat">
+    <div class="ch"><div class="n">Mẫu đã suy luận</div><div class="v" id="sInf">—</div><div class="d">trên tổng 42.064</div></div>
+    <div class="ch"><div class="n">Độ trễ trung bình</div><div class="v" id="sUs">—</div><div class="d">µs mỗi mẫu 10 phút</div></div>
+    <div class="ch"><div class="n">Độ trễ lớn nhất</div><div class="v" id="sMax">—</div><div class="d">µs</div></div>
+    <div class="ch"><div class="n">Bộ nhớ động còn trống</div><div class="v" id="sHeap">—</div><div class="d">KB · trạng thái ba tầng <span id="sEng">—</span> B</div></div>
+  </div></aside>
+  <aside class="panel compass"><div class="ptitle">Đối chiếu với Python (kỳ vọng đã khóa)</div><div id="cmp" class="nbody" style="padding-top:6px">—</div></aside>
+  <aside class="panel model"><div class="ptitle">Mô hình trên bo</div><div id="model" class="mbody"></div></aside>
+ </div>
+</main>
+<footer class="bar ctrl"><div class="keys">Luồng gửi từng gói 8 dòng rồi chờ bo trả STAT (đệm RX 4 KB). Mở cổng với DTR/RTS tắt để bo không bị reset. Định dạng dòng: S,epoch,amp×8,sin×8,cos×8 · D,epoch,Direct×8 · R,epoch · E.</div></footer>
+<script>/*__DATA__*/</script>
+<script>/*__CHARTS__*/</script>
+<script>/*__APP__*/</script>
+</body></html>

@@ -1,0 +1,318 @@
+<title>Lắp bàn thử HQC trên breadboard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+  :root{
+    --bg:#0e0e14; --panel:#14141c; --panel-2:#181822; --sh-dark:#06060a; --sh-light:#20202c;
+    --text:#d8d8e2; --muted:#7d7d8e; --dim:#4a4a58; --accent:#5fb3a1;
+    --w-12v:#c9486a; --w-5v:#d0453c; --w-3v3:#e08a3c; --w-gnd:#9a9aa8;
+    --w-sda:#4f9ad6; --w-scl:#8ac6f2; --w-sck:#c9a227; --w-mosi:#7dbd5a; --w-miso:#a67cd6; --w-cs:#e07ab8;
+    --w-tacho:#f0d24a; --w-enc:#5fb3a1; --w-btn:#7fd0c0; --w-adc:#d6a86b; --w-servo:#b8c46a; --w-pwm:#9ab0c8;
+    --l-green:#4fbf6a; --l-yellow:#e8c547; --l-red:#e05252; --l-buzz:#c48ae0;
+    --font-display:"Rajdhani","IBM Plex Sans",system-ui,sans-serif;
+    --font-body:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  }
+  html{color-scheme:dark}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:15px;line-height:1.55;margin:0;padding:32px 28px 64px}
+  .wrap{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:26px}
+  header{display:flex;flex-direction:column;gap:6px}
+  .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  h1{font-family:var(--font-display);font-weight:700;font-size:38px;line-height:1.05;margin:0;text-wrap:balance;letter-spacing:.01em}
+  .lede{color:var(--muted);max-width:70ch;margin:0}
+  .card{position:relative;background:var(--panel);border-radius:18px;padding:22px 24px;box-shadow:8px 8px 20px var(--sh-dark),-8px -8px 20px var(--sh-light)}
+  .card::before{content:"";position:absolute;inset:0 auto auto 0;height:1px;width:100%;border-radius:18px 18px 0 0;background:linear-gradient(90deg,rgba(255,255,255,.14),transparent 60%);pointer-events:none}
+  .card h2{font-family:var(--font-display);font-weight:600;font-size:22px;margin:0 0 4px;letter-spacing:.02em}
+  .card .sub{color:var(--muted);font-size:13.5px;margin:0 0 14px}
+  .diagram{padding:14px 14px 12px}
+  .diagram-scroll{overflow-x:auto;border-radius:14px;background:var(--bg);box-shadow:inset 6px 6px 14px var(--sh-dark),inset -6px -6px 14px var(--sh-light);padding:10px}
+  svg{display:block;min-width:1000px;width:100%;height:auto;font-family:var(--font-mono)}
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+  .tab{font-family:var(--font-mono);font-size:12.5px;padding:7px 12px;border-radius:999px;background:var(--panel);color:var(--muted);cursor:pointer;box-shadow:4px 4px 10px var(--sh-dark),-4px -4px 10px var(--sh-light);border:0}
+  .tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .tab.on{color:var(--text);box-shadow:inset 3px 3px 7px var(--sh-dark),inset -3px -3px 7px var(--sh-light)}
+  .tab .n{display:inline-block;min-width:16px;text-align:center;color:var(--accent);margin-right:4px}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:12px;font-family:var(--font-mono);font-size:12px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .legend i{display:inline-block;width:22px;height:3px;border-radius:2px}
+  .stage{display:none} .stage.on{display:block}
+  .stage h3{font-family:var(--font-display);font-size:19px;font-weight:600;margin:0 0 2px}
+  .stage .goal{color:var(--muted);font-size:13.5px;margin:0 0 12px}
+  .steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+  .steps li{display:grid;grid-template-columns:28px 44px 1fr;gap:10px;align-items:start;padding:8px 10px;border-radius:10px;background:var(--panel-2);box-shadow:inset 2px 2px 5px var(--sh-dark),inset -2px -2px 5px var(--sh-light)}
+  .steps li.done{opacity:.45}
+  .steps input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--accent)}
+  .steps .num{font-family:var(--font-mono);font-size:12px;color:var(--accent);padding-top:3px}
+  .steps .txt{font-size:14px}
+  .steps .txt b{font-family:var(--font-mono);font-weight:600;color:var(--text)}
+  .steps .txt em{color:var(--muted);font-style:normal}
+  .check{margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--bg);box-shadow:inset 4px 4px 10px var(--sh-dark),inset -4px -4px 10px var(--sh-light);font-size:14px;color:var(--muted)}
+  .check b{color:var(--text);font-weight:500}
+  .rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px 26px}
+  .rules h3{font-family:var(--font-display);font-size:17px;font-weight:600;margin:0 0 4px}
+  .rules p{margin:0;color:var(--muted);font-size:14px}
+  .rules b{color:var(--text);font-weight:500}
+  .foot{color:var(--dim);font-size:12.5px;font-family:var(--font-mono)}
+  table.wl{border-collapse:collapse;width:100%;font-size:13.5px}
+  table.wl th{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:left;font-weight:500;padding:0 10px 8px 0;white-space:nowrap}
+  table.wl td{padding:7px 10px 7px 0;vertical-align:top;color:var(--text)}
+  table.wl tr+tr td{box-shadow:0 -1px 0 rgba(255,255,255,.04)}
+  table.wl td.n{font-family:var(--font-mono);color:var(--accent);white-space:nowrap}
+  table.wl td.k{font-family:var(--font-mono);font-size:12.5px;color:var(--muted);white-space:nowrap}
+  table.wl td.st{color:var(--muted);white-space:nowrap}
+  table.wl b{font-family:var(--font-mono);font-weight:600}
+  table.wl tr.opt td{opacity:.6}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">HQC Aware Forecasting · Demo phase 05 · hướng dẫn lắp</div>
+    <h1>Lắp bàn thử HQC trên breadboard</h1>
+    <p class="lede">Breadboard MB-102 có 63 cột đánh số và 10 hàng a–j in sẵn trên mặt. Dùng <b>số in ở hàng trên</b>; số in ở hàng dưới chạy ngược chiều, chỉ để đọc khi xoay board. Mỗi dây dưới đây ghi bằng toạ độ lỗ, ví dụ <b style="font-family:var(--font-mono)">j16 → h28</b> nghĩa là cắm một đầu vào hàng j cột 16, đầu kia vào hàng h cột 28. ESP32 <b>không cắm vào breadboard</b> mà đặt bên cạnh, nối bằng dây đực-cái: đầu cái chụp vào chân board, đầu đực cắm xuống lỗ. Làm theo từng giai đoạn, xong giai đoạn nào kiểm tra giai đoạn đó. Chọn giai đoạn ở dãy nút để sơ đồ chỉ hiện các dây của giai đoạn đó.</p>
+  </header>
+
+  <section class="card">
+    <h2>Bốn quy tắc của breadboard</h2>
+    <p class="sub">Đọc một lần, sau đó mọi bước đều dễ hiểu.</p>
+    <div class="rules">
+      <div><h3>Cột là một mối nối</h3><p>Năm lỗ <b>a b c d e</b> của cùng một cột nối với nhau. Năm lỗ <b>f g h i j</b> của cùng cột cũng nối với nhau. Nửa trên và nửa dưới <b>không</b> nối qua rãnh giữa.</p></div>
+      <div><h3>Rail là đường dài</h3><p>Hai hàng lỗ dọc theo vạch đỏ và vạch xanh ở mép là rail nguồn. <b>Nhận rail bằng màu vạch in cạnh hàng lỗ</b>, không nhận bằng vị trí trong hình: tuỳ board, hàng + có thể nằm ngoài hoặc trong, nối suốt chiều dài, nên đầu dây cắm vào rail ở cột nào cũng như nhau. Thân các module cắm hàng j sẽ đè lên rail dưới từ cột 21 trở đi, vì vậy <b>mọi đầu dây vào rail dưới đều cắm ở cột 3–20</b>. Thứ tự chân của module khi thân hướng ra ngoài có thể ngược với chữ in trên tài liệu: <b>luôn đọc chữ in ngay cạnh chân sau khi cắm</b>. Một số MB-102 ngắt rail ở giữa (cột 30–31): nhìn vạch đỏ, nếu đứt thì cắm một dây ngắn nối hai nửa.</p></div>
+      <div><h3>ESP32 để ngoài breadboard</h3><p>DevKitC-1 rộng đúng 1 inch: cắm ngang rãnh thì hai hàng chân rơi vào hàng <b>b</b> và hàng <b>j</b>, cạnh 3V3 <b>không còn lỗ trống</b>. Vì vậy board đặt cạnh breadboard, mỗi chân dùng một dây <b>đực-cái</b>: đầu cái chụp vào chân, đầu đực cắm lỗ. Cần khoảng <b>23 dây đực-cái</b>, đếm trước.</p></div>
+      <div><h3>Rút điện trước khi cắm</h3><p>Rút cáp USB và pin trước mỗi giai đoạn. Cắm xong, kiểm tra bằng mắt theo mục "Kiểm tra" rồi mới cấp điện. LED chân dài là dương. Nút nhấn dùng <b>hai chân chéo</b> để chắc chắn là một cặp đóng cắt.</p></div>
+    </div>
+  </section>
+
+  <section class="card diagram">
+    <h2>Sơ đồ breadboard</h2>
+    <p class="sub">Số trong vòng tròn là số bước. Chọn giai đoạn để làm nổi các dây của giai đoạn đó, các dây khác mờ đi.</p>
+    <div class="tabs" id="tabs"></div>
+    <div class="diagram-scroll"><svg id="bb" viewBox="0 0 980 420" role="img" aria-label="Bố trí breadboard MB-102 với ESP32-S3 và các module"></svg></div>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <section class="card" id="stages"></section>
+
+  <section class="card">
+    <h2>Danh sách dây đọc theo lời</h2>
+    <p class="sub">Toàn bộ dây theo đúng số trên sơ đồ, không cần bấm giai đoạn. "Đực-cái" là dây có một đầu chụp lên chân; "đực-đực" là dây hai đầu cắm lỗ.</p>
+    <div style="overflow-x:auto"><table class="wl" id="wirelist"><thead><tr><th>Dây</th><th>Từ</th><th>Đến</th><th>Loại dây</th><th>Giai đoạn</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <p class="foot">Toạ độ theo số in trên MB-102. Dây đực-cái cần: 4 nguồn + 2 OLED + 4 ADXL + 2 encoder + 3 nút + 3 LED + còi + biến trở + servo + tacho = 22 (thêm PWM là 23); dây cái-cái: 3 cho KY-040. Thiếu thì lắp giai đoạn 1–5 trước, mua thêm bó 40 sợi khoảng 15 nghìn.</p>
+</div>
+
+<script>
+(function(){
+  const css=getComputedStyle(document.documentElement), C=n=>css.getPropertyValue(n).trim();
+  const NS='http://www.w3.org/2000/svg', svg=document.getElementById('bb');
+  const el=(t,a,txt)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e;};
+  // ---------- geometry ----------
+  const X0=44, PITCH=14, colX=c=>X0+(c-1)*PITCH;
+  const rowY={'W+':100,'W-':114,a:150,b:164,c:178,d:192,e:206,f:246,g:260,h:274,i:288,j:302,'X-':338,'X+':352};
+  const hole=s=>{ const m=/^([WX][+-]|[a-j])(\d+)$/.exec(s); return {x:colX(+m[2]),y:rowY[m[1]]}; };
+  // off-board devices (top strip)
+  const dev={
+    esp:{x:30,y:8,w:330,h:66,title:'ESP32-S3 DevKitC-1 · đặt cạnh breadboard, anten hướng trái',pins:[]},
+    fan:{x:630,y:14,w:140,h:54,title:'Fan CPU 12 V · jack 4 chân',pins:['GND','+12V','TACHO','PWM']},
+    servo:{x:780,y:14,w:100,h:54,title:'Servo SG90',pins:['nâu GND','đỏ 5V','cam SIG']},
+    bat:{x:890,y:14,w:70,h:54,title:'Pin 9 V',pins:['−','+']},
+    ky:{x:372,y:14,w:118,h:54,title:'KY-040 · để ngoài',pins:['CLK','DT','SW','+','GND']},
+    usb:{x:500,y:14,w:120,h:54,title:'Cáp USB-C cắt',pins:['laptop','board']},
+  };
+  const P={};
+  for(const id in dev){ if(id==='esp')continue; const d=dev[id]; const pitch=d.w/(d.pins.length+1); d.pins.forEach((n,i)=>{ P[id+'.'+n.split(' ').pop()]={x:d.x+pitch*(i+1),y:d.y+d.h}; }); }
+  const TOP=['GND','TX','RX','1','2','42','41','40','39','38','37','36','35','0','45','48','47','21','20','19','GND','GND'];
+  const BOT=['3V3','3V3','RST','4','5','6','7','15','16','17','18','8','3','46','9','10','11','12','13','14','5V','GND'];
+  const EP=14; TOP.forEach((n,i)=>{ P['esp.t'+i]={x:52+i*EP,y:24}; }); BOT.forEach((n,i)=>{ P['esp.b'+i]={x:52+i*EP,y:62}; });
+  ['1','2','42','41','40','39','47','21'].forEach(n=>P['esp.'+n]=P['esp.t'+TOP.indexOf(n)]);
+  ['4','5','6','7','15','16','17','18','8','9','10','11','12','13','14'].forEach(n=>P['esp.'+n]=P['esp.b'+BOT.indexOf(n)]);
+  P['esp.3V3']=P['esp.b0']; P['esp.5V']=P['esp.b20']; P['esp.GNDb']=P['esp.b21']; P['esp.GNDt']=P['esp.t0'];
+  const pt=s=> s.includes('.')? P[s] : hole(s);
+
+
+  // ---------- stages & steps ----------
+  // step: {t:text, w:{a,b,c}} ; w optional. Numbers assigned globally.
+  const stages=[
+    {name:'ESP32 và rail',goal:'Board lên breadboard, kéo 3V3, 5 V và GND ra rail.',steps:[
+      {t:'Rút <b>ESP32-S3</b> ra khỏi breadboard nếu đã cắm. Đặt board <b>bên trái breadboard</b>, anten hướng ra ngoài, hàng chân <b>3V3</b> gần breadboard. Có thể dán băng keo hai mặt xuống bàn cho khỏi xê dịch. Từ đây mọi dây từ ESP32 là dây <b>đực-cái</b>: đầu cái chụp vào chân, đầu đực cắm lỗ.'},
+      {t:'Chân <b>3V3</b> (chân đầu tiên, sát anten) <b>→ rail đỏ dưới</b> <em>(3V3 ra rail)</em>',w:{a:'esp.3V3',b:'X+2',c:'--w-3v3'}},
+      {t:'Chân <b>GND</b> cuối hàng 3V3 (cạnh chân 5V) <b>→ rail xanh dưới, cắm ở cột 3</b>',w:{a:'esp.GNDb',b:'X-3',c:'--w-gnd'}},
+      {t:'Chân <b>GND</b> đầu hàng bên kia (sát anten, cạnh TX) <b>→ rail xanh trên</b>',w:{a:'esp.GNDt',b:'W-2',c:'--w-gnd'}},
+      {t:'<b>rail xanh trên cột 1 → rail xanh dưới cột 1</b> <em>(nối chung hai GND, dây đi vòng mép trái)</em>',w:{a:'W-1',b:'X-1',c:'--w-gnd',via:[[34,'a'],[34,0]]}},
+      {t:'Chân <b>5V</b> <b>→ rail đỏ trên</b> <em>(5 V tạm cho servo; sẽ tháo ở giai đoạn 8 khi có INA219)</em>',w:{a:'esp.5V',b:'W+22',c:'--w-5v',dash:1}},
+      {t:'Nếu vạch đỏ hoặc xanh của rail bị đứt ở giữa (cột 30–31), cắm dây ngắn nối hai nửa cho cả 4 rail.'},
+    ],check:'Cấp điện qua USB: LED nguồn trên board sáng. Đo bằng đồng hồ nếu có: rail đỏ dưới 3,3 V, rail đỏ trên 5 V so với rail xanh. Rút điện.'},
+    {name:'OLED',goal:'Màn hình cắm hàng j cột 26–29, thứ tự in trên module GND VCC SCL SDA.',steps:[
+      {t:'Cắm <b>OLED</b> vào hàng <b>j</b>, thân màn hình hướng ra ngoài mép. Sau khi cắm, đọc chữ in cạnh chân: <b>GND ở j26</b>, VDD j27, SCK j28 (SCK chính là SCL của I2C), SDA j29. Thân sẽ đè lên rail dưới từ cột 21 đến 33, vì vậy mọi đầu dây vào rail dưới đều cắm ở đoạn <b>cột 3–20</b>.'},
+      {t:'<b>i26 → rail xanh dưới, cắm ở cột 5</b> <em>(đoạn rail không bị thân OLED che)</em>',w:{a:'i26',b:'X-5',c:'--w-gnd'}},
+      {t:'<b>i27 → rail đỏ dưới, cắm ở cột 5</b>',w:{a:'i27',b:'X+5',c:'--w-3v3'}},
+      {t:'Chân <b>9</b> trên ESP32 <b>→ h28</b> <em>(SCL)</em>',w:{a:'esp.9',b:'h28',c:'--w-scl'}},
+      {t:'Chân <b>8</b> <b>→ h29</b> <em>(SDA)</em>',w:{a:'esp.8',b:'h29',c:'--w-sda'}},
+    ],check:'Cấp điện: OLED chưa hiện gì là bình thường khi chưa nạp firmware mới. Không có mùi khét, LDO trên board không nóng. Rút điện.'},
+    {name:'ADXL345',goal:'Cảm biến cắm hàng j cột 33–40, thân hướng ra ngoài. Đọc từ trái sang khi đã cắm: SCL SDA SDO INT2 INT1 CS VCC GND.',steps:[
+      {t:'Cắm <b>ADXL345</b> vào hàng <b>j</b>, thân hướng ra ngoài, sát bên phải OLED: <b>SCL ở j33</b>, SDA j34, SDO j35, INT2 j36, INT1 j37, CS j38, VCC j39, <b>GND j40</b>. Kiểm tra lại chữ in cạnh chân sau khi cắm.'},
+      {t:'<b>i40 → rail xanh dưới, cắm ở cột 8</b> <em>(GND)</em>',w:{a:'i40',b:'X-8',c:'--w-gnd'}},
+      {t:'<b>i39 → rail đỏ dưới, cắm ở cột 8</b> <em>(VCC 3,3 V, không cấp 5 V)</em>',w:{a:'i39',b:'X+8',c:'--w-3v3'}},
+      {t:'Chân <b>10</b> <b>→ h38</b> <em>(CS)</em>',w:{a:'esp.10',b:'h38',c:'--w-cs'}},
+      {t:'Chân <b>13</b> <b>→ h35</b> <em>(MISO ← SDO)</em>',w:{a:'esp.13',b:'h35',c:'--w-miso'}},
+      {t:'Chân <b>11</b> <b>→ h34</b> <em>(MOSI → SDA)</em>',w:{a:'esp.11',b:'h34',c:'--w-mosi'}},
+      {t:'Chân <b>12</b> <b>→ h33</b> <em>(SCK → SCL)</em>',w:{a:'esp.12',b:'h33',c:'--w-sck'}},
+    ],check:'Chỉ kiểm tra bằng mắt: bốn dây tín hiệu vào bốn cột 33, 34, 35, 38; không dây nào cắm vào 36, 37 (INT2, INT1). Sau này khi thử xong sẽ tháo ADXL345 ra khỏi breadboard và nối dài bằng 6 dây đực-cái để bắt lên khung quạt.'},
+    {name:'KY-040',goal:'Header của KY-040 cong 90° nên thân đè lên hàng i, h khi cắm vào breadboard. Vì vậy KY-040 để ngoài breadboard như ESP32, nối thẳng dây lên chân.',steps:[
+      {t:'Đặt <b>KY-040</b> nằm cạnh mép phải breadboard, trục núm hướng ra ngoài, không cắm chân vào lỗ. Đọc chữ in cạnh 5 chân: GND, +, SW, DT, CLK. Cần 2 dây đực-cái và 3 dây <b>cái-cái</b> (hai đầu đều chụp lên chân).'},
+      {t:'Chân <b>GND</b> của KY-040 <b>→ rail xanh dưới, cắm ở cột 12</b> <em>(đực-cái)</em>',w:{a:'ky.GND',b:'X-12',c:'--w-gnd'}},
+      {t:'Chân <b>+</b> của KY-040 <b>→ rail đỏ dưới, cắm ở cột 12</b> <em>(đực-cái)</em>',w:{a:'ky.+',b:'X+12',c:'--w-3v3'}},
+      {t:'Chân <b>SW</b> của KY-040 <b>→ chân 7</b> trên ESP32 <em>(cái-cái)</em>',w:{a:'ky.SW',b:'esp.7',c:'--w-enc'}},
+      {t:'Chân <b>DT</b> của KY-040 <b>→ chân 6</b> trên ESP32 <em>(cái-cái)</em>',w:{a:'ky.DT',b:'esp.6',c:'--w-enc'}},
+      {t:'Chân <b>CLK</b> của KY-040 <b>→ chân 5</b> trên ESP32 <em>(cái-cái)</em>',w:{a:'ky.CLK',b:'esp.5',c:'--w-enc'}},
+    ],check:'Xoay núm thấy khấc rõ, ấn xuống thấy nảy. Kiểm tra ba đầu cái trên ESP32 đúng chân 5, 6, 7 (cạnh 3V3, sát chân 4). Nếu thiếu dây cái-cái, tạm để KY-040 sang ngày sau, không ảnh hưởng các giai đoạn khác.'},
+    {name:'3 nút nhấn',goal:'Nút 12 mm cắm ngang rãnh ở vùng cột 4–16, chân vào hàng e và h, mỗi nút dùng hai chân chéo (e và h ở hai cột khác nhau). Xanh = nền khỏe, vàng = tháng 4, trắng = tháng 5.',steps:[
+      {t:'Nút <b>xanh</b> cắm ngang rãnh, bốn chân vào <b>e4, e6, h4, h6</b> (chân nút cách nhau 0,5 inch nên rơi vào hàng e và h). Nút <b>vàng</b>: e9, e11, h9, h11. Nút <b>trắng</b>: e14, e16, h14, h16. Ấn đều cho chân lút.'},
+      {t:'Chân <b>18</b> <b>→ c4</b> <em>(nút xanh, nền khỏe)</em>',w:{a:'esp.18',b:'c4',c:'--w-btn'}},
+      {t:'<b>i6 → rail xanh dưới</b> <em>(cùng cột với chân chéo h6 của nút xanh)</em>',w:{a:'i6',b:'X-6',c:'--w-gnd'}},
+      {t:'Chân <b>15</b> <b>→ c9</b> <em>(nút vàng, tháng 4)</em>',w:{a:'esp.15',b:'c9',c:'--w-btn'}},
+      {t:'<b>i11 → rail xanh dưới</b> <em>(cùng cột với chân chéo h11 của nút vàng)</em>',w:{a:'i11',b:'X-11',c:'--w-gnd'}},
+      {t:'Chân <b>14</b> <b>→ c14</b> <em>(nút trắng, tháng 5)</em>',w:{a:'esp.14',b:'c14',c:'--w-btn'}},
+      {t:'<b>i16 → rail xanh dưới</b> <em>(cùng cột với chân chéo h16 của nút trắng)</em>',w:{a:'i16',b:'X-16',c:'--w-gnd'}},
+    ],check:'Mỗi nút: dây từ ESP32 vào nửa trên (hàng c) và dây GND ở nửa dưới (hàng i), ở hai cột <b>khác nhau</b> (4/6, 9/11, 14/16), tức hai chân chéo e4 và h6. Nếu cùng cột là sai, nút sẽ luôn "đang ấn".'},
+    {name:'LED, còi, biến trở',goal:'Ba LED với điện trở 330 Ω, còi active, biến trở B10K ở nửa trên.',steps:[
+      {t:'LED <b>đỏ</b>: chân dài vào <b>e26</b>, chân ngắn vào <b>e27</b>. LED <b>vàng</b>: e31 / e32. LED <b>xanh</b>: e36 / e37. Hơi banh chân LED cho vừa hai cột cạnh nhau.'},
+      {t:'Điện trở <b>330 Ω</b> thứ nhất: <b>c26 → c30</b>. Thứ hai: <b>c31 → c35</b>. Thứ ba: <b>c36 → c40</b>. Chiều nào cũng được.'},
+      {t:'Chân <b>41</b> <b>→ b30</b> <em>(LED đỏ, tầng C)</em>',w:{a:'esp.41',b:'b30',c:'--l-red'}},
+      {t:'<b>d27 → rail xanh trên</b>',w:{a:'d27',b:'W-27',c:'--w-gnd'}},
+      {t:'Chân <b>40</b> <b>→ b35</b> <em>(LED vàng, tầng B)</em>',w:{a:'esp.40',b:'b35',c:'--l-yellow'}},
+      {t:'<b>d32 → rail xanh trên</b>',w:{a:'d32',b:'W-32',c:'--w-gnd'}},
+      {t:'Chân <b>39</b> <b>→ b40</b> <em>(LED xanh, tầng A)</em>',w:{a:'esp.39',b:'b40',c:'--l-green'}},
+      {t:'<b>d37 → rail xanh trên</b>',w:{a:'d37',b:'W-37',c:'--w-gnd'}},
+      {t:'<b>Còi</b>: bóc tem trắng, chân có dấu <b>+</b> (chân dài) vào <b>e42</b>, chân kia vào <b>e45</b>. Thân còi đè lên hàng d và c, nên hai dây của còi cắm ở <b>hàng a</b> cùng cột. Nếu hai chân không vừa 3 cột thì chọn cột khác gần đó và đổi hai dây sau theo.'},
+      {t:'Chân <b>42</b> <b>→ a42</b> <em>(còi, cùng cột với chân +)</em>',w:{a:'esp.42',b:'a42',c:'--l-buzz'}},
+      {t:'<b>a45 → rail xanh trên</b>',w:{a:'a45',b:'W-45',c:'--w-gnd'}},
+      {t:'<b>Biến trở B10K</b> (chân hàn dẹt, cách nhau 5 mm): ba chân vào <b>e58, e60, e62</b>, thân nằm về phía cột 52–57 đang trống, trục hướng ra ngoài. Nếu chân dẹt không bám, luồn đầu dây đực qua lỗ trên chân rồi bẻ gập lại. Ba dây của biến trở cắm ở <b>hàng a</b>.'},
+      {t:'<b>a58 → rail đỏ dưới, cắm ở cột 20</b> <em>(3,3 V, dây dài qua rãnh)</em>',w:{a:'a58',b:'X+20',c:'--w-3v3'}},
+      {t:'Chân <b>2</b> <b>→ a60</b> <em>(chân giữa biến trở)</em>',w:{a:'esp.2',b:'a60',c:'--w-adc'}},
+      {t:'<b>a62 → rail xanh trên</b>',w:{a:'a62',b:'W-60',c:'--w-gnd'}},
+    ],check:'Thử LED không cần firmware: tạm tháo đầu cái khỏi chân 41, cắm một dây đực-đực từ b30 vào rail đỏ dưới (3,3 V), LED đỏ phải sáng. Trả lại như cũ. Làm tương tự cho vàng và xanh. Nếu LED không sáng, đảo hai chân LED.'},
+    {name:'Servo, quạt, pin',goal:'Ba thứ ngoài breadboard nối bằng dây đực-đực cắm vào jack của chúng.',steps:[
+      {t:'<b>Servo</b>: cắm ba dây đực-đực vào jack cái của servo. Dây <b>nâu → rail xanh trên</b>',w:{a:'servo.GND',b:'W-58',c:'--w-gnd'}},
+      {t:'Servo dây <b>đỏ → rail đỏ trên</b> <em>(5 V)</em>',w:{a:'servo.5V',b:'W+59',c:'--w-5v'}},
+      {t:'Servo dây <b>cam → chân 47</b> trên ESP32 <em>(dây đực-cái: đầu đực vào jack servo, đầu cái chụp chân 47)</em>',w:{a:'servo.SIG',b:'esp.47',c:'--w-servo'}},
+      {t:'<b>Pin 9 V</b>: cắt bỏ đầu jack DC của kẹp pin, tuốt 5 mm hai dây. Dây <b>đỏ → a63</b>',w:{a:'bat.+',b:'a63',c:'--w-12v'}},
+      {t:'Pin dây <b>đen → rail xanh trên</b> <em>(mass chung với ESP32, bắt buộc)</em>',w:{a:'bat.−',b:'W-62',c:'--w-gnd'}},
+      {t:'<b>Quạt</b>: nhìn jack 4 chân, ba chân nằm trong gờ định vị, chân thứ tư ngoài gờ là PWM; từ PWM đếm về: PWM, TACHO, +12V, GND. Cắm dây đực-đực vào từng chân. <b>+12V → b63</b>',w:{a:'fan.+12V',b:'b63',c:'--w-12v'}},
+      {t:'Quạt <b>GND → rail xanh trên</b>',w:{a:'fan.GND',b:'W-55',c:'--w-gnd'}},
+      {t:'Quạt <b>TACHO → chân 1</b> trên ESP32 <em>(dây đực-cái: đầu đực vào jack quạt, đầu cái chụp chân 1)</em>',w:{a:'fan.TACHO',b:'esp.1',c:'--w-tacho'}},
+      {t:'Quạt <b>PWM → chân 4</b> <em>(tuỳ chọn, để trống thì quạt chạy toàn tốc)</em>',w:{a:'fan.PWM',b:'esp.4',c:'--w-pwm',dash:1,via:[[370,'a'],[370,84],[colX(1)-14,84],[colX(1)-14,0]]}},
+    ],check:'Cắm pin: quạt quay ngay dù ESP32 chưa cấp điện, vì quạt chỉ ăn pin. Rút pin. Cấp USB cho ESP32, servo có thể giật nhẹ một cái lúc bật, bình thường.'},
+    {name:'INA219 (khi có)',goal:'Cắm hàng j cột 43–48, thân hướng ra ngoài. Đọc từ trái sang khi đã cắm: Vin+ Vin- Sda Scl Gnd Vcc. Cần hàn header trước.',steps:[
+      {t:'<b>Tháo dây chân 5V → rail đỏ trên</b> của giai đoạn 1. Từ đây rail đỏ trên lấy 5 V từ cáp USB đã cắt.'},
+      {t:'Cắm <b>INA219</b> vào hàng <b>j</b>, thân hướng ra ngoài: <b>Vin+ ở j43</b>, Vin- j44, Sda j45, Scl j46, Gnd j47, <b>Vcc j48</b>. Kiểm tra lại chữ in cạnh chân; nếu ngược thì đổi các cột tương ứng.'},
+      {t:'<b>i48 → rail đỏ dưới, cắm ở cột 17</b> <em>(Vcc)</em>',w:{a:'i48',b:'X+17',c:'--w-3v3'}},
+      {t:'<b>i47 → rail xanh dưới, cắm ở cột 17</b> <em>(Gnd)</em>',w:{a:'i47',b:'X-17',c:'--w-gnd'}},
+      {t:'<b>g28 → h46</b> <em>(SCL nối chuyền từ cột SCK của OLED)</em>',w:{a:'g28',b:'h46',c:'--w-scl'}},
+      {t:'<b>g29 → h45</b> <em>(SDA nối chuyền)</em>',w:{a:'g29',b:'h45',c:'--w-sda'}},
+      {t:'<b>h43 → rail đỏ trên</b> <em>(Vin+ nhận 5 V từ laptop)</em>',w:{a:'h43',b:'W+43',c:'--w-5v'}},
+      {t:'Cáp USB-C cắt dây đỏ: đầu đỏ <b>phía laptop → rail đỏ trên</b> <em>(xoắn vào một dây đực rồi cắm)</em>',w:{a:'usb.laptop',b:'W+40',c:'--w-5v'}},
+      {t:'Đầu đỏ <b>phía board → h44</b> <em>(Vin-, 5 V đã đo đi tiếp vào board)</em>',w:{a:'usb.board',b:'h44',c:'--w-5v',via:[[380,'a'],[380,232],[colX(44)+7,232]]}},
+    ],check:'Cắm cáp đã cắt vào cổng USB <b>trái</b> của board: board lên nguồn qua INA219, servo cũng có 5 V. Nếu board không lên, kiểm tra hai đầu dây đỏ có đảo nhau không.'},
+  ];
+  // global numbering
+  let n=0; stages.forEach((s,si)=>{ s.steps.forEach(st=>{ st.n=++n; st.stage=si; }); });
+
+  // ---------- draw board ----------
+  const g=el('g',{}); svg.appendChild(g);
+  g.appendChild(el('rect',{x:20,y:86,width:940,height:284,rx:8,fill:'#e9e6df'}));
+  g.appendChild(el('rect',{x:20,y:222,width:940,height:14,fill:'#d6d2c8'})); // channel
+  // rails lines
+  [['W+',C('--w-5v')],['W-','#4f7fd6'],['X+',C('--w-3v3')],['X-','#4f7fd6']].forEach(([r,c])=>{ const y=rowY[r]+(r.endsWith('+')?-8:8); g.appendChild(el('line',{x1:30,y1:y,x2:950,y2:y,stroke:c,'stroke-width':1.6,opacity:.8})); });
+  // holes
+  for(let c=1;c<=63;c++){ for(const r in rowY){ const {x,y}=hole(r+c); g.appendChild(el('circle',{cx:x,cy:y,r:2.2,fill:'#5c5a55'})); } }
+  // column numbers
+  for(let c=1;c<=63;c++){ if(c===1||c%5===0){ g.appendChild(el('text',{x:colX(c),y:140,'text-anchor':'middle',fill:'#6a6860','font-size':7},c)); g.appendChild(el('text',{x:colX(c),y:322,'text-anchor':'middle',fill:'#6a6860','font-size':7},c)); } }
+  // row letters
+  'abcdefghij'.split('').forEach(r=>{ g.appendChild(el('text',{x:26,y:rowY[r]+3,'text-anchor':'middle',fill:'#6a6860','font-size':8},r)); g.appendChild(el('text',{x:954,y:rowY[r]+3,'text-anchor':'middle',fill:'#6a6860','font-size':8},r)); });
+  g.appendChild(el('text',{x:26,y:rowY['W+']+3,'text-anchor':'middle',fill:C('--w-5v'),'font-size':8,'font-weight':700},'+'));
+  g.appendChild(el('text',{x:26,y:rowY['W-']+3,'text-anchor':'middle',fill:'#4f7fd6','font-size':8,'font-weight':700},'−'));
+  g.appendChild(el('text',{x:26,y:rowY['X+']+3,'text-anchor':'middle',fill:C('--w-3v3'),'font-size':8,'font-weight':700},'+'));
+  g.appendChild(el('text',{x:26,y:rowY['X-']+3,'text-anchor':'middle',fill:'#4f7fd6','font-size':8,'font-weight':700},'−'));
+  g.appendChild(el('text',{x:470,y:rowY['W+']-13,'text-anchor':'middle',fill:C('--w-5v'),'font-size':8},'rail đỏ trên = 5 V'));
+  g.appendChild(el('text',{x:470,y:rowY['X-']+18,'text-anchor':'middle',fill:C('--w-3v3'),'font-size':8},'rail đỏ dưới = 3V3 · rail xanh = GND'));
+
+  // ESP32 as an off-board device with two pin rows
+  (function(){ const d=dev.esp; g.appendChild(el('rect',{x:d.x,y:d.y,width:d.w,height:d.h,rx:8,fill:C('--panel')}));
+    g.appendChild(el('rect',{x:d.x-14,y:d.y+18,width:14,height:30,rx:3,fill:'#14161e'})); g.appendChild(el('text',{x:d.x-7,y:d.y+40,'text-anchor':'middle',fill:C('--dim'),'font-size':5.5,transform:`rotate(-90 ${d.x-7} ${d.y+40})`},'anten'));
+    g.appendChild(el('text',{x:d.x+d.w/2,y:d.y+46,'text-anchor':'middle',fill:'#8d919c','font-size':7,'letter-spacing':'.12em'},'ESP32-S3 DevKitC-1 · đặt cạnh breadboard'));
+    TOP.forEach((n,i)=>{ const p=P['esp.t'+i]; const used=['1','2','42','41','40','39','47','21','GND'].includes(n)&&!(n==='GND'&&i>0); g.appendChild(el('circle',{cx:p.x,cy:p.y,r:2.6,fill:used?'#c9ccd6':'#3a3a46'})); g.appendChild(el('text',{x:p.x,y:p.y-5,'text-anchor':'middle',fill:used?'#c9ccd6':'#3a3a46','font-size':5.5},n)); });
+    BOT.forEach((n,i)=>{ const p=P['esp.b'+i]; const used=['4','5','6','7','15','18','8','9','10','11','12','13','14','5V','3V3','GND'].includes(n)&&!(n==='3V3'&&i>0); g.appendChild(el('circle',{cx:p.x,cy:p.y,r:2.6,fill:used?'#c9ccd6':'#3a3a46'})); g.appendChild(el('text',{x:p.x,y:p.y+10,'text-anchor':'middle',fill:used?'#c9ccd6':'#3a3a46','font-size':5.5},n)); });
+    g.appendChild(el('text',{x:d.x+d.w-4,y:d.y+30,'text-anchor':'end',fill:C('--dim'),'font-size':5.5},'USB ▸'));
+  })();
+  // modules on row j (bodies hang below)
+  const modJ=[['OLED 0,96"',26,29,'GND VDD SCK SDA'],['ADXL345 GY-291',33,40,'SCL SDA SDO I2 I1 CS VCC GND'],['INA219 (khi có)',43,48,'Vin+ Vin- Sda Scl Gnd Vcc']];
+  modJ.forEach(([t,c1,c2,pins],k)=>{ const x1=colX(c1)-7,x2=colX(c2)+7; const dash=k===2;
+    g.appendChild(el('rect',{x:x1,y:rowY.j+6,width:x2-x1,height:52,rx:5,fill:'#14161e',opacity:.9,stroke:dash?'#3c404c':'none','stroke-dasharray':dash?'3 2':''}));
+    g.appendChild(el('text',{x:(x1+x2)/2,y:rowY.j+24,'text-anchor':'middle',fill:'#c9ccd6','font-size':7.5,'font-weight':600},t));
+    pins.split(' ').forEach((p,i)=>{ const x=colX(c1+i); g.appendChild(el('circle',{cx:x,cy:rowY.j,r:2.6,fill:'#c9ccd6'})); g.appendChild(el('text',{x:x,y:rowY.j+37+(i%2?8:0),'text-anchor':'middle',fill:'#8d919c','font-size':5.5},p)); }); });
+  // LEDs, resistors, buzzer, pot, buttons
+  [['#e05252',26],['#e8c547',31],['#4fbf6a',36]].forEach(([c,col])=>{ g.appendChild(el('circle',{cx:(colX(col)+colX(col+1))/2,cy:rowY.e-10,r:6,fill:c,opacity:.9})); g.appendChild(el('line',{x1:colX(col),y1:rowY.e,x2:colX(col),y2:rowY.e-6,stroke:c,'stroke-width':1.5})); g.appendChild(el('line',{x1:colX(col+1),y1:rowY.e,x2:colX(col+1),y2:rowY.e-6,stroke:c,'stroke-width':1.5})); g.appendChild(el('text',{x:colX(col),y:rowY.e+10,'text-anchor':'middle',fill:'#6a6860','font-size':6},'+'));
+    g.appendChild(el('rect',{x:colX(col)+3,y:rowY.c-4,width:colX(col+4)-colX(col)-6,height:8,rx:3,fill:'#d9c9a3',stroke:'#8a7a55'})); g.appendChild(el('text',{x:(colX(col)+colX(col+4))/2,y:rowY.c+2.5,'text-anchor':'middle',fill:'#5a4a25','font-size':6},'330')); });
+  g.appendChild(el('circle',{cx:(colX(42)+colX(45))/2,cy:rowY.e-12,r:11,fill:'#111',stroke:'#444'})); g.appendChild(el('text',{x:(colX(42)+colX(45))/2,y:rowY.e-9,'text-anchor':'middle',fill:'#aaa','font-size':6},'còi')); g.appendChild(el('text',{x:colX(42),y:rowY.e+10,'text-anchor':'middle',fill:'#6a6860','font-size':6},'+'));
+  g.appendChild(el('circle',{cx:colX(55),cy:rowY.c,r:22,fill:'#4a4a52',opacity:.85})); g.appendChild(el('text',{x:colX(55),y:rowY.c+2,'text-anchor':'middle',fill:'#8d919c','font-size':6},'B10K')); [58,60,62].forEach(c=>g.appendChild(el('line',{x1:colX(c),y1:rowY.e,x2:colX(c)-8,y2:rowY.d,stroke:'#9a9aa8','stroke-width':1.5})));
+  [[4,'#3b7dd8','xanh'],[9,'#e8c547','vàng'],[14,'#e8e8e8','trắng']].forEach(([c,col,name])=>{ const x=(colX(c)+colX(c+2))/2, y=(rowY.e+rowY.h)/2; g.appendChild(el('rect',{x:x-11,y:y-11,width:22,height:22,rx:3,fill:'#2a2a30'})); g.appendChild(el('circle',{cx:x,cy:y,r:6,fill:col})); g.appendChild(el('text',{x:x,y:rowY.j+9,'text-anchor':'middle',fill:'#6a6860','font-size':6},name)); });
+  // off-board devices
+  for(const id in dev){ if(id==='esp')continue; const d=dev[id]; const dash=id==='usb';
+    g.appendChild(el('rect',{x:d.x,y:d.y,width:d.w,height:d.h,rx:8,fill:C('--panel'),stroke:dash?'#3c404c':'none','stroke-dasharray':dash?'4 3':''}));
+    g.appendChild(el('text',{x:d.x+d.w/2,y:d.y+16,'text-anchor':'middle',fill:C('--text'),'font-size':9,'font-weight':600,'font-family':'Rajdhani, sans-serif'},d.title));
+    d.pins.forEach((n,i)=>{ const p=P[id+'.'+n.split(' ').pop()]; g.appendChild(el('circle',{cx:p.x,cy:p.y,r:2.6,fill:'#c9ccd6'})); g.appendChild(el('text',{x:p.x,y:p.y-8,'text-anchor':'middle',fill:C('--muted'),'font-size':6.5},n)); }); }
+
+  // ---------- wires ----------
+  const wireLayer=el('g',{}); svg.appendChild(wireLayer);
+  const wires=[];
+  stages.forEach((s,si)=>s.steps.forEach(st=>{ if(!st.w)return; const w=st.w; const a=pt(w.a), b=pt(w.b);
+    let d; const grp=el('g',{'data-stage':si});
+    if(w.via){ const pts=[[a.x,a.y]]; w.via.forEach(v=>pts.push([v[0], v[1]==='a'?a.y:(v[1]===0?b.y:v[1])])); pts.push([b.x,b.y]); d=pts.map((p,i)=>(i?'L':'M')+p[0]+','+p[1]).join(' '); }
+    else { const dx=b.x-a.x, dy=b.y-a.y, len=Math.hypot(dx,dy); const bul=Math.min(40,10+len*0.18)*(a.y<=b.y?-1:1); const mx=(a.x+b.x)/2, my=(a.y+b.y)/2; d=`M${a.x},${a.y} Q${mx},${my+bul} ${b.x},${b.y}`; }
+    const attrs={d,fill:'none',stroke:C(w.c),'stroke-width':2.2,'stroke-linecap':'round','stroke-linejoin':'round'}; if(w.dash)attrs['stroke-dasharray']='5 4';
+    grp.appendChild(el('path',attrs));
+    [a,b].forEach(p=>grp.appendChild(el('circle',{cx:p.x,cy:p.y,r:3,fill:C(w.c)})));
+    // number badge at the midpoint of the path
+    const path=grp.firstChild; const L=path.getTotalLength? null:null;
+    grp.appendChild(el('circle',{cx:0,cy:0,r:6.5,fill:'#0e0e14',stroke:C(w.c),'stroke-width':1.2,'data-badge':1}));
+    grp.appendChild(el('text',{x:0,y:2.4,'text-anchor':'middle',fill:C('--text'),'font-size':6.5,'font-weight':700,'data-badgetxt':1},st.n));
+    wireLayer.appendChild(grp); wires.push({grp,st}); }));
+  // position badges after paths exist
+  wires.forEach(({grp})=>{ const path=grp.querySelector('path'); const m=path.getPointAtLength(path.getTotalLength()/2); grp.querySelector('[data-badge]').setAttribute('cx',m.x); grp.querySelector('[data-badge]').setAttribute('cy',m.y); const t=grp.querySelector('[data-badgetxt]'); t.setAttribute('x',m.x); t.setAttribute('y',m.y+2.4); });
+
+  // ---------- tabs & stage panels ----------
+  const tabs=document.getElementById('tabs'), host=document.getElementById('stages');
+  let cur=0; try{ cur=+localStorage.getItem('hqc-bb-stage')||0; }catch(e){}
+  const doneKey=n=>'hqc-bb-done-'+n;
+  stages.forEach((s,si)=>{ const b=document.createElement('button'); b.className='tab'; b.type='button'; b.innerHTML='<span class="n">'+(si+1)+'</span>'+s.name; b.addEventListener('click',()=>show(si)); tabs.appendChild(b);
+    const sec=document.createElement('div'); sec.className='stage'; sec.innerHTML='<h3>Giai đoạn '+(si+1)+' · '+s.name+'</h3><p class="goal">'+s.goal+'</p>';
+    const ul=document.createElement('ul'); ul.className='steps';
+    s.steps.forEach(st=>{ const li=document.createElement('li'); let done=false; try{ done=localStorage.getItem(doneKey(st.n))==='1'; }catch(e){}
+      li.innerHTML='<input type="checkbox" aria-label="Xong bước '+st.n+'"'+(done?' checked':'')+'><span class="num">'+st.n+'</span><span class="txt">'+st.t+'</span>'; if(done)li.classList.add('done');
+      li.querySelector('input').addEventListener('change',e=>{ li.classList.toggle('done',e.target.checked); try{ localStorage.setItem(doneKey(st.n),e.target.checked?'1':'0'); }catch(err){} });
+      ul.appendChild(li); });
+    sec.appendChild(ul); const ck=document.createElement('div'); ck.className='check'; ck.innerHTML='<b>Kiểm tra:</b> '+s.check; sec.appendChild(ck); host.appendChild(sec); });
+  function show(si){ cur=si; try{ localStorage.setItem('hqc-bb-stage',si); }catch(e){}
+    [...tabs.children].forEach((b,i)=>b.classList.toggle('on',i===si)); [...host.children].forEach((d,i)=>d.classList.toggle('on',i===si));
+    wires.forEach(({grp,st})=>{ grp.setAttribute('opacity', st.stage===si?1:.13); }); }
+  show(Math.min(cur,stages.length-1));
+
+  // ---------- plain-language wire list ----------
+  const TOPCTX={26:'chân dài LED đỏ',27:'chân ngắn LED đỏ',30:'đầu điện trở của LED đỏ',31:'chân dài LED vàng',32:'chân ngắn LED vàng',35:'đầu điện trở của LED vàng',36:'chân dài LED xanh',37:'chân ngắn LED xanh',40:'đầu điện trở của LED xanh',42:'chân + của còi',45:'chân − của còi',58:'chân ngoài biến trở',60:'chân giữa biến trở',62:'chân ngoài kia của biến trở',4:'nút xanh',9:'nút vàng',14:'nút trắng',63:'dây đỏ của pin'};
+  const BOTCTX={26:'GND của OLED',27:'VDD của OLED',28:'SCK của OLED',29:'SDA của OLED',33:'SCL của ADXL345',34:'SDA của ADXL345',35:'SDO của ADXL345',38:'CS của ADXL345',39:'VCC của ADXL345',40:'GND của ADXL345',43:'Vin+ của INA219',44:'Vin- của INA219',45:'Sda của INA219',46:'Scl của INA219',47:'Gnd của INA219',48:'Vcc của INA219',6:'chân chéo h6 của nút xanh',11:'chân chéo h11 của nút vàng',16:'chân chéo h16 của nút trắng'};
+  const ESPD={'esp.3V3':'chân <b>3V3</b> trên ESP32 (chân đầu hàng, sát anten)','esp.GNDb':'chân <b>GND</b> cuối hàng 3V3 trên ESP32 (cạnh chân 5V)','esp.GNDt':'chân <b>GND</b> đầu hàng bên kia trên ESP32 (cạnh TX)','esp.5V':'chân <b>5V</b> trên ESP32'};
+  const DEVD={'ky.CLK':'chân <b>CLK</b> của KY-040','ky.DT':'chân <b>DT</b> của KY-040','ky.SW':'chân <b>SW</b> của KY-040','ky.+':'chân <b>+</b> của KY-040','ky.GND':'chân <b>GND</b> của KY-040','fan.TACHO':'dây <b>TACHO</b> của quạt (chân thứ 3 trên jack, đếm từ PWM về)','fan.+12V':'dây <b>+12V</b> của quạt (chân thứ 2)','fan.GND':'dây <b>GND</b> của quạt (chân thứ 1)','fan.PWM':'dây <b>PWM</b> của quạt (chân ngoài gờ)','servo.SIG':'dây <b>cam</b> của servo','servo.5V':'dây <b>đỏ</b> của servo','servo.GND':'dây <b>nâu</b> của servo','bat.+':'dây <b>đỏ</b> của pin 9 V','bat.−':'dây <b>đen</b> của pin 9 V','usb.laptop':'dây đỏ cáp USB, đầu <b>phía laptop</b>','usb.board':'dây đỏ cáp USB, đầu <b>phía board</b>'};
+  function desc(k){ if(ESPD[k])return ESPD[k]; if(DEVD[k])return DEVD[k]; if(k.startsWith('esp.'))return 'chân <b>'+k.slice(4)+'</b> trên ESP32';
+    const m=/^([WX][+-]|[a-j])(\d+)$/.exec(k); if(!m)return k; const r=m[1], c=+m[2];
+    if(r==='X+')return 'rail <b>đỏ dưới</b> (3V3), lỗ cạnh cột '+c; if(r==='X-')return 'rail <b>xanh dưới</b> (GND), lỗ cạnh cột '+c; if(r==='W+')return 'rail <b>đỏ trên</b> (5 V), lỗ cạnh cột '+c; if(r==='W-')return 'rail <b>xanh trên</b> (GND), lỗ cạnh cột '+c;
+    const ctx = 'abcde'.includes(r)? TOPCTX[c] : BOTCTX[c]; return 'lỗ <b>'+k+'</b>'+(ctx?' (cột '+ctx+')':''); }
+  function kind(a,b){ const dev=k=>/^(fan|servo)\./.test(k), esp=k=>k.startsWith('esp.'), raw=k=>/^(bat|usb)\./.test(k), ky=k=>k.startsWith('ky.');
+    if(raw(a)||raw(b))return 'dây tuốt trần, xoắn với một dây đực rồi cắm'; if((ky(a)&&esp(b))||(ky(b)&&esp(a)))return 'cái-cái'; if(esp(a)||esp(b)||ky(a)||ky(b))return 'đực-cái'; if(dev(a)||dev(b))return 'đực-đực (đầu vào jack)'; return 'đực-đực'; }
+  const tb=document.querySelector('#wirelist tbody');
+  stages.forEach((st,si)=>st.steps.forEach(s=>{ if(!s.w)return; const tr=document.createElement('tr'); if(s.w.dash)tr.className='opt';
+    tr.innerHTML='<td class="n">'+s.n+'</td><td>'+desc(s.w.a)+'</td><td>'+desc(s.w.b)+'</td><td class="k">'+kind(s.w.a,s.w.b)+'</td><td class="st">'+(si+1)+' · '+st.name+'</td>'; tb.appendChild(tr); }));
+
+  const L=[['--w-3v3','3V3'],['--w-5v','5 V'],['--w-gnd','GND'],['--w-12v','pin 9 V'],['--w-sda','SDA'],['--w-scl','SCL'],['--w-cs','CS'],['--w-mosi','MOSI'],['--w-miso','MISO'],['--w-sck','SCK'],['--w-enc','encoder'],['--w-btn','nút'],['--w-adc','biến trở'],['--l-red','LED đỏ'],['--l-yellow','LED vàng'],['--l-green','LED xanh'],['--l-buzz','còi'],['--w-servo','servo'],['--w-tacho','tacho'],['--w-pwm','PWM tuỳ chọn']];
+  const lg=document.getElementById('legend'); L.forEach(([c,n])=>{ const s=document.createElement('span'); const i=document.createElement('i'); i.style.background=C(c); s.appendChild(i); s.appendChild(document.createTextNode(n)); lg.appendChild(s); });
+})();
+</script>

@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="google" content="notranslate"><title>P29201A · Ba tầng chạy trên ESP32-S3</title>
+<style>/* Dark Neumorphism (Premium Dark): khối nổi bằng cặp bóng, ánh sáng ven mảnh, phân cấp bằng xám tối */
+:root{--bg:#0e0e14;--bg2:#12121a;--dk:#06060a;--lt:#20202c;--ink:#d6d7de;--dim:#6e7080;--mute:#3a3b48;
+  --red:#c65a4a;--amber:#c9963a;--green:#4f9a7a;--gray:#3c3d4a;--blue:#5f8fc9;--edge:rgba(255,255,255,.05)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:var(--ink);font:15px/1.4 "Inter","Segoe UI",system-ui,sans-serif;display:flex;flex-direction:column}
+.eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
+.bar{display:flex;align-items:center;gap:28px;padding:14px 28px;height:96px;background:var(--bg2);box-shadow:8px 8px 20px var(--dk),-8px -8px 20px var(--lt);border-top:1px solid var(--edge)}
+h1{font-size:22px;font-weight:600;letter-spacing:.01em;color:#e8e9ef}
+.title{flex:0 0 470px}
+.day-box{flex:0 0 220px;padding:8px 16px;border-radius:14px;box-shadow:inset 6px 6px 14px var(--dk),inset -6px -6px 14px var(--lt)}
+.day{font-size:30px;font-weight:600;font-variant-numeric:tabular-nums;color:#f0f0f4}
+.role{font-size:12px;color:var(--dim)}
+.lights{display:flex;gap:16px;flex:1}
+.light{flex:1;min-width:0;padding:8px 12px;border-radius:14px;background:var(--bg2);box-shadow:6px 6px 14px var(--dk),-6px -6px 14px var(--lt);border-top:1px solid var(--edge);display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;column-gap:10px;align-items:center;transition:box-shadow .3s}
+.light .lname{font-size:12px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.light .lstate{grid-row:1/3;grid-column:1;font-weight:700;font-size:14px;padding:5px 10px;border-radius:10px;color:var(--bg);background:var(--gray);white-space:nowrap;text-align:center;min-width:86px}
+.light .ldetail{font-size:12.5px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.light.green .lstate{background:var(--green)} .light.amber .lstate{background:var(--amber)}
+.light.red .lstate{background:var(--red);color:#fff} .light.red{box-shadow:6px 6px 14px var(--dk),-6px -6px 14px var(--lt),0 0 18px rgba(198,90,74,.35)}
+.light.gray .lstate{background:var(--gray);color:var(--dim)}
+.grid{height:calc(1080px - 96px - 88px);min-height:0;display:grid;grid-template-columns:1180px minmax(0,1fr);gap:18px;padding:18px 28px}
+.col{display:flex;flex-direction:column;gap:16px;min-height:0}
+.col.left .panel{flex:1 1 0}
+.note{flex:0 0 200px;display:flex;flex-direction:column} .strip{flex:0 0 150px} .compass{flex:1 1 0} .model{flex:0 0 auto}
+.panel{position:relative;min-height:0;border-radius:18px;background:var(--bg2);box-shadow:8px 8px 20px var(--dk),-8px -8px 20px var(--lt);border-top:1px solid var(--edge);padding:12px 16px 8px;overflow:hidden}
+.panel::before{content:"";position:absolute;left:0;top:0;height:1px;width:60%;background:linear-gradient(90deg,rgba(255,255,255,.14),transparent)}
+.ptitle{font-size:12px;letter-spacing:.06em;color:var(--dim);margin-bottom:4px}
+.chart canvas{width:100%;height:calc(100% - 40px);display:block}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--dim);height:18px;align-items:center}
+.legend i{display:inline-block;width:14px;height:3px;margin-right:5px;vertical-align:middle;border-radius:2px}
+.note .ntitle{font-size:18px;font-weight:600;color:#eeeef3;margin:6px 0 8px;text-wrap:balance}
+.note .nbody{font-size:14px;line-height:1.45;color:var(--ink)}
+.note .nbody b{color:#f2d7a3;font-weight:600}
+.note .ndate{margin-top:auto;text-align:right;font-size:12px;color:var(--dim)}
+.chan{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:4px}
+.ch{padding:5px 10px;border-radius:12px;box-shadow:inset 4px 4px 10px var(--dk),inset -4px -4px 10px var(--lt)}
+.ch .n{font-size:12px;color:var(--dim)} .ch .v{font-size:19px;line-height:1.15;font-weight:600;font-variant-numeric:tabular-nums} .ch .d{font-size:12px;color:var(--dim)}
+.ch.hot{box-shadow:inset 4px 4px 10px var(--dk),inset -4px -4px 10px var(--lt),0 0 14px rgba(198,90,74,.45)} .ch.hot .v{color:#f0a08e}
+.ch.warm .v{color:#e8c07a}
+.compass{display:flex;flex-direction:column}
+.compass canvas{flex:1;min-height:0}
+.compass canvas{width:100%;height:100%;display:block}
+.ctxt{font-size:13px;color:var(--dim);text-align:center;height:22px}
+.mbody{font-size:12.5px;line-height:1.5;color:var(--ink)}
+.mbody table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.mbody td{padding:2px 0;border-bottom:1px solid var(--mute)} .mbody td:first-child{white-space:nowrap;color:var(--dim);padding-right:12px} .mbody td:last-child{text-align:right;color:#eeeef3}
+.ctrl{height:88px;gap:20px}
+.btn{background:var(--bg2);color:var(--ink);border:0;border-top:1px solid var(--edge);border-radius:12px;padding:10px 18px;font-size:15px;cursor:pointer;box-shadow:6px 6px 14px var(--dk),-6px -6px 14px var(--lt)}
+.btn:active,.btn.on{box-shadow:inset 4px 4px 10px var(--dk),inset -4px -4px 10px var(--lt);color:#f2d7a3}
+.btn:focus-visible{outline:1px solid var(--amber)}
+.speed{display:flex;align-items:center;gap:8px}
+#slider{flex:1;height:8px;-webkit-appearance:none;appearance:none;background:var(--dk);border-radius:6px;box-shadow:inset 3px 3px 8px var(--dk),inset -2px -2px 6px var(--lt)}
+#slider::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#1a1a24;border-top:1px solid rgba(255,255,255,.18);box-shadow:4px 4px 10px var(--dk),-3px -3px 8px var(--lt);cursor:pointer}
+.range{display:flex;flex-direction:column;font-size:12px;color:var(--dim);font-variant-numeric:tabular-nums}
+.keys{font-size:12px;color:var(--dim);max-width:430px}
+.summary{position:fixed;inset:120px 300px;background:var(--bg2);border-radius:22px;box-shadow:16px 16px 40px var(--dk),-12px -12px 30px var(--lt);border-top:1px solid rgba(255,255,255,.12);padding:36px 48px;z-index:9}
+.summary h2{font-size:26px;margin-bottom:18px;color:#eeeef3}
+.summary table{width:100%;border-collapse:collapse;font-size:17px;font-variant-numeric:tabular-nums}
+.summary th{text-align:left;color:var(--dim);font-weight:500;font-size:13px;letter-spacing:.06em;text-transform:uppercase;padding:8px 10px;border-bottom:1px solid var(--mute)}
+.summary td{padding:10px;border-bottom:1px solid var(--mute)} .summary td b{color:#f2d7a3}
+.summary p{margin-top:18px;color:var(--ink);font-size:15px;line-height:1.55}
+@media (prefers-reduced-motion:reduce){.light{transition:none}}
+
+.top{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.btn.sm{padding:8px 14px;font-size:14px}
+.stat{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:6px}
+.stat .ch .v{font-size:20px}
+.log{font:12px/1.4 "JetBrains Mono","Consolas",monospace;color:var(--dim);height:100%;overflow:auto;white-space:pre}
+.log .ok{color:#8fd3b0} .log .warn{color:#e8c07a} .log .err{color:#f0a08e}
+.prog{height:8px;border-radius:6px;background:var(--dk);box-shadow:inset 3px 3px 8px var(--dk),inset -2px -2px 6px var(--lt);overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4f9a7a,#8fd3b0)}
+</style></head>
+<body>
+<header class="bar">
+  <div class="title"><span class="eyebrow">Bơm cấp nước nồi hơi P29201A · ESP32-S3 DevKitC</span><h1>Ba tầng cảnh báo chạy trên vi điều khiển · phát lại qua USB</h1></div>
+  <div class="day-box"><span class="eyebrow">Ngày bo vừa đóng</span><div id="day" class="day">—</div><div id="role" class="role">chưa kết nối</div></div>
+  <div class="lights">
+    <div class="light" id="lA"><span class="lname">A · Direct → 65 µm</span><span class="lstate">—</span><span class="ldetail"></span></div>
+    <div class="light" id="lB14"><span class="lname">B₁₄ · SAE, dốc 14 ngày</span><span class="lstate">—</span><span class="ldetail"></span></div>
+    <div class="light" id="lB45"><span class="lname">B₄₅ · SAE, dốc 45 ngày</span><span class="lstate">—</span><span class="ldetail"></span></div>
+    <div class="light" id="lC"><span class="lname">C · chữ ký pha ổ 2001</span><span class="lstate">—</span><span class="ldetail"></span></div>
+  </div>
+</header>
+<main class="grid">
+ <div class="col left">
+  <section class="panel chart"><div class="ptitle">SPE do bo tính (int16/int8, trung vị ngày, log₁₀) · chấm đỏ/vàng = ngày bo báo B₁₄ / B₄₅ · vạch mảnh = ngày Python báo (kỳ vọng)</div><canvas id="cSpe"></canvas><div class="legend" id="legSpe"></div></section>
+  <section class="panel chart"><div class="ptitle">Độ trễ mỗi mẫu trên bo (µs, trung bình tích lũy) và bộ nhớ động còn trống (KB)</div><canvas id="cLat"></canvas><div class="legend" id="legLat"></div></section>
+  <section class="panel"><div class="ptitle">Dòng JSON bo trả về (mới nhất ở cuối)</div><div id="log" class="log"></div></section>
+ </div>
+ <div class="col right">
+  <aside class="panel note"><div class="ptitle">Kết nối và phát lại</div>
+    <div class="top"><button id="btnConn" class="btn sm">🔌 Kết nối bo (Web Serial)</button><input id="file" type="file" accept=".txt" hidden><button id="btnFile" class="btn sm">📄 Chọn replay_stream.txt</button><button id="btnWs" class="btn sm">🔗 Nối qua cầu nối</button><input id="wsUrl" value="ws://127.0.0.1:18795" style="width:190px;background:var(--dk);color:var(--ink);border:0;border-radius:8px;padding:8px 10px;font-size:13px"><button id="btnRun" class="btn sm" disabled>▶ Phát lại</button><button id="btnStop" class="btn sm" disabled>⏹ Dừng</button><span style="margin-left:14px;color:var(--dim);font-size:12px">Đoạn:</span><button id="seg1" class="btn sm" disabled>🟢 Nền khỏe 20/02</button><button id="seg2" class="btn sm" disabled>🟡 Tháng 4 từ 01/03</button><button id="seg3" class="btn sm" disabled>🔴 Tháng 5 từ 01/04</button></div>
+    <div class="prog" style="margin-top:10px"><i id="prog"></i></div>
+    <div id="msg" class="nbody" style="margin-top:8px">Mở trang này trên máy có cắm bo. Bước 1: kết nối bằng Web Serial (Chrome/Edge) hoặc qua cầu nối WebSocket (chạy <code>33_serial_ws_bridge.py --port …</code> trước). Bước 2 chọn file luồng, bước 3 phát lại.</div>
+  </aside>
+  <aside class="panel strip"><div class="ptitle">Thống kê từ bo (lệnh P)</div><div class="stat">
+    <div class="ch"><div class="n">Mẫu đã suy luận</div><div class="v" id="sInf">—</div><div class="d">trên tổng 42.064</div></div>
+    <div class="ch"><div class="n">Độ trễ trung bình</div><div class="v" id="sUs">—</div><div class="d">µs mỗi mẫu 10 phút</div></div>
+    <div class="ch"><div class="n">Độ trễ lớn nhất</div><div class="v" id="sMax">—</div><div class="d">µs</div></div>
+    <div class="ch"><div class="n">Bộ nhớ động còn trống</div><div class="v" id="sHeap">—</div><div class="d">KB · trạng thái ba tầng <span id="sEng">—</span> B</div></div>
+  </div></aside>
+  <aside class="panel compass"><div class="ptitle">Đối chiếu với Python (kỳ vọng đã khóa)</div><div id="cmp" class="nbody" style="padding-top:6px">—</div></aside>
+  <aside class="panel model"><div class="ptitle">Mô hình trên bo</div><div id="model" class="mbody"></div></aside>
+ </div>
+</main>
+<footer class="bar ctrl"><div class="keys">Luồng gửi từng gói 8 dòng rồi chờ bo trả STAT (đệm RX 4 KB). Mở cổng với DTR/RTS tắt để bo không bị reset. Định dạng dòng: S,epoch,amp×8,sin×8,cos×8 · D,epoch,Direct×8 · R,epoch · E.</div></footer>
+<script>window.EXP = {"days":["2025-09-28","2025-09-29","2025-09-30","2025-10-01","2025-10-02","2025-10-03","2025-10-04","2025-10-05","2025-10-06","2025-10-07","2025-10-08","2025-10-09","2025-10-10","2025-10-11","2025-10-12","2025-10-13","2025-10-14","2025-10-15","2025-10-16","2025-10-17","2025-10-18","2025-10-19","2025-10-20","2025-10-21","2025-10-22","2025-10-23","2025-10-24","2025-10-25","2025-10-26","2025-10-27","2025-10-28","2025-10-29","2025-10-30","2025-10-31","2025-11-01","2025-11-02","2025-11-03","2025-11-04","2025-11-05","2025-11-06","2025-11-07","2025-11-08","2025-11-09","2025-11-10","2025-11-11","2025-11-12","2025-11-13","2025-11-14","2025-11-15","2025-11-16","2025-11-17","2025-11-18","2025-11-19","2025-11-20","2025-11-21","2025-11-22","2025-11-23","2025-11-24","2025-11-25","2025-11-26","2025-11-27","2025-11-28","2025-11-29","2025-11-30","2025-12-01","2025-12-02","2025-12-03","2025-12-04","2025-12-05","2025-12-06","2025-12-07","2025-12-08","2025-12-09","2025-12-10","2025-12-11","2025-12-12","2025-12-13","2025-12-14","2025-12-15","2025-12-16","2025-12-17","2025-12-18","2025-12-19","2025-12-20","2025-12-21","2025-12-22","2025-12-23","2025-12-24","2025-12-25","2025-12-26","2025-12-27","2025-12-28","2025-12-29","2025-12-30","2025-12-31","2026-01-01","2026-01-02","2026-01-03","2026-01-04","2026-01-05","2026-01-06","2026-01-07","2026-01-08","2026-01-09","2026-01-10","2026-01-11","2026-01-12","2026-01-13","2026-01-14","2026-01-15","2026-01-16","2026-01-17","2026-01-18","2026-01-19","2026-01-20","2026-01-21","2026-01-22","2026-01-23","2026-01-24","2026-01-25","2026-01-26","2026-01-27","2026-01-28","2026-01-29","2026-01-30","2026-01-31","2026-02-01","2026-02-02","2026-02-03","2026-02-04","2026-02-05","2026-02-06","2026-02-07","2026-02-08","2026-02-09","2026-02-10","2026-02-11","2026-02-12","2026-02-13","2026-02-14","2026-02-15","2026-02-16","2026-02-17","2026-02-18","2026-02-19","2026-02-20","2026-02-21","2026-02-22","2026-02-23","2026-02-24","2026-02-25","2026-02-26","2026-02-27","2026-02-28","2026-03-01","2026-03-02","2026-03-03","2026-03-04","2026-03-05","2026-03-06","2026-03-07","2026-03-08","2026-03-09","2026-03-10","2026-03-11","2026-03-12","2026-03-13","2026-03-14","2026-03-15","2026-03-16","2026-03-17","2026-03-18","2026-03-19","2026-03-20","2026-03-21","2026-03-22","2026-03-23","2026-03-24","2026-03-25","2026-03-26","2026-03-27","2026-03-28","2026-03-29","2026-03-30","2026-03-31","2026-04-01","2026-04-02","2026-04-03","2026-04-04","2026-04-05","2026-04-06","2026-04-07","2026-04-08","2026-04-09","2026-04-10","2026-04-11","2026-04-12","2026-04-13","2026-04-14","2026-04-15","2026-04-16","2026-04-17","2026-04-18","2026-04-19","2026-04-20","2026-04-21","2026-04-22","2026-04-23","2026-04-24","2026-04-25","2026-04-26","2026-04-27","2026-04-28","2026-04-29","2026-04-30","2026-05-01","2026-05-02","2026-05-03","2026-05-04","2026-05-05","2026-05-06","2026-05-07","2026-05-08","2026-05-09","2026-05-10","2026-05-11","2026-05-12","2026-05-13","2026-05-14","2026-05-15","2026-05-16","2026-05-17","2026-05-18","2026-05-19","2026-05-20","2026-05-21","2026-05-22","2026-05-23","2026-05-24","2026-05-25","2026-05-26","2026-05-27","2026-05-28","2026-05-29","2026-05-30","2026-05-31","2026-06-01","2026-06-02","2026-06-03","2026-06-04","2026-06-05","2026-06-06","2026-06-07","2026-06-08","2026-06-09","2026-06-10","2026-06-11","2026-06-12","2026-06-13","2026-06-14","2026-06-15","2026-06-16","2026-06-17","2026-06-18","2026-06-19","2026-06-20","2026-06-21","2026-06-22","2026-06-23","2026-06-24","2026-06-25","2026-06-26","2026-06-27","2026-06-28","2026-06-29","2026-06-30","2026-07-01","2026-07-02","2026-07-03","2026-07-04","2026-07-05","2026-07-06","2026-07-07","2026-07-08","2026-07-09","2026-07-10","2026-07-11","2026-07-12","2026-07-13","2026-07-14","2026-07-15","2026-07-16","2026-07-17","2026-07-18","2026-07-19","2026-07-20","2026-07-21","2026-07-22","2026-07-23","2026-07-24","2026-07-25","2026-07-26","2026-07-27","2026-07-28","2026-07-29","2026-07-30","2026-07-31","2026-08-01","2026-08-02","2026-08-03","2026-08-04","2026-08-05","2026-08-06","2026-08-07","2026-08-08","2026-08-09","2026-08-10","2026-08-11","2026-08-12","2026-08-13","2026-08-14","2026-08-15","2026-08-16","2026-08-17","2026-08-18","2026-08-19","2026-08-20","2026-08-21","2026-08-22","2026-08-23","2026-08-24","2026-08-25","2026-08-26","2026-08-27","2026-08-28","2026-08-29","2026-08-30","2026-08-31","2026-09-01","2026-09-02"],"role":["neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg",null,null,"report","report","report","report","report","report","report","report","report","report","report","report","report","report","report","report","report","report","report","report","report","report","report","report","report","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","report","report","report",null,null,null,null,null,null,null,null,null,null,"neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg","neg",null,null,null,null,null,null,null,null,null,null,null,null,null,null,"train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","train","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","config_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos","precheck_pos",null,null,null,"report","report","report",null,"report","report","report","report","report",null,null,null,"blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind","blind"],"channels":["2001X","2001Y","2003X","2003Y","2005X","2005Y","2007X","2007Y"],"alarms":{"A":["2026-04-29","2026-04-30","2026-05-01","2026-05-04","2026-05-05","2026-05-06"],"B14":["2026-04-06","2026-04-11","2026-04-12","2026-04-13","2026-04-14","2026-04-15","2026-04-16","2026-04-17","2026-04-18","2026-04-19","2026-04-20","2026-04-21","2026-04-22","2026-04-23","2026-04-24","2026-04-25","2026-04-26","2026-04-27","2026-04-28"],"B45":["2026-04-11","2026-04-12","2026-04-13","2026-04-14","2026-04-15","2026-04-16","2026-04-17","2026-04-18","2026-04-19","2026-04-20","2026-04-21","2026-04-22","2026-04-23","2026-04-24","2026-04-25","2026-04-26","2026-04-27","2026-04-28","2026-04-29","2026-04-30","2026-05-01","2026-05-02","2026-05-03","2026-05-04","2026-05-05","2026-05-06","2026-05-07","2026-05-08","2026-05-09","2026-05-10","2026-05-11","2026-05-12","2026-05-13","2026-05-14","2026-05-15","2026-05-16","2026-05-17","2026-05-18","2026-05-19","2026-05-20","2026-05-21","2026-05-22","2026-05-23","2026-05-24","2026-05-25","2026-05-26","2026-05-27","2026-05-28","2026-05-29"],"C":["2026-01-24"]},"stops":[{"stop":"2025-11-04","restart":"2025-11-07","days":3.0},{"stop":"2026-01-04","restart":"2026-01-15","days":11.0},{"stop":"2026-05-29","restart":"2026-06-02","days":3.6},{"stop":"2026-06-10","restart":"2026-06-14","days":3.0}],"events":{"dung1":{"stop":"2026-01-04","A_direct_65um":{"first_alarm":null,"lead_days":null,"censored":false},"B14_SAE":{"first_alarm":null,"lead_days":null,"censored":false},"B45_SAE":{"first_alarm":null,"lead_days":null,"censored":false},"C_phase_flip":{"first_alarm":null,"lead_days":null,"censored":false},"C_phase_flip_excl_post_restart":{"first_alarm":null,"lead_days":null,"censored":false}},"dung2":{"stop":"2026-05-29","A_direct_65um":{"first_alarm":"2026-04-29","lead_days":30,"censored":false},"B14_SAE":{"first_alarm":"2026-04-06","lead_days":53,"censored":false},"B45_SAE":{"first_alarm":"2026-04-11","lead_days":48,"censored":false},"C_phase_flip":{"first_alarm":null,"lead_days":null,"censored":false},"C_phase_flip_excl_post_restart":{"first_alarm":null,"lead_days":null,"censored":false}}},"params":{"model":"SAE_b0.001_s0","n_params":3600,"arch":"24→24→24→24→24→24→24 (6 lớp tuyến tính, tanh)","tau14":0.135,"tau45":0.035,"consec14":3,"consec45":5,"limit_um":65.0,"horizon_days":30,"tierA_consec":2,"rule_c":{"lookback_days":56,"lookback_tol_days":3,"hold_weeks":2,"sd_max_deg":5.0,"min_rate_deg_wk":1.0,"post_restart_days":21},"limit99_6h":0.2634}};</script>
+<script>/* demo-charts-canvas.js — vẽ đồ thị đường theo ngày trên canvas (không thư viện), cắt tại ngày đang xem (nhân quả). */
+const PAL = { "2001X": "#e8a06a", "2001Y": "#c97c4a", "2003X": "#7fb3d5", "2003Y": "#4f8fc9", "2005X": "#9fcf9a", "2005Y": "#5f9a6a", "2007X": "#c9a0d8", "2007Y": "#8f6aa8" };
+const CSS = getComputedStyle(document.documentElement); const tok = (n) => CSS.getPropertyValue(n).trim();
+
+class DayChart {
+  /* opts: {el, days, idx, series:[{key,vals,color,width}], ymin,ymax, ylog, yticks, hlines:[{y,label,color}], bands:[{color,set}], stops} */
+  constructor(opts) {
+    Object.assign(this, opts); this.cv = document.getElementById(this.el); this.ctx = this.cv.getContext("2d");
+    this.pad = { l: 58, r: 14, t: 10, b: 24 }; this.resize();
+  }
+  resize() { const r = this.cv.getBoundingClientRect(); this.cv.width = r.width * devicePixelRatio; this.cv.height = r.height * devicePixelRatio; this.W = r.width; this.H = r.height; this.ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0); }
+  x(i) { return this.pad.l + (i / (this.days.length - 1)) * (this.W - this.pad.l - this.pad.r); }
+  y(v) { const a = this.ylog ? Math.log10(Math.max(v, 1e-6)) : v; return this.pad.t + (1 - (a - this.ymin) / (this.ymax - this.ymin)) * (this.H - this.pad.t - this.pad.b); }
+  draw(cut) {
+    const c = this.ctx, W = this.W, H = this.H; c.clearRect(0, 0, W, H);
+    const y0 = this.pad.t, y1 = H - this.pad.b, x0 = this.pad.l, x1 = W - this.pad.r;
+    (this.stops || []).forEach(s => { const a = this.idx[s.stop], b = this.idx[s.restart]; if (a == null || b == null) return; c.fillStyle = "rgba(255,255,255,.04)"; c.fillRect(this.x(a), y0, Math.max(2, this.x(b) - this.x(a)), y1 - y0); });
+    (this.bands || []).forEach((bd, k) => { c.fillStyle = bd.color; bd.set.forEach(d => { const i = this.idx[d]; if (i != null && i <= cut) c.fillRect(this.x(i) - 1.5, y0 + k * 6, 3, 5); }); });
+    c.strokeStyle = tok("--mute"); c.lineWidth = 1; c.fillStyle = tok("--dim"); c.font = "11px Inter,system-ui,sans-serif"; c.textAlign = "right";
+    (this.yticks || []).forEach(v => { const yy = this.y(v); c.beginPath(); c.moveTo(x0, yy); c.lineTo(x1, yy); c.globalAlpha = .5; c.stroke(); c.globalAlpha = 1; c.fillText(String(v), x0 - 6, yy + 4); });
+    c.textAlign = "center"; this.days.forEach((d, i) => { if (d.slice(8) === "01") { const xx = this.x(i); c.globalAlpha = .35; c.beginPath(); c.moveTo(xx, y0); c.lineTo(xx, y1); c.stroke(); c.globalAlpha = 1; c.fillText(d.slice(5, 7) + "/" + d.slice(2, 4), xx, H - 8); } });
+    (this.hlines || []).forEach(h => { const yy = this.y(h.y); c.strokeStyle = h.color; c.setLineDash([6, 5]); c.beginPath(); c.moveTo(x0, yy); c.lineTo(x1, yy); c.stroke(); c.setLineDash([]); c.fillStyle = h.color; c.textAlign = "left"; c.fillText(h.label, x0 + 6, yy - 4); });
+    this.series.forEach(s => {
+      c.strokeStyle = s.color; c.lineWidth = s.width || 1.6; c.globalAlpha = s.alpha || 1; c.beginPath(); let pen = false;
+      for (let i = 0; i <= cut; i++) { const v = s.vals[i]; if (v == null || (this.ylog && v <= 0)) { pen = false; continue; } const xx = this.x(i), yy = this.y(v); pen ? c.lineTo(xx, yy) : c.moveTo(xx, yy); pen = true; }
+      c.stroke(); c.globalAlpha = 1;
+      const last = this.lastValid(s.vals, cut); if (last != null) { c.fillStyle = s.color; c.beginPath(); c.arc(this.x(last), this.y(s.vals[last]), 3.2, 0, 7); c.fill(); }
+    });
+    const xc = this.x(cut); c.strokeStyle = "#f2d7a3"; c.globalAlpha = .8; c.lineWidth = 1; c.beginPath(); c.moveTo(xc, y0); c.lineTo(xc, y1); c.stroke(); c.globalAlpha = 1;
+  }
+  lastValid(v, cut) { for (let i = cut; i >= Math.max(0, cut - 6); i--) if (v[i] != null) return i; return null; }
+}
+
+/* La bàn pha: vết các tuần ≤ ngày cut, mũi tên tuần mới nhất; bán kính = biên độ 1X (tối đa 40 µm). */
+function drawCompass(cv, weeks, cutDay) {
+  const r = cv.getBoundingClientRect(); cv.width = r.width * devicePixelRatio; cv.height = r.height * devicePixelRatio; const c = cv.getContext("2d"); c.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  const W = r.width, H = r.height, cx = W / 2, cy = H / 2 + 4, R = Math.min(W, H) / 2 - 22; c.clearRect(0, 0, W, H);
+  c.strokeStyle = tok("--mute"); c.lineWidth = 1; [R, R * .5].forEach(rr => { c.beginPath(); c.arc(cx, cy, rr, 0, 7); c.stroke(); });
+  c.fillStyle = tok("--dim"); c.font = "11px Inter,system-ui,sans-serif"; c.textAlign = "center";
+  [0, 90, 180, 270].forEach(a => { const t = -a * Math.PI / 180; c.fillText(a + "°", cx + (R + 12) * Math.cos(t), cy + (R + 12) * Math.sin(t) + 4); });
+  const ws = weeks.filter(w => w.end <= cutDay); const pt = w => { const t = -w.ph["2001X"] * Math.PI / 180, rr = R * Math.min(1, w.amp2001X / 40); return [cx + rr * Math.cos(t), cy + rr * Math.sin(t)]; };
+  c.strokeStyle = PAL["2001X"]; c.lineWidth = 1.4; c.globalAlpha = .55; c.beginPath(); ws.forEach((w, i) => { const [x, y] = pt(w); i ? c.lineTo(x, y) : c.moveTo(x, y); }); c.stroke(); c.globalAlpha = 1;
+  ws.forEach(w => { const [x, y] = pt(w); c.fillStyle = w.alarm ? tok("--red") : w.flag ? tok("--amber") : PAL["2001X"]; c.beginPath(); c.arc(x, y, 2.6, 0, 7); c.fill(); });
+  const last = ws[ws.length - 1]; if (last) { const [x, y] = pt(last); c.strokeStyle = "#f2d7a3"; c.lineWidth = 2.2; c.beginPath(); c.moveTo(cx, cy); c.lineTo(x, y); c.stroke(); c.fillStyle = "#f2d7a3"; c.beginPath(); c.arc(x, y, 4.5, 0, 7); c.fill(); }
+  return last;
+}
+</script>
+<script>/* demo-esp32-live-app.js — trang trình diễn với bo thật: Web Serial (Chrome) gửi luồng phát lại xuống ESP32-S3, vẽ kết quả bo trả về
+ * và đối chiếu với ngày báo kỳ vọng của Python (window.EXP, sinh từ demo_data.json). */
+(() => {
+  const E = window.EXP, $ = (id) => document.getElementById(id), fmt = (d) => d ? d.slice(8, 10) + "/" + d.slice(5, 7) + "/" + d.slice(0, 4) : "—";
+  const EXP = { B14: new Set(E.alarms.B14), B45: new Set(E.alarms.B45), A: new Set(E.alarms.A), C: new Set(E.alarms.C) };
+  const idx = Object.fromEntries(E.days.map((d, i) => [d, i])); const N = E.days.length;
+  const spe = new Array(N).fill(null), us = new Array(N).fill(null), heap = new Array(N).fill(null);
+  const got = { B14: new Set(), B45: new Set(), A: new Set(), C: new Set() }; let seenB = 0, seenA = 0, seenC = 0;
+  const chS = new DayChart({ el: "cSpe", days: E.days, idx, series: [{ key: "spe", vals: spe, color: "#f2d7a3", width: 2 }], ylog: true, ymin: -2, ymax: 3, yticks: [0.01, 0.1, 1, 10, 100, 1000],
+    hlines: [{ y: E.params.limit99_6h, label: "giới hạn kiểm soát 99% (" + E.params.limit99_6h + ")", color: tok("--blue") }],
+    bands: [{ color: tok("--red"), set: [] }, { color: tok("--amber"), set: [] }, { color: "rgba(214,215,222,.35)", set: E.alarms.B14 }, { color: "rgba(214,215,222,.35)", set: E.alarms.B45 }], stops: E.stops });
+  const chL = new DayChart({ el: "cLat", days: E.days, idx, series: [{ key: "us", vals: us, color: "#7fb3d5", width: 1.8 }, { key: "heap", vals: heap, color: "#9fcf9a", width: 1.4 }], ymin: 0, ymax: 800, yticks: [0, 200, 400, 600, 800], stops: E.stops });
+  $("legSpe").innerHTML = `<span><i style="background:${tok("--red")}"></i>bo báo B₁₄</span><span><i style="background:${tok("--amber")}"></i>bo báo B₄₅</span><span><i style="background:rgba(214,215,222,.5)"></i>Python báo (kỳ vọng)</span>`;
+  $("legLat").innerHTML = `<span><i style="background:#7fb3d5"></i>µs / mẫu (TB tích lũy)</span><span><i style="background:#9fcf9a"></i>heap còn trống, KB (thang 0–800)</span>`;
+  $("model").innerHTML = `<table><tr><td>Mô hình</td><td>${E.params.model} · lớp 0–1 int16, lớp 2–5 int8</td></tr><tr><td>Ngưỡng khóa</td><td>τ₁₄ ${E.params.tau14} · τ₄₅ ${E.params.tau45} · 65 µm · chân trời 30 ngày</td></tr><tr><td>Kỳ vọng (Python)</td><td>B₁₄ ${fmt(E.events.dung2.B14_SAE.first_alarm)} · B₄₅ ${fmt(E.events.dung2.B45_SAE.first_alarm)} · A ${fmt(E.events.dung2.A_direct_65um.first_alarm)}</td></tr></table>`;
+  const light = (id, cls, state, detail) => { const el = $(id); el.className = "light " + cls; el.querySelector(".lstate").textContent = state; el.querySelector(".ldetail").textContent = detail; };
+  let cA = 1, cB = 1, cC = 1; const worst = () => Math.max(cA, cB, cC);
+  const log = (s, cls = "") => { const el = $("log"); const line = document.createElement("div"); line.textContent = s; if (cls) line.className = cls; el.appendChild(line); while (el.childElementCount > 400) el.removeChild(el.firstChild); el.scrollTop = el.scrollHeight; };
+  function cmp() {
+    const same = (k) => { const a = [...got[k]].filter(d => d <= lastDay), b = [...EXP[k]].filter(d => d <= lastDay); return a.length === b.length && a.every(d => EXP[k].has(d)); };
+    const row = (k, name) => { const a = [...got[k]].filter(d => d <= lastDay).length, b = [...EXP[k]].filter(d => d <= lastDay).length; return `<div>${name}: bo ${a} ngày báo · Python ${b} · <b style="color:${same(k) ? "#8fd3b0" : "#f0a08e"}">${same(k) ? "trùng" : "LỆCH"}</b></div>`; };
+    $("cmp").innerHTML = row("B14", "B₁₄") + row("B45", "B₄₅") + row("A", "Tầng A") + row("C", "Tầng C (tuần)") + `<div style="color:var(--dim);margin-top:6px">tính tới ngày ${fmt(lastDay)}</div>`;
+  }
+  let lastDay = "";
+  function onJson(j) {
+    if (j.t === "B") { const i = idx[j.day]; if (i != null) { spe[i] = j.spe_med; } lastDay = j.day; $("day").textContent = fmt(j.day); $("role").textContent = E.role[i] || "";
+      if (j.B14) got.B14.add(j.day); if (j.B45) got.B45.add(j.day); chS.bands[0].set = [...got.B14]; chS.bands[1].set = [...got.B45]; seenB++;
+      cB = (j.B14 || j.B45) ? 3 : (j.slope14 == null ? 0 : 1); light("lB14", j.slope14 == null ? "gray" : j.B14 ? "red" : "green", j.slope14 == null ? "chưa đủ 14 ngày" : j.B14 ? "BÁO" : "bình thường", j.slope14 == null ? "" : `dốc ${j.slope14.toFixed(3)} / τ ${E.params.tau14}`);
+      light("lB45", j.slope45 == null ? "gray" : j.B45 ? "red" : "green", j.slope45 == null ? "chưa đủ 45 ngày" : j.B45 ? "BÁO" : "bình thường", j.slope45 == null ? "" : `dốc ${j.slope45.toFixed(3)} / τ ${E.params.tau45}`);
+      chS.draw(i ?? 0); cmp(); }
+    else if (j.t === "A") { if (j.A) got.A.add(j.day); seenA++; cA = j.A ? 3 : (j.flag ? 2 : (j.row ? 1 : 0));
+      light("lA", j.row ? (j.A ? "red" : j.flag ? "amber" : "green") : "gray", j.row ? (j.A ? "BÁO" : j.flag ? "dấu hiệu" : "bình thường") : "chưa đủ 8 hàng", j.ch >= 0 ? `${E.channels[j.ch]} · ${Math.round(j.dl_low)} ngày tới 65` : (j.level_2001X != null ? `2001X mức ${j.level_2001X.toFixed(1)} µm` : "")); }
+    else if (j.t === "C") { if (j.C) got.C.add(j.week_end); seenC++; cC = j.C ? 3 : (j.flag ? 2 : 1);
+      light("lC", j.C ? "red" : j.flag ? "amber" : "green", j.C ? "CẦN XEM" : j.flag ? "dấu hiệu tuần 1" : "bình thường", `tuần tới ${fmt(j.week_end)} · quay ${j.rate ?? "—"}°/tuần${j.post_restart ? " · sau khởi động" : ""}`); }
+    else if (j.t === "STAT") { $("sInf").textContent = j.inferences.toLocaleString("vi"); $("sUs").textContent = j.infer_us_mean.toFixed(0); $("sMax").textContent = j.infer_us_max.toLocaleString("vi"); $("sHeap").textContent = (j.heap_free / 1024).toFixed(0); $("sEng").textContent = j.engine_bytes;
+      const i = idx[lastDay]; if (i != null) { us[i] = j.infer_us_mean; heap[i] = j.heap_free / 1024; chL.draw(i); } }
+    else if (j.t === "HELLO") log("bo chào: " + JSON.stringify(j), "ok");
+    else if (j.t === "BTN") { log("NÚT " + j.n + " trên bàn thử", "ok"); jumpTo(j.n); }
+    else if (j.t === "RESET") log("bo đã xoá trạng thái ba tầng", "ok");
+    else if (j.t === "BENCH") { /* dòng bàn thử quạt: bỏ qua */ }
+  }
+  /* ---- Web Serial ---- */
+  let port = null, reader = null, writer = null, lines = null, running = false, buf = "";
+  const pending = []; // resolver chờ STAT
+  let lost = false;
+  async function readLoop() {
+    const dec = new TextDecoder(); lost = false;
+    while (port && port.readable) {
+      reader = port.readable.getReader();
+      try { for (;;) { const { value, done } = await reader.read(); if (done) break; buf += dec.decode(value); let k;
+        while ((k = buf.indexOf("\n")) >= 0) { const s = buf.slice(0, k).trim(); buf = buf.slice(k + 1); onLine(s); } } }
+      catch (e) { log("đọc cổng: " + e.message, "warn"); lost = true; try { reader.releaseLock(); } catch {} break; }
+      finally { try { reader.releaseLock(); } catch {} }
+    }
+  }
+  /* Mở cổng: khi mở, USB-Serial-JTAG làm chip reset và USB rớt ~2 s → chờ rồi mở lại đúng cổng đã được cấp quyền. */
+  async function openPort(p) {
+    await p.open({ baudRate: 115200 });                        /* KHÔNG đụng DTR/RTS sau khi mở: đổi trạng thái DTR làm USB-Serial-JTAG reset chip */
+    writer = p.writable.getWriter(); port = p; readLoop();
+  }
+  async function connectWithRetry(p) {
+    await openPort(p); await new Promise(r => setTimeout(r, 2500));
+    for (let attempt = 0; attempt < 4; attempt++) {
+      if (lost || !port.readable) {
+        log(`bo vừa khởi động lại, nối lại lần ${attempt + 1}…`, "warn"); try { writer.releaseLock(); } catch {} try { await port.close(); } catch {}
+        await new Promise(r => setTimeout(r, 2500)); const ports = await navigator.serial.getPorts(); const same = ports.find(x => x.getInfo().usbVendorId === 0x303A) || ports[0];
+        if (!same) throw new Error("không tìm lại được cổng sau khi bo khởi động lại"); await openPort(same); await new Promise(r => setTimeout(r, 1500)); continue;
+      }
+      try { return await ping(); } catch (e) { log("bắt tay: " + e.message, "warn"); }
+    }
+    throw new Error("bo không trả lời sau 4 lần thử");
+  }
+  let ws = null;
+  const send = async (s) => { if (ws) { ws.send(s); return; } await writer.write(new TextEncoder().encode(s + "\n")); };
+  function onLine(s) {
+    if (!s.startsWith("{")) { if (s) log(s, "warn"); return; }
+    let j; try { j = JSON.parse(s); } catch { log("JSON lỗi: " + s, "err"); return; } onJson(j);
+    if (j.t !== "STAT" || Math.random() < .02) log(s.slice(0, 160), j.t === "B" && (j.B14 || j.B45) ? "err" : "");
+    if (j.t === "STAT" && pending.length) pending.shift()(j);
+  }
+  $("btnWs").onclick = async () => {
+    const url = $("wsUrl").value || "ws://127.0.0.1:18795"; $("msg").textContent = "Đang nối cầu nối " + url + "…";
+    try { ws = await new Promise((res, rej) => { const w = new WebSocket(url); w.onopen = () => res(w); w.onerror = () => rej(new Error("không nối được " + url + " (đã chạy 33_serial_ws_bridge.py chưa?)")); });
+      ws.onmessage = (ev) => onLine(String(ev.data).trim()); ws.onclose = () => { log("cầu nối đã đóng", "warn"); ws = null; };
+      const st = await ping(); $("msg").textContent = `Đã nối qua cầu nối. Bo trả lời: ${st.inferences} mẫu đã suy luận, heap ${(st.heap_free / 1024).toFixed(0)} KB.` + (st.inferences ? " Bo còn trạng thái cũ: bấm RST trên bo rồi nối lại." : " Trạng thái trắng, sẵn sàng phát lại."); $("role").textContent = "đã kết nối (cầu nối)"; if (lines) $("btnRun").disabled = false; }
+    catch (e) { ws = null; $("msg").textContent = "Cầu nối lỗi: " + e.message; log(e.message, "err"); }
+  };
+  const ping = () => new Promise((res, rej) => {                       // dùng chung cho Web Serial và WebSocket
+    let cb; const t = setTimeout(() => { const i = pending.indexOf(cb); if (i >= 0) pending.splice(i, 1); rej(new Error("bo không trả STAT trong 15 s")); }, 15000); cb = (j) => { clearTimeout(t); res(j); }; pending.push(cb); send("P").catch(rej); });
+  $("btnConn").onclick = async () => {
+    if (!("serial" in navigator)) { $("msg").textContent = "Trình duyệt không có Web Serial. Dùng Chrome hoặc Edge trên máy cắm bo."; return; }
+    try { $("msg").textContent = "Đang kết nối, bo sẽ khởi động lại khi mở cổng…"; const p = await navigator.serial.requestPort({ filters: [{ usbVendorId: 0x303A }] }); const st = await connectWithRetry(p);
+      $("msg").textContent = `Đã kết nối. Bo trả lời: ${st.inferences} mẫu đã suy luận, heap ${(st.heap_free / 1024).toFixed(0)} KB.` + (st.inferences ? " Bo còn trạng thái cũ: bấm RST trên bo rồi kết nối lại." : " Trạng thái trắng, sẵn sàng phát lại."); $("role").textContent = "đã kết nối"; if (lines) $("btnRun").disabled = false; }
+    catch (e) { $("msg").textContent = "Kết nối lỗi: " + e.message + " — nếu Chrome trên Linux báo \"device has been lost\", dùng cầu nối WebSocket."; log("kết nối lỗi: " + e.message, "err"); }
+  };
+  $("btnFile").onclick = () => $("file").click();
+  $("file").onchange = async (ev) => { const f = ev.target.files[0]; if (!f) return; const txt = await f.text(); lines = txt.split(/\r?\n/).filter(l => l.trim()); $("msg").textContent = `Đã nạp ${lines.length.toLocaleString("vi")} dòng từ ${f.name}.`; if (writer || ws) $("btnRun").disabled = false; };
+  /* ---- Đoạn dữ liệu: nút trên bàn thử (BTN 1..3) hoặc nút trên màn hình → xoá trạng thái chip (lệnh X) rồi phát lại từ mốc ngày ---- */
+  const SEG = { 1: { d: "2026-02-20", name: "nền khỏe" }, 2: { d: "2026-03-01", name: "tháng 4: B14 báo 06/04, B45 báo 11/04" }, 3: { d: "2026-04-01", name: "tháng 5: tầng A báo 29/04, dừng máy 29/05" } };
+  const epochOf = (d) => Math.floor(Date.parse(d + "T00:00:00+07:00") / 1000);
+  function resetView() { spe.fill(null); us.fill(null); heap.fill(null); for (const k in got) got[k].clear(); chS.bands[0].set = []; chS.bands[1].set = []; seenB = seenA = seenC = 0; cA = cB = cC = 1; lastDay = ""; $("prog").style.width = "0%"; chS.draw(0); chL.draw(0); cmp(); }
+  let jumping = false;
+  async function jumpTo(n) {
+    const seg = SEG[n]; if (!seg || !lines || !(writer || ws)) { log("chưa sẵn sàng để nhảy đoạn (cần file + kết nối)", "warn"); return; }
+    if (jumping) return; jumping = true;
+    try { running = false; await new Promise(r => setTimeout(r, 150));
+      await send("X"); await new Promise(r => setTimeout(r, 200)); resetView();
+      const e0 = epochOf(seg.d); const start = lines.findIndex(l => (l[0] === "S" || l[0] === "D" || l[0] === "R") && +l.split(",")[1] >= e0);
+      $("msg").textContent = `Đoạn ${n} (${seg.name}): phát lại từ ${fmt(seg.d)}, dòng ${start.toLocaleString("vi")}.`; log(`▶ đoạn ${n}: từ ${fmt(seg.d)}`, "ok");
+      await runFrom(Math.max(start, 0)); }
+    finally { jumping = false; }
+  }
+  [1, 2, 3].forEach(n => { $("seg" + n).onclick = () => jumpTo(n); });
+  const enableSeg = () => { const ok = !!lines && !!(writer || ws); [1, 2, 3].forEach(n => { $("seg" + n).disabled = !ok; }); };
+  setInterval(enableSeg, 500);
+  async function runFrom(i0) {
+    running = true; $("btnRun").disabled = true; $("btnStop").disabled = false; const t0 = performance.now(); const CH = 8;
+    try { for (let i = i0; i < lines.length && running; i++) { await send(lines[i]); if (i % CH === CH - 1) { await ping(); $("prog").style.width = (100 * i / lines.length).toFixed(1) + "%"; if (i % 800 === CH - 1) await new Promise(r => setTimeout(r, 0)); } }
+      if (running) { await ping(); $("prog").style.width = "100%"; $("msg").textContent = `Phát lại xong ${lines.length.toLocaleString("vi")} dòng trong ${((performance.now() - t0) / 1000).toFixed(0)} s.`; log("HẾT LUỒNG", "ok"); } }
+    catch (e) { $("msg").textContent = "Dừng vì lỗi: " + e.message; log(e.message, "err"); }
+    running = false; $("btnStop").disabled = true; $("btnRun").disabled = false;
+  }
+  $("btnRun").onclick = () => runFrom(0);
+  $("btnStop").onclick = () => { running = false; };
+  chS.draw(0); chL.draw(0); cmp();
+})();
+</script>
+</body></html>

@@ -1,0 +1,47 @@
+{
+ "data_period": [
+  "2025-07-13",
+  "2026-09-10"
+ ],
+ "tier_a_row_period": [
+  "2025-07-20",
+  "2026-09-10"
+ ],
+ "tier_a": {
+  "run_days": 383,
+  "segments": 6,
+  "row_days": 349,
+  "flag_days": 0,
+  "alarm_days": [],
+  "min_days_left_low": {
+   "2017AX": 1355.0,
+   "2017AY": 1501.1,
+   "2019AX": 597.0,
+   "2019AY": 631.5
+  }
+ },
+ "tier_c": {
+  "weeks": 59,
+  "flag_weeks": 0,
+  "alarm_weeks": 0,
+  "post_restart_weeks": 6,
+  "restarts": [
+   "2025-08-29 15:00:00",
+   "2025-09-22 13:30:00"
+  ],
+  "sig": "2017X",
+  "rule": {
+   "lookback_days": 56,
+   "lookback_tol_days": 3,
+   "hold_weeks": 2,
+   "sd_max_deg": 5.0,
+   "min_rate_deg_wk": 1.0,
+   "post_restart_days": 21
+  },
+  "abs_rate_max": 1.7451509543660202
+ },
+ "thresholds_from": [
+  "scripts/New/phase01_config.py (tầng A)",
+  "Dataclean_new/locked_params_phase02.json (rule_c)"
+ ]
+}

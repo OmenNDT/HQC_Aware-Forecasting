@@ -1,0 +1,13 @@
+Firmware gop: phat lai qua USB (nhu phase 04) + ban thu quat (phase 05). Build 16/09/2026.
+
+CACH NAP (cam cap vao cong USB TRAI cua board, cong ghi "USB")
+  Windows:  py -3 -m pip install esptool
+            py -3 -m esptool --chip esp32s3 -p COM4 -b 460800 write_flash 0x0 hqc-bench-merged-0x0.bin
+  Linux:    python3 -m esptool --chip esp32s3 -p /dev/ttyACM0 -b 460800 write_flash 0x0 hqc-bench-merged-0x0.bin
+  Neu bao "Failed to connect": giu nut BOOT, bam RST, tha BOOT, chay lai lenh voi them  --before no_reset
+  Nap xong bam RST mot lan.
+
+KIEM TRA: OLED hien "HQC BENCH / ADXL345 OK / QUAY QUAT, CHO 3S". Quay quat -> dong RPM co so.
+          Bam BOOT (tren board) 1 lan khi quat dang quay deu -> sau 3 s co diem, LED xanh.
+          Dan dat set len canh -> 1X tang, LED vang/do, coi keu. Xoay KY-040: nhan he so. Nut xanh/vang/trang: he so 1,0 / 1,8 / 3,5.
+          Demo phat lai van chay nhu cu qua cung cong USB; khi dang phat lai, bench im lang 5 s sau moi dong.

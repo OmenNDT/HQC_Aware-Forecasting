@@ -1,0 +1,25 @@
+# ESP-IDF build artifacts (regenerable via idf.py build)
+firmware/esp32s3/build/
+firmware/esp32s3/build_bench/
+firmware/esp32s3/managed_components/
+firmware/**/*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Claude Code local state
+.claude/
+
+# Screen-recording scratch files
+.rec.log
+.rec.pid
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp

@@ -1,0 +1,25 @@
+{
+ "port": "COM4",
+ "baud": 115200,
+ "lines_sent": 49198,
+ "json_received": 6804,
+ "seconds": 106.1,
+ "hello": null,
+ "final_stat": {
+  "t": "STAT",
+  "inferences": 42064,
+  "infer_us_mean": 646.09,
+  "infer_us_max": 4866,
+  "heap_free": 354124,
+  "heap_min_free": 354124,
+  "engine_bytes": 8208,
+  "weights_bytes": 13312
+ },
+ "infer_us_mean_series": [
+  646.04,
+  646.04,
+  646.03,
+  646.03,
+  646.09
+ ]
+}

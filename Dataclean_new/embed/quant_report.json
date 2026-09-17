@@ -1,0 +1,172 @@
+{
+ "scheme": "W [16, 16, 8, 8, 8, 8] bit per-out-channel, in int16 Q10, mọi kích hoạt int16 Q15 (LUT 2048 nội suy 16 bước), SPE int64→/2^30",
+ "SH": [
+  37,
+  46,
+  41,
+  40,
+  40,
+  39
+ ],
+ "lut_n": 2048,
+ "x_max_abs": 24.41281852193672,
+ "s_w_max": 0.008605104731762504,
+ "err_by_role": {
+  "blind": {
+   "n": 11520,
+   "rel_median": 6.0688213621646725e-05,
+   "rel_p95_abs": 0.0002179672540802099,
+   "rel_max_abs": 0.0006816301683601453,
+   "log10_p95_abs": 9.465269259980588e-05
+  },
+  "config_pos": {
+   "n": 5616,
+   "rel_median": 2.158458590311721e-05,
+   "rel_p95_abs": 0.017367264590562464,
+   "rel_max_abs": 0.06450203894524241,
+   "log10_p95_abs": 0.007515379297585445
+  },
+  "neg": {
+   "n": 12628,
+   "rel_median": 0.000121154556345343,
+   "rel_p95_abs": 0.0005272639010053493,
+   "rel_max_abs": 0.0011835304301609927,
+   "log10_p95_abs": 0.0002289274554240439
+  },
+  "precheck_pos": {
+   "n": 4096,
+   "rel_median": 5.55946395204473e-05,
+   "rel_p95_abs": 0.00013905693377203125,
+   "rel_max_abs": 0.00026296452143114574,
+   "log10_p95_abs": 6.0387460455224584e-05
+  },
+  "report": {
+   "n": 3883,
+   "rel_median": -2.767432914698958e-05,
+   "rel_p95_abs": 0.00044366117293246184,
+   "rel_max_abs": 0.0034766280605566806,
+   "log10_p95_abs": 0.00019263686955994753
+  },
+  "train": {
+   "n": 4321,
+   "rel_median": 0.0008282997172979537,
+   "rel_p95_abs": 0.0505373228992298,
+   "rel_max_abs": 0.12094097826581257,
+   "log10_p95_abs": 0.0221575961328786
+  }
+ },
+ "trials": {
+  "int8_all": {
+   "wbits": [
+    8,
+    8,
+    8,
+    8,
+    8,
+    8
+   ],
+   "weights_bytes": 3456,
+   "B14_identical": false,
+   "B45_identical": true,
+   "int8_first_dung2": {
+    "B14": "2026-04-11",
+    "B45": "2026-04-11"
+   },
+   "train_rel_p95": 0.1635017790060246
+  },
+  "L0_int16": {
+   "wbits": [
+    16,
+    8,
+    8,
+    8,
+    8,
+    8
+   ],
+   "weights_bytes": 4032,
+   "B14_identical": false,
+   "B45_identical": true,
+   "int8_first_dung2": {
+    "B14": "2026-04-11",
+    "B45": "2026-04-11"
+   },
+   "train_rel_p95": 0.06441470815611135
+  },
+  "L0L1_int16": {
+   "wbits": [
+    16,
+    16,
+    8,
+    8,
+    8,
+    8
+   ],
+   "weights_bytes": 4608,
+   "B14_identical": true,
+   "B45_identical": true,
+   "int8_first_dung2": {
+    "B14": "2026-04-06",
+    "B45": "2026-04-11"
+   },
+   "train_rel_p95": 0.0505373228992298
+  },
+  "int16_all": {
+   "wbits": [
+    16,
+    16,
+    16,
+    16,
+    16,
+    16
+   ],
+   "weights_bytes": 6912,
+   "B14_identical": true,
+   "B45_identical": true,
+   "int8_first_dung2": {
+    "B14": "2026-04-06",
+    "B45": "2026-04-11"
+   },
+   "train_rel_p95": 0.020823105891077963
+  }
+ },
+ "chosen_scheme": "L0L1_int16",
+ "wbits": [
+  16,
+  16,
+  8,
+  8,
+  8,
+  8
+ ],
+ "alarms": {
+  "B14_identical_days": true,
+  "B45_identical_days": true,
+  "int8_first_dung2": {
+   "B14": "2026-04-06",
+   "B45": "2026-04-11"
+  },
+  "backtest_first_dung2": {
+   "B14": "2026-04-06",
+   "B45": "2026-04-11"
+  },
+  "n_days_float": [
+   19,
+   49
+  ],
+  "n_days_int8": [
+   19,
+   49
+  ],
+  "diff_B14": [],
+  "diff_B45": []
+ },
+ "params_lock_hash": "7a6bd6f3efeec41b",
+ "weights_header_sha256": "2a615e2912df0bb7",
+ "sizes_bytes": {
+  "W": 4608,
+  "b_int32": 576,
+  "mult_int32": 576,
+  "lut_int16": 4096,
+  "float32_equiv": 14400
+ }
+}

@@ -1,0 +1,1246 @@
+# MỤC LỤC & DANH MỤC DỮ LIỆU CẢM BIẾN (INDEX OF DATARAW)
+
+Thư mục `/home/sontn/Projects/HQC_Aware-Forecasting/Dataraw` chứa dữ liệu đo đạc cảm biến vận hành của bơm nước cấp áp suất cao **P29201A (HP BFW Pump)** tại Nhà máy Đạm Cà Mau (Ca Mau Fertilizer Plant).
+
+Tài liệu này tổng hợp chi tiết cấu trúc, dung lượng, khoảng thời gian, loại dữ liệu và danh sách đầy đủ các cảm biến có trong từng file CSV.
+
+---
+
+## 📄 `P29201A-5y-2026.csv`
+
+- **Kích thước file:** `5.24 MB` (5,496,426 bytes)
+- **Định dạng:** Bảng dữ liệu xu hướng rung động 5 năm (5-Year Vibration Trend Table)
+- **Tổng số dòng dữ liệu:** `115,460` dòng
+- **Khung thời gian:** Từ `7/27/2021 4:49:05 AM` đến `7/21/2026 9:13:48 AM`
+- **Mô tả nội dung:** Chứa lịch sử đo đạc rung động xu hướng dài hạn (5 năm, từ 27/07/2021 đến 21/07/2026) của duy nhất điểm đo rung động **29VT-2007Y** (Direct Vibration Amplitude - biên độ rung trực tiếp, đơn vị `µm pp`). Bao gồm các thông số: Thời gian, Biên độ Rung động (Y-Axis Value), Trạng thái (Y-Axis Status), Góc pha (Phase), Tốc độ quay (Speed - `rpm`).
+
+### Danh sách các cảm biến / Thẻ đo đạc / Cột thông số:
+- `Điểm đo Rung động trực tiếp: 29VT-2007Y (Variable: Direct, Đơn vị rung động: µm pp, Đơn vị tốc độ: rpm)`
+- `Các cột dữ liệu: X-Axis Value, Y-Axis Value, Y-Axis Status, Phase, Phase Status, Speed, Speed Status`
+
+---
+
+## 📄 `P29201A-HP BFW Pumps-1M-process.csv`
+
+- **Kích thước file:** `19.18 MB` (20,109,054 bytes)
+- **Định dạng:** Xuất dữ liệu hệ thống OSIsoft PI System (Phân cách `;`)
+- **Tổng số dòng dữ liệu:** `166,305` dòng
+- **Khung thời gian:** Từ `2026-05-30 12:04:00` đến `2026-06-02 00:03:00`
+- **Mô tả nội dung:** Nhật ký vận hành thực tế xuất trực tiếp từ OSIsoft PI System (Server `\\SRV-PI-AF01` & `\\SRV-PI-DA`). Gồm 83 thông số cảm biến/thẻ tín hiệu.
+
+### Danh sách các cảm biến / Thẻ đo đạc / Cột thông số:
+<details><summary><b>Nhấn để xem toàn bộ danh sách 83 cảm biến</b></summary>
+
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State|BRG1`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State|BRG2`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State|BRG3`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State|BRG4`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|State`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|State|BRG5`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|State|BRG6`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29FI2005`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29FI2006`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29FQI2005`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29FQI2006`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29HIC2003.MV`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29LI2002A`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29PDI2007A`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29PI2011`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29PI2012`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29SIC2001`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29SIC2001A`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29TI2026A`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29TI2030`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29TI2031`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Based Value/Standard Deviation Duration|End Time|Calc_EndTime`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Based Value/Standard Deviation Duration|Start Time|Calc_StartTime`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Performance Efficiency`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Performance Efficiency|P1`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Performance Efficiency|P2`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Performance Efficiency|T1`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Performance Efficiency|T2`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Running Time|Run Hours - Since Last Service`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Status`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Steady Running State|PI Vission`
+
+</details>
+
+---
+
+## 📄 `P29201A-HP BFW Pumps-7D.csv`
+
+- **Kích thước file:** `0.05 MB` (47,484 bytes)
+- **Định dạng:** Xuất dữ liệu hệ thống OSIsoft PI System (Phân cách `;`)
+- **Tổng số dòng dữ liệu:** `314` dòng
+- **Khung thời gian:** Từ `2026-10-20 11:44:48,031631` đến `2026-10-20 11:44:48,031631`
+- **Mô tả nội dung:** Nhật ký vận hành thực tế xuất trực tiếp từ OSIsoft PI System (Server `\\SRV-PI-AF01` & `\\SRV-PI-DA`). Gồm 279 thông số cảm biến/thẻ tín hiệu.
+
+### Danh sách các cảm biến / Thẻ đo đạc / Cột thông số:
+<details><summary><b>Nhấn để xem toàn bộ danh sách 279 cảm biến</b></summary>
+
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State|BRG1`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State|BRG2`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State|BRG3`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State|BRG4`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|State`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|State|BRG5`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|State|BRG6`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Status`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Steady Running State|PI Vission`
+
+</details>
+
+---
+
+## 📄 `P29201A-HP BFW Pumps-8h-4am29-7-12am-29-7.csv`
+
+- **Kích thước file:** `32.69 MB` (34,276,770 bytes)
+- **Định dạng:** Xuất dữ liệu hệ thống OSIsoft PI System (Phân cách `;`)
+- **Tổng số dòng dữ liệu:** `247,029` dòng
+- **Khung thời gian:** Từ `2026-07-29 03:51:00` đến `2026-07-29 11:43:38,025009`
+- **Mô tả nội dung:** Nhật ký vận hành thực tế xuất trực tiếp từ OSIsoft PI System (Server `\\SRV-PI-AF01` & `\\SRV-PI-DA`). Gồm 373 thông số cảm biến/thẻ tín hiệu.
+
+### Danh sách các cảm biến / Thẻ đo đạc / Cột thông số:
+<details><summary><b>Nhấn để xem toàn bộ danh sách 373 cảm biến</b></summary>
+
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Phase`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Phase`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Phase`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Phase`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State|BRG1`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State|BRG2`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State|BRG3`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State|BRG4`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Phase`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Phase`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Phase`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Phase`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|State`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|State|BRG5`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|State|BRG6`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29FI2005`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29FI2006`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29FQI2005`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29FQI2006`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29HIC2003.MV`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29LI2002A`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29PDI2007A`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29PI2011`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29PI2012`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29SIC2001`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29SIC2001A`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29TI2026A`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29TI2030`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29TI2031`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Performance Efficiency`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Performance Efficiency|P1`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Performance Efficiency|P2`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Performance Efficiency|T1`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Performance Efficiency|T2`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Status`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Steady Running State|PI Vission`
+- `\\SRV-PI-DA\Ca Mau Fertilizer Plant(1)/R20_P29201A HP BFW Pump/29TE-2057/Temperature(19160)`
+
+</details>
+
+---
+
+## 📄 `P29201A-HP BFW Pumps-8h-9pm28-7-5am-29-7.csv`
+
+- **Kích thước file:** `31.04 MB` (32,545,034 bytes)
+- **Định dạng:** Xuất dữ liệu hệ thống OSIsoft PI System (Phân cách `;`)
+- **Tổng số dòng dữ liệu:** `244,159` dòng
+- **Khung thời gian:** Từ `2026-07-28 21:10:00` đến `2026-07-29 05:09:11,073013`
+- **Mô tả nội dung:** Nhật ký vận hành thực tế xuất trực tiếp từ OSIsoft PI System (Server `\\SRV-PI-AF01` & `\\SRV-PI-DA`). Gồm 374 thông số cảm biến/thẻ tín hiệu.
+
+### Danh sách các cảm biến / Thẻ đo đạc / Cột thông số:
+<details><summary><b>Nhấn để xem toàn bộ danh sách 374 cảm biến</b></summary>
+
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2003|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2004|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2005|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2035|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2036|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2037|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2038|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29TE-2039|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Phase`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001X|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Phase`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2001Y|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Phase`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003X|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Phase`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29VT-2003Y|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2012|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|29XT-2013|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State|BRG1`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State|BRG2`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State|BRG3`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\HP BFWP|State|BRG4`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2055|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29TE-2056|Temperature|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Phase`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005X|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Phase`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2005Y|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Phase`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007X|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Amp|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Phase`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Phase|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|1X Phase|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29VT-2007Y|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Trigger|Current percent`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Direct|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Based Value`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Lo`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Trigger|Current percent|Hi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Trigger|Current percent|HiHi`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|29XT-2026|Gap|Trigger|Current percent|Minimum`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|State`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|State|BRG5`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps\Turbine|State|BRG6`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29FI2005`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29FI2006`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29FQI2005`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29FQI2006`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29HIC2003.MV`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29LI2002A`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29PDI2007A`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29PI2011`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29PI2012`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29SIC2001`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29SIC2001A`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29TI2026A`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29TI2030`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|29TI2031`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Performance Efficiency`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Performance Efficiency|P1`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Performance Efficiency|P2`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Performance Efficiency|T1`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Performance Efficiency|T2`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Running Time|Run Hours - Since Last Service`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Status`
+- `\\SRV-PI-AF01\CBM\Utility\Steam Generation\P29201A-HP BFW Pumps|Steady Running State|PI Vission`
+- `\\SRV-PI-DA\Ca Mau Fertilizer Plant(1)/R20_P29201A HP BFW Pump/29TE-2057/Temperature(19160)`
+
+</details>
+
+---
+
+## 📄 `sep-ware-29VT-2001.csv`
+
+- **Kích thước file:** `0.15 MB` (155,836 bytes)
+- **Định dạng:** Dạng sóng thời gian (Time-Domain Waveform / Vibration)
+- **Tổng số dòng dữ liệu:** `10,295` dòng
+- **Khung thời gian:** Từ `Y-Axis Unit ms` đến ` ms`
+- **Mô tả nội dung:** Chứa tín hiệu sóng dao động rung động theo thời gian (Waveform) của điểm đo **29VT-2001AX** trên bơm P29201A.
+
+### Danh sách các cảm biến / Thẻ đo đạc / Cột thông số:
+- `Cảm biến Rung động: 29VT-2001AX (Biên độ Wf Amp: 28.632, Số vòng quay Revs: 8, Đơn vị thời gian: ms)`
+
+---
+
+## 📄 `sep-ware-29VT-2003.csv`
+
+- **Kích thước file:** `0.15 MB` (157,961 bytes)
+- **Định dạng:** Dạng sóng thời gian (Time-Domain Waveform / Vibration)
+- **Tổng số dòng dữ liệu:** `10,295` dòng
+- **Khung thời gian:** Từ `Y-Axis Unit ms` đến ` ms`
+- **Mô tả nội dung:** Chứa tín hiệu sóng dao động rung động theo thời gian (Waveform) của điểm đo **29VT-2003AX** trên bơm P29201A.
+
+### Danh sách các cảm biến / Thẻ đo đạc / Cột thông số:
+- `Cảm biến Rung động: 29VT-2003AX (Biên độ Wf Amp: 59.589, Số vòng quay Revs: 8, Đơn vị thời gian: ms)`
+
+---
+
+## 📄 `sep-ware-29VT-2005.csv`
+
+- **Kích thước file:** `0.15 MB` (154,046 bytes)
+- **Định dạng:** Dạng sóng thời gian (Time-Domain Waveform / Vibration)
+- **Tổng số dòng dữ liệu:** `10,295` dòng
+- **Khung thời gian:** Từ `Y-Axis Unit ms` đến ` ms`
+- **Mô tả nội dung:** Chứa tín hiệu sóng dao động rung động theo thời gian (Waveform) của điểm đo **29VT-2005Y** trên bơm P29201A.
+
+### Danh sách các cảm biến / Thẻ đo đạc / Cột thông số:
+- `Cảm biến Rung động: 29VT-2005Y (Biên độ Wf Amp: 12.548, Số vòng quay Revs: 8, Đơn vị thời gian: ms)`
+
+---
+
+## 📄 `sep-ware-29VT-2007.csv`
+
+- **Kích thước file:** `0.15 MB` (153,849 bytes)
+- **Định dạng:** Dạng sóng thời gian (Time-Domain Waveform / Vibration)
+- **Tổng số dòng dữ liệu:** `10,295` dòng
+- **Khung thời gian:** Từ `Y-Axis Unit ms` đến ` ms`
+- **Mô tả nội dung:** Chứa tín hiệu sóng dao động rung động theo thời gian (Waveform) của điểm đo **29VT-2007Y** trên bơm P29201A.
+
+### Danh sách các cảm biến / Thẻ đo đạc / Cột thông số:
+- `Cảm biến Rung động: 29VT-2007Y (Biên độ Wf Amp: 18.458, Số vòng quay Revs: 8, Đơn vị thời gian: ms)`
+
+---

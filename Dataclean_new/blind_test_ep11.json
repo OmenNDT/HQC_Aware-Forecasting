@@ -1,0 +1,166 @@
+{
+ "tau": 0.135,
+ "chosen": "PCA_k8",
+ "models": {
+  "PCA_k8": {
+   "plateau_alarm_days": 0,
+   "climb_first_alarm": null,
+   "climb_alarm_days": 0,
+   "state_frac_above_limit_6h": 1.0,
+   "median_spe_plateau": 0.329,
+   "median_spe_climb": 0.535,
+   "max_slope_plateau": 0.0284,
+   "max_slope_climb": 0.0443
+  },
+  "SAE_b0.001_s0": {
+   "plateau_alarm_days": 0,
+   "climb_first_alarm": null,
+   "climb_alarm_days": 0,
+   "state_frac_above_limit_6h": 1.0,
+   "median_spe_plateau": 36.013,
+   "median_spe_climb": 87.113,
+   "max_slope_plateau": 0.0476,
+   "max_slope_climb": 0.0435
+  },
+  "SAE_b0.001_s2": {
+   "plateau_alarm_days": 0,
+   "climb_first_alarm": null,
+   "climb_alarm_days": 0,
+   "state_frac_above_limit_6h": 1.0,
+   "median_spe_plateau": 35.925,
+   "median_spe_climb": 86.68,
+   "max_slope_plateau": 0.0479,
+   "max_slope_climb": 0.045
+  },
+  "SAE_b0.001_s1": {
+   "plateau_alarm_days": 0,
+   "climb_first_alarm": null,
+   "climb_alarm_days": 0,
+   "state_frac_above_limit_6h": 1.0,
+   "median_spe_plateau": 35.754,
+   "median_spe_climb": 86.813,
+   "max_slope_plateau": 0.048,
+   "max_slope_climb": 0.0444
+  },
+  "PCA_k3": {
+   "plateau_alarm_days": 0,
+   "climb_first_alarm": null,
+   "climb_alarm_days": 0,
+   "state_frac_above_limit_6h": 1.0,
+   "median_spe_plateau": 93.269,
+   "median_spe_climb": 163.454,
+   "max_slope_plateau": 0.034,
+   "max_slope_climb": 0.0353
+  },
+  "PCA_k2": {
+   "plateau_alarm_days": 0,
+   "climb_first_alarm": null,
+   "climb_alarm_days": 0,
+   "state_frac_above_limit_6h": 1.0,
+   "median_spe_plateau": 144.53,
+   "median_spe_climb": 262.455,
+   "max_slope_plateau": 0.0261,
+   "max_slope_climb": 0.0365
+  },
+  "AEsmall_s0": {
+   "plateau_alarm_days": 0,
+   "climb_first_alarm": null,
+   "climb_alarm_days": 0,
+   "state_frac_above_limit_6h": 1.0,
+   "median_spe_plateau": 36.565,
+   "median_spe_climb": 87.422,
+   "max_slope_plateau": 0.0477,
+   "max_slope_climb": 0.0433
+  },
+  "AEsmall_s2": {
+   "plateau_alarm_days": 0,
+   "climb_first_alarm": null,
+   "climb_alarm_days": 0,
+   "state_frac_above_limit_6h": 1.0,
+   "median_spe_plateau": 38.686,
+   "median_spe_climb": 92.097,
+   "max_slope_plateau": 0.0471,
+   "max_slope_climb": 0.0452
+  },
+  "AE_s2": {
+   "plateau_alarm_days": 0,
+   "climb_first_alarm": null,
+   "climb_alarm_days": 0,
+   "state_frac_above_limit_6h": 1.0,
+   "median_spe_plateau": 36.392,
+   "median_spe_climb": 87.356,
+   "max_slope_plateau": 0.0466,
+   "max_slope_climb": 0.0445
+  },
+  "VAE_z8_s0": {
+   "plateau_alarm_days": 0,
+   "climb_first_alarm": null,
+   "climb_alarm_days": 0,
+   "state_frac_above_limit_6h": 1.0,
+   "median_spe_plateau": 54.254,
+   "median_spe_climb": 114.183,
+   "max_slope_plateau": 0.0374,
+   "max_slope_climb": 0.0375
+  },
+  "VAE_z8_s1": {
+   "plateau_alarm_days": 0,
+   "climb_first_alarm": null,
+   "climb_alarm_days": 0,
+   "state_frac_above_limit_6h": 1.0,
+   "median_spe_plateau": 54.183,
+   "median_spe_climb": 114.189,
+   "max_slope_plateau": 0.0376,
+   "max_slope_climb": 0.0375
+  },
+  "VAE_z8_s2": {
+   "plateau_alarm_days": 0,
+   "climb_first_alarm": null,
+   "climb_alarm_days": 0,
+   "state_frac_above_limit_6h": 1.0,
+   "median_spe_plateau": 54.061,
+   "median_spe_climb": 114.068,
+   "max_slope_plateau": 0.0377,
+   "max_slope_climb": 0.0375
+  },
+  "EDCNN_s1": {
+   "plateau_alarm_days": 0,
+   "climb_first_alarm": null,
+   "climb_alarm_days": 0,
+   "state_frac_above_limit_6h": 1.0,
+   "median_spe_plateau": 51.469,
+   "median_spe_climb": 106.337,
+   "max_slope_plateau": 0.0367,
+   "max_slope_climb": 0.0361
+  },
+  "EDLSTM_s0": {
+   "plateau_alarm_days": 0,
+   "climb_first_alarm": null,
+   "climb_alarm_days": 0,
+   "state_frac_above_limit_6h": 1.0,
+   "median_spe_plateau": 54.247,
+   "median_spe_climb": 114.107,
+   "max_slope_plateau": 0.037,
+   "max_slope_climb": 0.0374
+  },
+  "EDLSTM_s1": {
+   "plateau_alarm_days": 0,
+   "climb_first_alarm": null,
+   "climb_alarm_days": 0,
+   "state_frac_above_limit_6h": 1.0,
+   "median_spe_plateau": 56.348,
+   "median_spe_climb": 117.178,
+   "max_slope_plateau": 0.0366,
+   "max_slope_climb": 0.0368
+  },
+  "EDLSTM_s2": {
+   "plateau_alarm_days": 0,
+   "climb_first_alarm": null,
+   "climb_alarm_days": 0,
+   "state_frac_above_limit_6h": 1.0,
+   "median_spe_plateau": 55.434,
+   "median_spe_climb": 116.197,
+   "max_slope_plateau": 0.037,
+   "max_slope_climb": 0.037
+  }
+ }
+}

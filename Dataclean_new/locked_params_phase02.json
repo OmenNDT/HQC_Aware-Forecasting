@@ -1,0 +1,44 @@
+{
+ "model": "SAE_b0.001_s0",
+ "model_override": {
+  "model": "SAE_b0.001_s0",
+  "reason": "quyết định nhóm 04/09 11:40: lead-time đo được thật, giải thích đúng ổ; lock1.chosen_model=PCA_k8 bị cắt cụt"
+ },
+ "lock1_chosen_model": "PCA_k8",
+ "tau14": 0.135,
+ "tau45": 0.035,
+ "slow_days": 45,
+ "slow_min_obs": 30,
+ "slow_consec": 5,
+ "rule_c": {
+  "lookback_days": 56,
+  "lookback_tol_days": 3,
+  "hold_weeks": 2,
+  "sd_max_deg": 5.0,
+  "min_rate_deg_wk": 1.0,
+  "post_restart_days": 21
+ },
+ "restarts_true": [
+  "2025-11-07 00:00:00",
+  "2026-01-15 00:00:00",
+  "2026-06-02 00:00:00",
+  "2026-06-14 00:00:00"
+ ],
+ "first_alarm45_cfg": "2026-04-11",
+ "inputs_sha256": "ccbccdcbab3135d86493da3d737510f23813c975cf559036c018d7a635c628f7",
+ "locked_at": "2026-09-04T12:33",
+ "relock_history": [
+  {
+   "at": "2026-09-04T12:22",
+   "tau45": 0.04
+  },
+  {
+   "at": "2026-09-04T12:31",
+   "tau45": 0.035
+  },
+  {
+   "at": "2026-09-04T12:33",
+   "tau45": 0.035
+  }
+ ]
+}
